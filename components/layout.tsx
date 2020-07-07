@@ -14,7 +14,7 @@ interface Props {
 export default function Layout({ children, home }: Props) {
     return (
         <div className={styles.container}>
-            <head>
+            <Head>
                 <link rel="icon" href="/favicon.ico" />
                 <meta name="description" content="Software Development Blog" />
                 <meta
@@ -25,7 +25,7 @@ export default function Layout({ children, home }: Props) {
                 />
                 <meta name="og:title" content={siteTitle} />
                 <meta name="twitter:card" content="summary_large_image" />
-            </head>
+            </Head>
             <header className={styles.header}>
                 {home ? (
                     <>
