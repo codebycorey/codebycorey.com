@@ -8,7 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "date-fns": "^2.14.0",
     "gray-matter": "^4.0.2",
+    "install": "^0.13.0",
     "next": "9.3.5",
     "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-preset-env": "^6.7.0",

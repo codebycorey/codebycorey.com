@@ -4,7 +4,7 @@ import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 
 const name: string = 'Corey O\'Donnell';
-export const siteTitle: string = 'Reyco Tech Blog';
+export const siteTitle: string = 'Corey O\'Donnell';
 
 interface Props {
     children: React.ReactNode,

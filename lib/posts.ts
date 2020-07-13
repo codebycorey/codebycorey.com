@@ -1,8 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import markdownToHtml from './markdownToHtml';
 
-const postsDir = path.join(process.cwd(), 'posts');
+const postsDir = path.join(process.cwd(), '_posts');
 
 export function getSortedPostsData(): any {
     const fileNames: string[] = fs.readdirSync(postsDir);
@@ -38,13 +39,16 @@ export function getAllPostIds() {
     })
 }
 
-export function getPostData(id: string) {
+export async function getPostData(id: string) {
     const fullPath = path.join(postsDir, `${id}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const matterResult = matter(fileContents);
 
+    const contentHtml: string = await markdownToHtml(matterResult.content);
+
     return {
         id,
+        contentHtml,
         ...matterResult.data
     }
 }
