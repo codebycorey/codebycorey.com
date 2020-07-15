@@ -7,20 +7,26 @@ import Date from '../components/date';
 
 export default function Home({ allPostsData }: any) {
   return (
-    <Layout home>
+    <div className="bg-gray-800 flex justify-center content-end h-screen">
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <section>
-        <p>Web Developer</p>
+      <header className="flex justify-center content-center">
+        <div>
+          <img className="w-48 h-48" src="/images/profile.png" alt="Corey O'Donnell"/>
+          <h1>Corey O'Donnell</h1>
+          <h2>Full Stack Developer | Continuous Learner</h2>
+          <a href="">Blog</a>
+          <a href="">Uses</a>
+        </div>
         <div>
           <a href="">Github</a>
           <a href="">Twitter</a>
           <a href="">Linkdin</a>
           <a href="">Email</a>
         </div>
-      </section>
-    </Layout>
+      </header>
+    </div>
   )
 }
 
