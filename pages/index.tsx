@@ -4,6 +4,9 @@ import utilStyles from '../styles/utils.module.css'
 import { getSortedPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home({ allPostsData }: any) {
   return (
@@ -20,10 +23,10 @@ export default function Home({ allPostsData }: any) {
           <a href="">Uses</a>
         </div>
         <div>
-          <a href="">Github</a>
-          <a href="">Twitter</a>
-          <a href="">Linkdin</a>
-          <a href="">Email</a>
+          <a href="https://github.com/CodeByCorey"><FontAwesomeIcon icon={faGithub}></FontAwesomeIcon></a>
+          <a href="https://twitter.com/codewithcorey"><FontAwesomeIcon icon={faTwitter}></FontAwesomeIcon></a>
+          <a href="https://www.linkedin.com/in/rcodonnell/"><FontAwesomeIcon icon={faLinkedin}></FontAwesomeIcon></a>
+          <a href="mailto:me@coreyodonnell.com"><FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon></a>
         </div>
       </header>
     </div>
