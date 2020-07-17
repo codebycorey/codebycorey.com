@@ -16,32 +16,33 @@ export default function Home({ allPostsData }: any) {
       </Head>
       <header className="flex flex-col justify-center items-center h-full w-full">
         <div className="bg-gray-800 rounded-lg p-6">
-          <div className="">
-            <img className="w-48 h-48 rounded-full border-2 border-green-500 mx-auto" src="/images/profile.png" alt="Corey O'Donnell"/>
-            <div className="text-center mt-3">
-              <h1 className="text-gray-100 text-2xl">Corey O'Donnell</h1>
-              <h2 className="text-gray-500">Full Stack Developer</h2>
-              <h3 className="text-gray-500">Constant Learner | Coder | Plant lover</h3>
+          <div className="md:flex md:p-5">
+            <img className="w-48 h-48 md:w-56 md:h-56 rounded-full border-2 border-green-500 mx-auto" src="/images/profile.png" alt="Corey O'Donnell"/>
+            <div className="text-center mt-3 md:mt-0 md:pl-5">
+              <h1 className="text-gray-100 text-2xl md:text-5xl">Corey O'Donnell</h1>
+              <h2 className="text-gray-500 md:text-3xl">Full Stack Developer</h2>
+              <p className="text-gray-500 py-2">Constant Learner | Coder | Plant lover | Husband | Father</p>
+              <div className="w-100 flex justify-center text-3xl text-center text-white">
+                <a className="m-2" href="https://github.com/CodeByCorey">
+                  <FontAwesomeIcon icon={faGithub} color="#7aa77a"></FontAwesomeIcon>
+                </a>
+                <a className="m-2" href="https://twitter.com/codewithcorey">
+                  <FontAwesomeIcon icon={faTwitter} color="#7aa77a"></FontAwesomeIcon>
+                </a>
+                <a className="m-2" href="https://www.linkedin.com/in/rcodonnell/">
+                  <FontAwesomeIcon icon={faLinkedin} color="#7aa77a"></FontAwesomeIcon>
+                </a>
+                <a className="m-2" href="mailto:me@coreyodonnell.com">
+                  <FontAwesomeIcon icon={faEnvelope} color="#7aa77a"></FontAwesomeIcon>
+                </a>
+              </div>
             </div>
           </div>
           {/* <div className="w-100 flex justify-center text-xl">
             <a className="m-2 border-b-2 border-green-500">Blog</a>
             <a className="m-2 border-b-2 border-green-500">Uses</a>
           </div> */}
-          <div className="w-100 flex justify-center text-2xl text-center text-white">
-            <a className="m-2 w-10 h-10 rounded-full border-2 border-green-500" href="https://github.com/CodeByCorey">
-              <FontAwesomeIcon icon={faGithub} color="white"></FontAwesomeIcon>
-            </a>
-            <a className="m-2 w-10 h-10 rounded-full border-2 border-green-500" href="https://twitter.com/codewithcorey">
-              <FontAwesomeIcon icon={faTwitter} color="white"></FontAwesomeIcon>
-            </a>
-            <a className="m-2 w-10 h-10 rounded-full border-2 border-green-500" href="https://www.linkedin.com/in/rcodonnell/">
-              <FontAwesomeIcon icon={faLinkedin} color="white"></FontAwesomeIcon>
-            </a>
-            <a className="m-2 w-10 h-10 rounded-full border-2 border-green-500" href="mailto:me@coreyodonnell.com">
-              <FontAwesomeIcon icon={faEnvelope} color="white"></FontAwesomeIcon>
-            </a>
-          </div>
+
         </div>
       </header>
     </div>
