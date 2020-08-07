@@ -1,17 +1,23 @@
 import Link from 'next/link';
 
-export default function Navbar() {
+interface Props {
+  home?: boolean
+}
+
+export default function Navbar({ home }: Props) {
   return (
-    <nav className="fixed w-full z-30 top-0 text-gray-900 bg-gray-100">
+    <nav className="text-gray-200 bg-gray-800">
       <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
-        <div className="pl-4 flex items-center">
-          <Link href="/">
-            <a className="no-underline hover:no-underline font-thin text-2xl lg:text-xl">
-              <img className="h-12 w-12 inline rounded-full" src="/profile.svg" alt="" />
-              <span className="pl-4">coreyodonnell.dev</span>
-            </a>
-          </Link>
-        </div>
+        {!home && (
+          <div className="hidden pl-4 lg:flex items-center">
+            <Link href="/">
+              <a className="no-underline hover:no-underline font-thin text-2xl lg:text-xl">
+                <img className="h-12 w-12 inline rounded-full" src="/profile.svg" alt="" />
+                <span className="pl-4">coreyodonnell.dev</span>
+              </a>
+            </Link>
+          </div>
+        )}
 
         {/* <div className="block lg:hidden pr-4"> */}
         <div className="hidden pr-4">
@@ -23,25 +29,23 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* <div
-          className="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 text-black p-4 lg:p-0 z-20"
-        >
-          <ul className="list-reset lg:flex justify-end flex-1 items-center">
+        <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto mt-2 lg:mt-0 lg:p-4 lg:p-0">
+          <ul className="list-reset flex justify-end flex-1 items-center">
             <li className="mr-3">
-              <a className="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#">
+              <a className="inline-block text-gray-300 no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#">
                 Blog
               </a>
             </li>
             <li className="mr-3">
-              <a className="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#">
+              <a className="inline-block text-gray-300 no-underline hover:text-gray-800 hover:text-underline py-2 px-4" href="#">
                 Uses
               </a>
             </li>
           </ul>
-        </div> */}
+        </div>
       </div>
 
-      <hr className="border-b border-gray-100 opacity-25 my-0 py-0" />
+      {/* <hr className="border-b border-gray-800 opacity-25 my-0 py-0" /> */}
     </nav>
   );
 }

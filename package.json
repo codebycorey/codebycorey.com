@@ -8,26 +8,19 @@
     "start": "next start"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.29",
-    "@fortawesome/free-brands-svg-icons": "^5.13.1",
-    "@fortawesome/free-solid-svg-icons": "^5.13.1",
-    "@fortawesome/react-fontawesome": "^0.1.11",
-    "date-fns": "^2.14.0",
+    "date-fns": "^2.15.0",
     "gray-matter": "^4.0.2",
-    "install": "^0.13.0",
-    "next": "9.3.5",
+    "next": "^9.5.1",
     "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-preset-env": "^6.7.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-markdown": "^4.3.1",
-    "remark": "^12.0.0",
-    "remark-html": "^11.0.2",
-    "tailwindcss": "^1.4.6"
+    "tailwindcss": "^1.6.2"
   },
   "devDependencies": {
-    "@types/node": "^14.0.14",
-    "@types/react": "^16.9.41",
-    "typescript": "^3.9.6"
+    "@types/node": "^14.0.27",
+    "@types/react": "^16.9.44",
+    "typescript": "^3.9.7"
   }
 }

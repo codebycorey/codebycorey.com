@@ -1,54 +1,38 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import markdownToHtml from './markdownToHtml';
 
-const postsDir = path.join(process.cwd(), '_posts');
+import BlogPost, { defaultBlogPost } from '../models/BlogPost';
 
-export function getSortedPostsData(): any {
-    const fileNames: string[] = fs.readdirSync(postsDir);
-    const allPostsData = fileNames.map(fileName => {
-        const id: string = fileName.replace(/\.md$/, '');
-        const fullPath: string = path.join(postsDir, fileName);
-        const fileContents: string = fs.readFileSync(fullPath, 'utf-8');
-        const matterResult: matter.GrayMatterFile<string> = matter(fileContents);
-        return {
-            id,
-            ...matterResult.data
-        }
-    });
+const postDirectory: string = path.join(process.cwd(), '_posts');
 
-    return allPostsData.sort((a: any, b: any) => {
-        if (a.date < b.date) {
-            return 1;
-        } else {
-            return -1;
-        }
-    })
-}
+export const getAllPosts = (): BlogPost[] => {
+  const fileNames: string[] = fs.readdirSync(postDirectory);
 
-export function getAllPostIds() {
-    const fileNames: string[] = fs.readdirSync(postsDir);
+  const allPosts: BlogPost[] = fileNames.map((fileName) => {
+    const slug: string = fileName.replace(/\.md$/, '');
+    return getPostBySlug(slug);
+  });
+  return sortByDate(allPosts);
+};
 
-    return fileNames.map((fileName) => {
-        return {
-            params: {
-                id: fileName.replace(/\.md$/, '')
-            }
-        };
-    })
-}
+export const getAllPostSlugs = (): string[] => {
+  const fileNames: string[] = fs.readdirSync(postDirectory);
+  return fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
+};
 
-export async function getPostData(id: string) {
-    const fullPath = path.join(postsDir, `${id}.md`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const matterResult = matter(fileContents);
+export const getPostBySlug = (slug: string): BlogPost => {
+  const fullPath = path.join(postDirectory, `${slug}.md`);
+  const postContents: string = fs.readFileSync(fullPath, 'utf8');
+  const { content, data }: matter.GrayMatterFile<string> = matter(postContents);
+  return {
+    ...defaultBlogPost,
+    slug,
+    content,
+    ...data
+  };
+};
 
-    const contentHtml: string = await markdownToHtml(matterResult.content);
-
-    return {
-        id,
-        contentHtml,
-        ...matterResult.data
-    }
-}
+const sortByDate = (articles: BlogPost[]): BlogPost[] => {
+  return articles.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+};
