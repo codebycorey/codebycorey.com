@@ -11,7 +11,7 @@ interface Props {
 export default function post({ postData }: Props) {
     return (
         <Layout>
-            <Head>
+            {/* <Head>
                 <title>{postData.title}</title>
             </Head>
             <article>
@@ -20,7 +20,7 @@ export default function post({ postData }: Props) {
                     <Date dateString={postData.date} />
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }}></div>
-            </article>
+            </article> */}
         </Layout>
     )
 }
