@@ -4,7 +4,7 @@ export default function Hero() {
       <div className="pb-12 bg-gray-800 h-screen">
         <div className="px-3 h-full mx-auto flex flex-wrap flex-col lg:flex-row items-center justify-center text-gray-100">
           <div className="flex flex-col w-full lg:w-3/12 justify-center items-start text-center lg:text-left">
-            <h1 className="mx-auto my-4 text-6xl font-bold leading-tight">Corey O'Donnell</h1>
+            <h1 className="mx-auto my-4 text-6xl text-center font-bold leading-tight">Corey O'Donnell</h1>
             <p className="mx-auto text-center leading-tight text-2xl lg:text-3xl mb-8">
               Full-Stack Web Developer <br /> React | TypeScript | Python
             </p>
