@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (FATHOM_TRACKING) {
       // Initialize Fathom when the app loads
       Fathom.load(FATHOM_TRACKING, {
-        includedDomains: ['coreyodonnell.dev']
+        includedDomains: ['https://coreyodonnell.dev']
       });
 
       // Record a pageview when route changes
