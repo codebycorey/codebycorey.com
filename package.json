@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "date-fns": "^2.15.0",
+    "fathom-client": "^3.0.0",
     "gray-matter": "^4.0.2",
     "next": "^9.5.1",
     "postcss-flexbugs-fixes": "^4.2.1",
