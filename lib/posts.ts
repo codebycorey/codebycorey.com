@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+
 import BlogPost, { defaultBlogPost } from '../models/BlogPost';
 
 const postDirectory: string = path.join(process.cwd(), '_posts');
@@ -25,6 +26,7 @@ export const getPostBySlug = (slug: string): BlogPost => {
   const fullPath = path.join(postDirectory, `${slug}.md`);
   const postContents: string = fs.readFileSync(fullPath, 'utf8');
   const { content, data }: matter.GrayMatterFile<string> = matter(postContents);
+
   return {
     ...defaultBlogPost,
     slug,
