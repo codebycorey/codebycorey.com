@@ -1,8 +1,8 @@
 
 export default function Hero() {
     return (
-      <div className="pb-12 bg-gray-800 md:h-screen">
-        <div className="px-3 h-full mx-auto flex flex-wrap flex-row items-center justify-center text-gray-100">
+      <div className="pb-12 bg-gray-800">
+        <div className="px-3 h-full mx-auto flex flex-wrap flex-col lg:flex-row items-center justify-center text-gray-100">
           <div className="flex flex-col w-full lg:w-3/12 justify-center items-start text-center lg:text-left">
             <h1 className="mx-auto my-4 text-5xl text-center font-bold leading-tight">Corey O'Donnell</h1>
             <p className="mx-auto text-center leading-tight text-2xl lg:text-2xl mb-8">
@@ -16,7 +16,7 @@ export default function Hero() {
                 className="w-12 h-12 mr-4 rounded-full border-2 border-green-500 flex justify-center items-center"
                 target="_blank"
                 rel="noopener noreferrer nofollow"
-                href="https://twitter.com/motivatedwebdev"
+                href="https://twitter.com/CodeByCorey"
               >
                 <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <title>Twitter</title>
@@ -38,7 +38,7 @@ export default function Hero() {
                 className="w-12 h-12 mr-4 rounded-full border-2 border-green-500 flex justify-center items-center"
                 target="_blank"
                 rel="noopener noreferrer nofollow"
-                href="https://dev.to/motivatedwebdev"
+                href="https://dev.to/CodeByCorey"
               >
                 <svg className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img">
                   <title>dev.to</title>
@@ -70,7 +70,7 @@ export default function Hero() {
             </div>
           </div>
           <div className="w-full lg:w-2/5 py-12 lg:py-6 text-center flex justify-center">
-            <img className="w-full md:w-3/5 z-10" src="/guy-desk.svg" />
+            <img className="w-full md:w-3/5 z-10" src="/svg/guy-desk.svg" />
           </div>
         </div>
         <div className="relative hidden -mt-12 lg:-mt-24">

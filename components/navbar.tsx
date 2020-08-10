@@ -12,7 +12,7 @@ export default function Navbar({ home }: Props) {
           <div className="hidden pl-4 lg:flex items-center">
             <Link href="/">
               <a className="no-underline hover:no-underline font-thin text-2xl lg:text-xl">
-                <img className="h-12 w-12 inline rounded-full" src="/profile.svg" alt="" />
+                <img className="h-12 w-12 inline rounded-full" src="/svg/profile.svg" alt="" />
                 <span className="pl-4">coreyodonnell.dev</span>
               </a>
             </Link>

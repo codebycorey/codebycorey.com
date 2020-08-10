@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.2.0",
     "date-fns": "^2.15.0",
     "fathom-client": "^3.0.0",
     "gray-matter": "^4.0.2",
@@ -17,11 +18,18 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-markdown": "^4.3.1",
-    "tailwindcss": "^1.6.2"
+    "react-syntax-highlighter": "^13.3.1",
+    "remark": "^12.0.1",
+    "remark-highlight.js": "^6.0.0",
+    "remark-html": "^12.0.0",
+    "remark-markdown": "0.0.1",
+    "tailwindcss": "^1.6.2",
+    "unified": "^9.1.0"
   },
   "devDependencies": {
     "@types/node": "^14.0.27",
     "@types/react": "^16.9.44",
+    "@types/react-syntax-highlighter": "^11.0.4",
     "typescript": "^3.9.7"
   }
 }

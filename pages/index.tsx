@@ -17,13 +17,13 @@ export default function Home({ posts }: any) {
       </Head>
       {/* <Navbar home/> */}
       <Hero />
-      {/* <LandingBlog posts={posts} /> */}
+      <LandingBlog posts={posts} />
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const posts: BlogPost[] = getAllPosts();
+  const posts: BlogPost[] = getAllPosts().slice(0, 1);
 
   return {
     props: {
