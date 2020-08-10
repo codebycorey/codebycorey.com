@@ -23,7 +23,7 @@ export default function post({ post }: Props) {
         <meta property="og:description" content={post.description} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@CodeByCorey" />
-        <meta property="og:image" content={`/og/${post.slug}.png`} />
+        <meta property="og:image" content={`https://coreyodonnell.dev/og/${post.slug}.png`} />
       </Head>
       <article className="container bg-gray-100 mx-auto py-12">
         <div className="mx-auto w-4/5">
