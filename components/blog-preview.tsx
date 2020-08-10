@@ -28,7 +28,7 @@ export default function BlogPreview({ post }: Props) {
               <path d="M12 5l7 7-7 7"></path>
             </svg>
           </a>
-          <span className="text-gray-600 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm py-1">
+          <span className="text-gray-600 mr-3 inline-flex items-center ml-auto leading-none text-sm py-1">
             <ReadTime content={post.content} />
           </span>
         </div>

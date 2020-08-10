@@ -13,7 +13,7 @@ export default function LandingBlog({ posts }: Props) {
       <div className="flex flex-wrap justify-around">
         {posts.map((post, index) => (
           <Link key={index} href={`writings/${post.slug}`}>
-            <a className="w-1/3 p-5">
+            <a className="md:w-2/3 lg:w-1/3 p-5">
               <BlogPreview post={post} />
             </a>
           </Link>
