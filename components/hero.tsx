@@ -70,7 +70,7 @@ export default function Hero() {
             </div>
           </div>
           <div className="w-full lg:w-2/5 py-12 lg:py-6 text-center flex justify-center">
-            <img className="w-full md:w-3/5 z-10" src="/guy-desk.svg" />
+            <img className="w-full md:w-3/5 z-10" src="/svg/guy-desk.svg" />
           </div>
         </div>
         <div className="relative hidden -mt-12 lg:-mt-24">

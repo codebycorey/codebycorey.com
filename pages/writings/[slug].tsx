@@ -18,6 +18,12 @@ export default function post({ post }: Props) {
     <div className="bg-gray-800 h-full py-16">
       <Head>
         <title>{post.title}</title>
+        <meta property="og:title" content={post.title} />
+        <meta property="og:site_name" content={`Corey's Writtings | ${post.title}`} />
+        <meta property="og:description" content={post.description} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@CodeByCorey" />
+        <meta property="og:image" content={`/og/${post.slug}.png`} />
       </Head>
       <article className="container bg-gray-100 mx-auto py-12">
         <div className="mx-auto w-4/5">
@@ -28,7 +34,7 @@ export default function post({ post }: Props) {
           <div className="flex items-center justify-between my-6">
             <div className="flex items-center">
               <a className="flex items-center" target="_blank" rel="noopener noreferrer nofollow" href="https://twitter.com/CodeByCorey">
-                <img className="w-10 md:w-16 h10 md:h-16 rounded-full mr-2" src="/profile.svg" alt="" />
+                <img className="w-10 md:w-16 h10 md:h-16 rounded-full mr-2" src="/svg/profile.svg" alt="" />
                 <span className="md:text-xl text-gray-700">Corey O'Donnell</span>
               </a>
               <span className="text-gray-500 ml-2">
