@@ -7,6 +7,8 @@ import BlogPost from '../../models/BlogPost';
 import ReactMarkdown from 'react-markdown';
 import CodeBlock from '../../components/code-block';
 import ReadTime from '../../components/read-time';
+import MarkdownLink from '../../components/markdown-link';
+import Footer from '../../components/footer';
 import Link from 'next/link';
 
 interface Props {
@@ -15,7 +17,7 @@ interface Props {
 
 export default function post({ post }: Props) {
   return (
-    <div className="bg-gray-800 h-full py-16">
+    <div className="bg-gray-800 h-full p-2 md:py-16">
       <Head>
         <title>{post.title}</title>
         <meta property="og:title" content={post.title} />
@@ -50,10 +52,12 @@ export default function post({ post }: Props) {
           className="prose md:prose-2xl mx-auto max-w-full w-4/5"
           source={post.content}
           renderers={{
-            code: CodeBlock
+            code: CodeBlock,
+            link: MarkdownLink
           }}
         />
       </article>
+      <Footer />
     </div>
   );
 }

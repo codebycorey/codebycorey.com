@@ -2,6 +2,7 @@
 title: 'Making the jump to start blogging!'
 date: '2020-08-10'
 description: 'I am ready to take my career and knowledge to the next level. One of the best ways of doing that is blogging.'
+published: true
 ---
 I am ready to take my career and knowledge to the next level. One of the best ways of doing that is blogging. I want to be able to share all the knowledge I have along with anything new I learn from now on. This is a challenge for me since I do not share things publicly. I never posted things on social media. I was always sat back and watched. Being judged or people thinking I sucked always deterred me from writing out and in the open. I have decided I do not care. It is my time to start producing and helping others.
 
