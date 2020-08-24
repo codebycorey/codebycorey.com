@@ -5,7 +5,7 @@ date: '2020-08-24'
 published: true
 ---
 
-Working from home has some unique challenges compared to being in an office.  When I worked in the office, I quickly excelled. I became the go-to guy in a just a few months and began making important decisions for development. When I started my remote job, things did not go as well as I expected. Even though I thought I had good self-control, the freedom lead to some bad habits. My productivity suffered and my work tasks started to slip and I began to struggle. After a couple of months of barely getting my work done, I had to sit myself down and set my self straight.
+Working from home has some unique challenges compared to being in an office.  When I worked in the office, I quickly excelled. I became the go-to guy in a just a few months and began making important decisions for development. When I started my remote job, things did not go as well as I expected. Even though I thought I had good self-control, the freedom lead to some bad habits. My productivity suffered and my work tasks started to slip and I began to struggle. After a couple of months of barely getting my work done, I had to sit myself down and set myself straight.
 
 ## Finding my problems
 
@@ -19,7 +19,7 @@ Now that I know my problems and bad habits, it was time to start doing something
 
 I had my personal computer right next to my work computer. This was mixing my personal with work and I would often drift over to my personal computer. First things I did was delete all video games off the computer and just turned it off. Just adding that small amount of resistance kept me more focused on work.
 
-### Putting my self in the work mindset
+### Putting myself in the work mindset
 
 I started waking up earlier so when I walk into my home office, I am wide awake and prepared for work. I started getting dressed like I was going to the office to help put me in the work mindset. First thing walking into my office, I wrote down all the tasks that were assigned to me and all the scheduled meetings for the day. I could then prioritize everything and know what I could and could not complete for the day.
 
