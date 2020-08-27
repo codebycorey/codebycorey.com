@@ -21,7 +21,7 @@ export default function post({ post }: Props) {
       <Head>
         <title>{post.title}</title>
         <meta property="og:title" content={post.title} />
-        <meta property="og:site_name" content={`Corey's Writtings | ${post.title}`} />
+        <meta property="og:site_name" content={`Corey's Writings | ${post.title}`} />
         <meta property="og:description" content={post.description} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@CodeByCorey" />

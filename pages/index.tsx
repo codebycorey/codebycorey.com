@@ -17,7 +17,7 @@ export default function Home({ posts }: any) {
       </Head>
       {/* <Navbar home/> */}
       <Hero />
-      <LandingBlog posts={posts} />
+      {/* <LandingBlog posts={posts} /> */}
     </div>
   );
 }
