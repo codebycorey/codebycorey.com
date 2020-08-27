@@ -5,12 +5,12 @@ date: '2020-08-19'
 published: true
 ---
 
-I have worked remote for nearly four years now. It has been awesome in so many ways to me and my family I do not plan to go back to an office. Working remote has a ton of perks but it does come with some downside.
+I have worked remote for nearly four years now. It has been awesome in so many ways for me and my family; I do not plan to go back to an office. Working remote has a ton of perks but it does come with some downside.
 
 ## Everything I love about it
 **Zero commuting** is one of the best reasons for working from home. I never have to spend any portion of my day sitting in rush hour traffic. The amount of time I have saved not sitting in the car is crazy. If my commute was 30 minutes to and from work. That is one hour every day. Five hours every week. 20 hours every month. 240 hours every year. The money I have saved on gas and tolls is another reason zero commuting is one of my favorites.
 
-Another benefit of working from home is **having freedom**. As long as I complete my work and attend all my scheduled meetings, I can work when I want to. My jobs one rule is I need to be available during specific hours encase someone needs help, or we need to put out a fire. I do not have to deal with judgmental eyes when I step out to clear my head whenever I get stuck on a problem. If I need a break from the computer, I can go do some chores around the house or go talk to the family. It is just nice not being stuck in your work environment whenever you need a break.
+Another benefit of working from home is **having freedom**. As long as I complete my work and attend all my scheduled meetings, I can work when I want to. My job's one rule is I need to be available during specific hours in case someone needs help, or we need to put out a fire. I do not have to deal with judgmental eyes when I step out to clear my head whenever I get stuck on a problem. If I need a break from the computer, I can go do some chores around the house or go talk to the family. It is just nice not being stuck in your work environment whenever you need a break.
 
 You typically have **less office distractions**. There is nothing more painful being deep into a problem and someone walks up to your desk and breaks your concentration. It's an instant productivity killer. Though it does not mean there are not any distractions at home or any other environment.
 
@@ -25,9 +25,9 @@ Working from home requires a ton of **self-discipline**. Even though you no long
 
 With the transition to working remote, companies are no longer tied to their location. Now their **talent pool** has increased globally. That means instead of just competing with local developers, you are now competing with developers across the world.
 
-Having your work office right there in your home makes it difficult to separate work from personal. You always need to think about **work-life balance**. People that work from home typically work more hours than someone working in an office. Without have that pack up and leave feeling, it's easy to work passed the time you usually clock out.
+Having your work office right there in your home makes it difficult to separate work from personal. You always need to think about **work-life balance**. People that work from home typically work more hours than someone working in an office. Without having that pack up and leave feeling, it's easy to work past the time you usually clock out.
 
 I think one of the most challenging parts is **feeling isolated**. Once you start working from home, you greatly decrease the number of people you see daily. You no longer see your coworkers face-to-face and usually spend way more time home alone. You can help with the feeling by regularly reaching out to people around you, always have your webcam on during meetings, and maybe work a couple of hours in a coffee shop (Post Covid).
 
 ## In the end
-Working remote is not for everyone. Some people need to be face to face in an office, while others don't mind being a talking head on a screen. The benefits out way the challenges for me. I would not go back to an office job unless there was an opportunity I could not resist in my local area. No commuting and the freedom that comes with working remote out ways all the negatives for me.
+Working remote is not for everyone. Some people need to be face to face in an office, while others don't mind being a talking head on a screen. The benefits out weight the challenges for me. I would not go back to an office job unless there was an opportunity I could not resist in my local area. No commuting and the freedom that comes with working remote out weight all the negatives for me.

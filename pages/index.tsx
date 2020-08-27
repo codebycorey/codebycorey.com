@@ -23,7 +23,7 @@ export default function Home({ posts }: any) {
 }
 
 export async function getStaticProps() {
-  const posts: BlogPost[] = getAllPosts();
+  const posts: BlogPost[] = getAllPosts().slice(0, 6);
 
   return {
     props: {
