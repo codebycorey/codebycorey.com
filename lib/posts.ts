@@ -2,8 +2,36 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-
 import BlogPost, { defaultBlogPost } from '../models/BlogPost';
+
+const query: string = `
+{
+  user(username:"CodeByCorey") {
+    publication {
+      posts(page:0) {
+        title
+        brief
+        slug
+        coverImage
+        replyCount
+        totalReactions
+      }
+    }
+  }
+}
+`
+
+export const fetchPosts = async (): Promise<any> => {
+  const resp = await fetch('https://api.hashnode.com', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify({ query }),
+  })
+  const respJson = await resp.json();
+  return respJson.data.user.publication.posts.slice(0, 3);
+}
 
 const postDirectory: string = path.join(process.cwd(), '_posts');
 

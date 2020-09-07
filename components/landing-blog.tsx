@@ -12,11 +12,9 @@ export default function LandingBlog({ posts }: Props) {
       <h2 className="text-center text-2xl md:text-4xl pb-6">Blog Posts</h2>
       <div className="flex flex-wrap justify-center">
         {posts.map((post, index) => (
-          <Link key={index} href={`writings/${post.slug}`}>
-            <a className="md:w-2/3 lg:w-1/3 px-5">
-              <BlogPreview post={post} />
-            </a>
-          </Link>
+          <a key={index} href={`https://blog.coreyodonnell.tech/${post.slug}`} className="md:w-2/3 lg:w-1/3 px-5 my-2">
+            <BlogPreview post={post} />
+          </a>
         ))}
       </div>
     </div>
