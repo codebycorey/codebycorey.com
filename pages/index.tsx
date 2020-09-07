@@ -5,7 +5,7 @@ import Layout, { siteTitle } from '../components/layout'
 import Date from '../components/date';
 import Navbar from '../components/navbar';
 import Hero from '../components/hero';
-import { getAllPosts } from '../lib/posts';
+import { getAllPosts, fetchPosts } from '../lib/posts';
 import BlogPost from '../models/BlogPost';
 import LandingBlog from '../components/landing-blog';
 
@@ -17,17 +17,19 @@ export default function Home({ posts }: any) {
       </Head>
       {/* <Navbar home/> */}
       <Hero />
-      {/* <LandingBlog posts={posts} /> */}
+      <LandingBlog posts={posts} />
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const posts: BlogPost[] = getAllPosts().slice(0, 6);
 
+  const posts: BlogPost[] = await fetchPosts();
+  // console.log('POSTS', posts);
   return {
     props: {
       posts
-    }
+    },
+    revalidate: 60
   };
 }
