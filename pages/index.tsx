@@ -5,7 +5,7 @@ import Layout, { siteTitle } from '../components/layout'
 import Date from '../components/date';
 import Navbar from '../components/navbar';
 import Hero from '../components/hero';
-import { getAllPosts, fetchPosts } from '../lib/posts';
+import { fetchThreeMostRecentPosts } from '../lib/posts';
 import BlogPost from '../models/BlogPost';
 import LandingBlog from '../components/landing-blog';
 
@@ -24,8 +24,7 @@ export default function Home({ posts }: any) {
 
 export async function getStaticProps() {
 
-  const posts: BlogPost[] = await fetchPosts();
-  // console.log('POSTS', posts);
+  const posts = await fetchThreeMostRecentPosts();
   return {
     props: {
       posts
