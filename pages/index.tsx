@@ -15,9 +15,40 @@ export default function Home({ posts }: any) {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      {/* <Navbar home/> */}
-      <Hero />
-      <LandingBlog posts={posts} />
+      <div className="w-full bg-gray-900 h-screen flex text-gray-100">
+        <div className="w-2/3 h-full flex flex-wrap content-between justify-between items-between">
+          <div className="w-full">
+            <div className="text-2xl">COREY O'DONNELL</div>
+          </div>
+          <div className="w-full">
+            <h1 className="text-6xl font-serif">
+              FULL-STACK
+              <br />
+              WEB DEVELOPER
+            </h1>
+          </div>
+          <div className="w-full flex flex-wrap">
+            <div className="w-full flex">
+              <div className="w-1/2">
+                <h3>About</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore maiores voluptates suscipit vitae nesciunt ullam, ea iusto natus
+                  nemo aspernatur blanditiis quidem doloribus quod odio similique voluptatum quae ducimus! Magni.
+                </p>
+              </div>
+              <div className="w-1/2">
+                <h3>Social</h3>
+                <a href="">Twitter</a>
+                <a href="">Github</a>
+                <a href="">LinkedIn</a>
+                <a href="">DEV.to</a>
+              </div>
+            </div>
+            <div className="w-full">© 2020 Corey O'Donnell. All Rights Reserved.</div>
+          </div>
+        </div>
+        <div className="w-1/3 h-full bg-gray-800"></div>
+      </div>
     </div>
   );
 }
