@@ -4,11 +4,11 @@
 
 // import BlogPost, { defaultBlogPost } from '../models/BlogPost';
 
-const query: string = `
+const queryTemplate: string = `
 {
   user(username: "CodeByCorey") {
     publication {
-      posts(page: 0) {
+      posts(page: { PAGE_NUMBER }) {
         slug
         title
         brief
@@ -26,7 +26,17 @@ export const fetchThreeMostRecentPosts = async() => {
   return posts.slice(0, 3);
 }
 
-export const fetchPosts = async () => {
+export const fetchMultiplePagesOfPosts = async() => {
+  let posts: any[] = [];
+  for (let i = 0; i < 2; i++) {
+    const fetched = await fetchPosts(i);
+    posts = [...posts, ...fetched];
+  }
+  return posts;
+}
+
+export const fetchPosts = async (page: number = 0) => {
+  const query: string = queryTemplate.replace('{ PAGE_NUMBER }', page.toString());
   const resp: Response = await fetch('https://api.hashnode.com', {
     method: 'POST',
     headers: {

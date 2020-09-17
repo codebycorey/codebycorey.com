@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -25,11 +27,12 @@ module.exports = {
           800: '#1f4c1f',
           900: '#002d00'
         }
+      },
+      fontFamily: {
+        sans: ['Roboto', ...defaultTheme.fontFamily.sans]
       }
     }
   },
   variants: {},
-  plugins: [
-    require('@tailwindcss/typography')
-  ]
+  plugins: [require('@tailwindcss/typography')]
 };

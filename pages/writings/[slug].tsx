@@ -1,15 +1,15 @@
-import Layout from '../../components/layout';
-import { getAllPostSlugs, getPostBySlug } from '../../lib/posts';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
-import Date from '../../components/date';
+// import Layout from '../../components/layout';
+// import { getAllPostSlugs, getPostBySlug } from '../../lib/posts';
+// import { GetStaticPaths, GetStaticProps } from 'next';
+// import Head from 'next/head';
+// import Date from '../../components/date';
 import BlogPost from '../../models/BlogPost';
-import ReactMarkdown from 'react-markdown';
-import CodeBlock from '../../components/code-block';
-import ReadTime from '../../components/read-time';
-import MarkdownLink from '../../components/markdown-link';
-import Footer from '../../components/footer';
-import Link from 'next/link';
+// import ReactMarkdown from 'react-markdown';
+// import CodeBlock from '../../components/code-block';
+// import ReadTime from '../../components/read-time';
+// import MarkdownLink from '../../components/markdown-link';
+// import Footer from '../../components/footer';
+// import Link from 'next/link';
 
 interface Props {
   post: BlogPost;
@@ -18,7 +18,7 @@ interface Props {
 export default function post({ post }: Props) {
   return (
     <div className="bg-gray-800 h-full p-2 md:py-16">
-      <Head>
+      {/* <Head>
         <title>{post.title}</title>
         <meta property="og:title" content={post.title} />
         <meta property="og:site_name" content={`Corey's Writings | ${post.title}`} />
@@ -57,25 +57,25 @@ export default function post({ post }: Props) {
           }}
         />
       </article>
-      <Footer />
+      <Footer /> */}
     </div>
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs: string[] = getAllPostSlugs();
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const slugs: string[] = getAllPostSlugs();
 
-  return {
-    paths: slugs.map((slug) => ({ params: { slug }})),
-    fallback: false
-  }
-}
+//   return {
+//     paths: slugs.map((slug) => ({ params: { slug }})),
+//     fallback: false
+//   }
+// }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const post: BlogPost = await getPostBySlug(params!.slug as string);
-  return {
-    props: {
-      post
-    }
-  };
-}
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   const post: BlogPost = await getPostBySlug(params!.slug as string);
+//   return {
+//     props: {
+//       post
+//     }
+//   };
+// }
