@@ -16,7 +16,7 @@ export default function Home({ posts }: any) {
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@CodeByCorey" />
-        <meta property="og:image" content="https://coreyodonnell.dev/website_og.png" />
+        <meta property="og:image" content="https://coreyodonnell.tech/og/website_og.png" />
       </Head>
       <div className="w-full bg-gray-900 md:h-screen flex flex-wrap text-gray-100">
         <div className="w-full md:w-7/12 h-full flex flex-wrap content-between justify-between items-between p-10">
@@ -35,7 +35,7 @@ export default function Home({ posts }: any) {
               <div className="w-full md:w-1/2 mb-10 md:mb-0 font-light">
                 <h3 className="inline-block py-1 uppercase font-medium tracking-tight">About</h3>
                 <p>
-                  My name is Corey O'Donnell and I am a full-stack web development. The tech stack I primarily work with is TypeScript, React.js,
+                  My name is Corey O'Donnell and I am a full-stack web developer. The tech stack I primarily work with is TypeScript, React.js,
                   Node.js, and Python. I love spending my free time learn new things and improving myself. I have a weird obsession for houseplants
                   and always looking to increase my collection.
                 </p>
