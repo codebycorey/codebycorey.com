@@ -36,7 +36,7 @@ export default function Home({ posts }: any) {
                 <h3 className="inline-block py-1 uppercase font-medium tracking-tight">About</h3>
                 <p>
                   My name is Corey O'Donnell and I am a full-stack web developer. The tech stack I primarily work with is TypeScript, React.js,
-                  Node.js, and Python. I love spending my free time learn new things and improving myself. I have a weird obsession for houseplants
+                  Node.js, and Python. I love spending my free time learning new things and improving myself. I have a weird obsession for houseplants
                   and always looking to increase my collection.
                 </p>
               </div>
