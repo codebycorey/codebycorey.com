@@ -28,7 +28,7 @@ export default function Home({ posts }: any) {
             <div className="text-2xl md:text-4xl font-light">COREY O'DONNELL</div>
           </div>
           <div className="w-full">
-            <h1 className="text-4xl md:text-6xl my-10 md:my-0 font-light">
+            <h1 className="text-4xl md:text-8xl my-10 md:my-0 font-light">
               FULL-STACK
               <br />
               WEB DEVELOPER
@@ -40,19 +40,19 @@ export default function Home({ posts }: any) {
                 <h2 className="inline-block py-1 uppercase font-medium tracking-tight">About</h2>
                 <p>
                   My name is Corey O'Donnell and I am a full-stack web developer. The tech stack I primarily work with is TypeScript, React.js,
-                  Node.js, and Python. I love spending my free time learning new things and improving myself. I have a weird obsession for houseplants
-                  and always looking to increase my collection.
+                  Node.js, and Python. I love spending my free time learning new things and improving myself. My son and my wife are my everything. I
+                  have a weird obsession for houseplants and always looking to increase my collection.
                 </p>
               </div>
               <div className="mr-24 font-light">
                 <ul className="list-none p-0 flex flex-col text-left">
-                  <li className="inline-block py-1 uppercase font-medium tracking-tight">
+                  <li className="inline-block uppercase font-medium tracking-tight">
                     <h2>Links</h2>
                   </li>
                   <li>
                     <a
                       href="https://blog.coreyodonnell.tech"
-                      className="inline-block py-1 text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
                       rel="noopener"
                       target="_blank"
                     >
@@ -62,7 +62,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://twitter.com/CodeByCorey"
-                      className="inline-block py-1 text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                     >
@@ -72,7 +72,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://github.com/CodeByCorey"
-                      className="inline-block py-1 text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                     >
@@ -82,7 +82,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://www.linkedin.com/in/CodeByCorey"
-                      className="inline-block py-1 text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                     >
@@ -92,7 +92,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://dev.to/codebycorey"
-                      className="inline-block py-1 text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                     >
