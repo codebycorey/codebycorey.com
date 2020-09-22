@@ -53,6 +53,7 @@ export default function Home({ posts }: any) {
                     <a
                       href="https://blog.coreyodonnell.tech"
                       className="inline-block py-1 text-gray-100 hover:text-gray-200 no-underline"
+                      rel="noopener"
                       target="_blank"
                     >
                       BLOG
