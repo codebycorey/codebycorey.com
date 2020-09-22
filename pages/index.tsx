@@ -9,6 +9,10 @@ export default function Home({ posts }: any) {
       <Head>
         <title>{siteTitle}</title>
         <meta name="title" content="Corey O'Donnell | Full-Stack Web Developer" />
+        <meta
+          name="description"
+          content="My name is Corey O'Donnell and I am a full-stack web development. The tech stack I primarily work with is TypeScript, React.js, Node.js, and Python."
+        />
         <meta property="og:title" content="Corey O'Donnell | Full-Stack Web Developer" />
         <meta
           property="og:description"
@@ -33,7 +37,7 @@ export default function Home({ posts }: any) {
           <div className="w-full flex flex-wrap">
             <div className="w-full flex flex-wrap justify-between">
               <div className="w-full md:w-1/2 mb-10 md:mb-0 font-light">
-                <h3 className="inline-block py-1 uppercase font-medium tracking-tight">About</h3>
+                <h2 className="inline-block py-1 uppercase font-medium tracking-tight">About</h2>
                 <p>
                   My name is Corey O'Donnell and I am a full-stack web developer. The tech stack I primarily work with is TypeScript, React.js,
                   Node.js, and Python. I love spending my free time learning new things and improving myself. I have a weird obsession for houseplants
@@ -43,7 +47,7 @@ export default function Home({ posts }: any) {
               <div className="mr-24 font-light">
                 <ul className="list-none p-0 flex flex-col text-left">
                   <li className="inline-block py-1 uppercase font-medium tracking-tight">
-                    <h3>Links</h3>
+                    <h2>Links</h2>
                   </li>
                   <li>
                     <a
@@ -101,15 +105,16 @@ export default function Home({ posts }: any) {
           </div>
         </div>
         <div className="w-full md:w-5/12 h-full bg-gray-900 border-l-2 border-gray-700 p-5 md:overflow-y-scroll">
-          <h3 className="m-5 text-4xl font-light">Recent Blog Posts</h3>
+          <h2 className="m-5 text-4xl font-light">RECENT BLOG POSTS</h2>
           {posts.map((post: any) => (
             <a
               key={post.slug}
               href={`https://blog.coreyodonnell.tech/${post.slug}`}
+              rel="noopener"
               target="_blank"
               className="mx-5 my-10 pb-10 border-b-2 border-gray-700 block"
             >
-              <h4 className="text-2xl font-medium uppercase">{post.title}</h4>
+              <h3 className="text-2xl font-medium uppercase mb-5">{post.title}</h3>
               <p className="font-light">{post.brief}</p>
             </a>
           ))}
