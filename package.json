@@ -24,7 +24,6 @@
     "remark-html": "^12.0.0",
     "remark-markdown": "0.0.1",
     "tailwindcss": "^1.8.10",
-    "typeface-roboto": "0.0.75",
     "unified": "^9.1.0"
   },
   "devDependencies": {
