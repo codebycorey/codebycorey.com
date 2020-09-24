@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.2.0",
-    "date-fns": "^2.15.0",
+    "date-fns": "^2.16.1",
     "fathom-client": "^3.0.0",
     "gray-matter": "^4.0.2",
-    "next": "^9.5.1",
+    "next": "^9.5.3",
     "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-preset-env": "^6.7.0",
     "react": "16.13.1",
@@ -23,15 +23,15 @@
     "remark-highlight.js": "^6.0.0",
     "remark-html": "^12.0.0",
     "remark-markdown": "0.0.1",
-    "tailwindcss": "^1.6.2",
+    "tailwindcss": "^1.8.10",
     "typeface-roboto": "0.0.75",
     "unified": "^9.1.0"
   },
   "devDependencies": {
-    "@types/node": "^14.0.27",
-    "@types/react": "^16.9.44",
+    "@types/node": "^14.11.2",
+    "@types/react": "^16.9.49",
     "@types/react-syntax-highlighter": "^11.0.4",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.3"
   },
   "volta": {
     "node": "12.18.3"

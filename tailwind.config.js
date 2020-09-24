@@ -38,5 +38,9 @@ module.exports = {
     }
   },
   variants: {},
-  plugins: [require('@tailwindcss/typography')]
+  plugins: [/*require('@tailwindcss/typography')*/],
+  future: {
+    purgeLayersByDefault: true,
+    removeDeprecatedGapUtilities: true
+  }
 };
