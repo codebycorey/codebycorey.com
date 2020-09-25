@@ -1,29 +1,11 @@
-import Head from 'next/head'
-
-import Layout, { siteTitle } from '../components/layout'
+import Layout from '../components/layout'
 import { fetchMultiplePagesOfPosts } from '../lib/posts';
 
 export default function Home({ posts }: any) {
   return (
-    <div>
-      <Head>
-        <title>{siteTitle}</title>
-        <meta name="title" content="Corey O'Donnell | Full-Stack Web Developer" />
-        <meta
-          name="description"
-          content="My name is Corey O'Donnell and I am a full-stack web development. The tech stack I primarily work with is TypeScript, React.js, Node.js, and Python."
-        />
-        <meta property="og:title" content="Corey O'Donnell | Full-Stack Web Developer" />
-        <meta
-          property="og:description"
-          content="My name is Corey O'Donnell and I am a full-stack web development. The tech stack I primarily work with is TypeScript, React.js, Node.js, and Python."
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@CodeByCorey" />
-        <meta property="og:image" content="https://coreyodonnell.tech/og/website_og.png" />
-      </Head>
-      <div className="w-full bg-gray-900 md:h-screen flex flex-wrap text-gray-100">
-        <div className="w-full md:w-7/12 h-full flex flex-wrap content-between justify-between items-between p-10">
+    <Layout>
+      <div className="w-full md:h-screen flex flex-wrap text-lg">
+        <div className="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 w-full md:w-7/12 h-full flex flex-wrap content-between justify-between items-between p-10">
           <div className="w-full">
             <div className="text-2xl md:text-4xl font-light">COREY O'DONNELL</div>
           </div>
@@ -52,7 +34,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://blog.coreyodonnell.tech"
-                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
                       rel="noopener"
                       target="_blank"
                     >
@@ -62,7 +44,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://twitter.com/CodeByCorey"
-                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                     >
@@ -72,7 +54,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://github.com/CodeByCorey"
-                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                     >
@@ -82,7 +64,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://www.linkedin.com/in/CodeByCorey"
-                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                     >
@@ -92,7 +74,7 @@ export default function Home({ posts }: any) {
                   <li>
                     <a
                       href="https://dev.to/codebycorey"
-                      className="inline-block text-gray-100 hover:text-gray-200 no-underline"
+                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
                     >
@@ -105,7 +87,7 @@ export default function Home({ posts }: any) {
             <div className="w-full mt-10 font-thin hidden md:block">© 2020 Corey O'Donnell. All Rights Reserved.</div>
           </div>
         </div>
-        <div className="w-full md:w-5/12 h-full bg-gray-900 border-l-2 border-gray-700 p-5 md:overflow-y-scroll">
+        <div className="w-full md:w-5/12 h-full bg-gray-900 text-gray-100 border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
           <h2 className="m-5 text-4xl font-light">RECENT BLOG POSTS</h2>
           {posts.map((post: any) => (
             <a
@@ -122,7 +104,7 @@ export default function Home({ posts }: any) {
           <div className="w-full text-center font-thin md:hidden">© 2020 Corey O'Donnell. All Rights Reserved.</div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

@@ -11,55 +11,24 @@ interface Props {
 
 export default function Layout({ children, home }: Props) {
     return (
-        <div>
-            <Head>
-                <link rel="icon" href="/favicon.ico" />
-                <meta name="description" content="Software Development Blog" />
-                <meta
-                    property="og:image"
-                    content={`https://og-image.now.sh/${encodeURI(
-                        siteTitle
-                    )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
-                />
-                <meta name="og:title" content={siteTitle} />
-                <meta name="twitter:card" content="summary_large_image" />
-            </Head>
-            <header>
-                {home ? (
-                    <>
-                        <img
-                            src="/images/profile.png"
-                            alt={name}
-                        />
-                        <h1>{name}</h1>
-                    </>
-                ) : (
-                    <>
-                        <Link href="/">
-                            <a>
-                                <img
-                                    src="/images/profile.png"
-                                    alt={name}
-                                />
-                            </a>
-                        </Link>
-                        <h2>
-                            <Link href="/">
-                                <a>{name}</a>
-                            </Link>
-                        </h2>
-                    </>
-                )}
-            </header>
-            <main>{children}</main>
-            {!home && (
-                <div>
-                    <Link href="/">
-                        <a>← Back to home</a>
-                    </Link>
-                </div>
-            )
-            }
-        </div>
-    )
+      <>
+        <Head>
+          <title>{siteTitle}</title>
+          <meta name="title" content="Corey O'Donnell | Full-Stack Web Developer" />
+          <meta
+            name="description"
+            content="My name is Corey O'Donnell and I am a full-stack web development. The tech stack I primarily work with is TypeScript, React.js, Node.js, and Python."
+          />
+          <meta property="og:title" content="Corey O'Donnell | Full-Stack Web Developer" />
+          <meta
+            property="og:description"
+            content="My name is Corey O'Donnell and I am a full-stack web development. The tech stack I primarily work with is TypeScript, React.js, Node.js, and Python."
+          />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:site" content="@CodeByCorey" />
+          <meta property="og:image" content="https://coreyodonnell.tech/og/website_og.png" />
+        </Head>
+        <main>{children}</main>
+      </>
+    );
 }
