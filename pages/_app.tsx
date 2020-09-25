@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     // Initialize Fathom when the app loads
     Fathom.load('ILBUCPDU', {
-      url: 'https://kiwi.coreyodonnell.tech',
+      // url: 'https://kiwi.coreyodonnell.tech',
       includedDomains: ['coreyodonnell.dev', 'coreyodonnell.tech']
     });
 
