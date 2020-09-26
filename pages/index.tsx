@@ -1,13 +1,42 @@
+import { useState } from 'react';
 import Layout from '../components/layout'
 import { fetchMultiplePagesOfPosts } from '../lib/posts';
 
 export default function Home({ posts }: any) {
+
+  const [ darkMode, setDarkMode ] = useState(false);
+
   return (
     <Layout>
-      <div className="w-full md:h-screen flex flex-wrap text-lg">
+      <div className={`w-full md:h-screen flex flex-wrap text-lg ${darkMode ? 'dark' : ''}`}>
         <div className="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 w-full md:w-7/12 h-full flex flex-wrap content-between justify-between items-between p-10">
-          <div className="w-full">
+          <div className="w-full flex justify-between">
             <div className="text-2xl md:text-4xl font-light">COREY O'DONNELL</div>
+            <div>
+              {darkMode ? (
+                <button onClick={() => setDarkMode(!darkMode)}>
+                  <svg className="w-10 h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                    />
+                  </svg>
+                </button>
+              ) : (
+                <button onClick={() => setDarkMode(!darkMode)}>
+                  <svg className="w-10 h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
           <div className="w-full">
             <h1 className="text-4xl md:text-8xl my-10 md:my-0 font-light">
