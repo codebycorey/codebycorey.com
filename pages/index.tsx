@@ -15,7 +15,7 @@ export default function Home({ posts }: any) {
             <div>
               {darkMode ? (
                 <button onClick={() => setDarkMode(!darkMode)}>
-                  <svg className="w-10 h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -26,7 +26,7 @@ export default function Home({ posts }: any) {
                 </button>
               ) : (
                 <button onClick={() => setDarkMode(!darkMode)}>
-                  <svg className="w-10 h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -115,7 +115,7 @@ export default function Home({ posts }: any) {
             <div className="w-full mt-10 font-thin hidden md:block">© 2020 Corey O'Donnell. All Rights Reserved.</div>
           </div>
         </div>
-        <div className="w-full md:w-5/12 h-full bg-gray-900 text-gray-100 border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
+        <div className="w-full md:w-5/12 h-full bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
           <h2 className="m-5 text-4xl font-light">Recent Blog Posts</h2>
           {posts.map((post: any) => (
             <a
