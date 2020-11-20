@@ -4,7 +4,7 @@ import { useRouter, NextRouter } from 'next/router';
 import * as Fathom from 'fathom-client';
 
 import '../styles/global.css';
-// import 'typeface-roboto';
+import 'typeface-roboto';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router: NextRouter = useRouter();
