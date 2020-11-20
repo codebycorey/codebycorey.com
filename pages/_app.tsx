@@ -7,14 +7,13 @@ import '../styles/global.css';
 // import 'typeface-roboto';
 
 export default function App({ Component, pageProps }: AppProps) {
-
   const router: NextRouter = useRouter();
 
   useEffect(() => {
     // Initialize Fathom when the app loads
     Fathom.load('ILBUCPDU', {
-      url: 'https://kiwi.coreyodonnell.tech/script.js',
-      includedDomains: ['coreyodonnell.dev', 'coreyodonnell.tech']
+      url: 'https://ptarmigan.codebycorey.com/script.js',
+      excludedDomains: ['localhost']
     });
 
     function onRouteChangeComplete() {
@@ -29,5 +28,5 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', onRouteChangeComplete);
     };
   });
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }
