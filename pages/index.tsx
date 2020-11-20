@@ -13,7 +13,7 @@ export default function Home({ posts }: any) {
             <div className="text-2xl md:text-4xl font-light">Corey O'Donnell</div>
             <div>
               {darkMode ? (
-                <button onClick={() => setDarkMode(!darkMode)}>
+                <button onClick={() => setDarkMode(!darkMode)} aria-label="Dark mode toggle">
                   <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
                       strokeLinecap="round"
@@ -24,7 +24,7 @@ export default function Home({ posts }: any) {
                   </svg>
                 </button>
               ) : (
-                <button onClick={() => setDarkMode(!darkMode)}>
+                <button onClick={() => setDarkMode(!darkMode)} aria-label="Dark mode toggle">
                   <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
                       strokeLinecap="round"
