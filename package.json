@@ -8,12 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.2.0",
+    "@tailwindcss/typography": "^0.3.1",
     "autoprefixer": "^10.0.2",
     "date-fns": "^2.16.1",
     "fathom-client": "^3.0.0",
     "gray-matter": "^4.0.2",
     "next": "^10.0.2",
+    "next-mdx-enhanced": "^5.0.0",
     "postcss": "^8.1.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

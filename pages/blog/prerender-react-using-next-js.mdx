@@ -1,0 +1,139 @@
+---
+title: "Prerender React using Next js"
+brief: "When you want to improve your website's performance or search engine optimization (SEO), prerendering your application is a must. Next.js is the perfect framework to add server-side rendering (SSR) or static site generation (SSG) for your React web a..."
+date: "2020-11-05T14:04:59.934Z"
+---
+
+When you want to improve your website's performance or search engine optimization (SEO), prerendering your application is a must. Next.js is the perfect framework to add server-side rendering (SSR) or static site generation (SSG) for your React web app.
+
+## The problems caused by React
+
+Whenever you load the website, the first thing to load is the HTML. The HTML then tells the browser to load additional resources such as styles and JavaScript.
+
+Before JavaScript frameworks became popular, most websites were built with HTML and only enhanced with JavaScript. When the browser loaded the website, most of the content was in the HTML and was instantly displayed while the extra JavaScript loaded later.
+
+With React, nothing gets displayed until all of your JavaScript loads. Your HTML is nearly empty and React injects your content in your HTML with JavaScript.
+
+Example HTML with React.
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+This leads multiple problems:
+1. When the browser is loading the JavaScript, the screen is blank because `<div id="root"></div>` does not show anything. Depending on the size of your JavaScript bundle, this could lead to your visitors staring at a white screen for a couple of seconds. This is poor UX.
+2. Most SEO crawlers do not have JavaScript enabled. DuckDuckGo, Google, Bing and any other search engine would not actually know what is on your website since it requires JavaScript to display the content. You will not be ranked at all on Search Engines.
+
+## Server-Side Rendering (SSR)
+
+Webpages are generated on your server for every request. Data required by your page can always be fetched allowing your page to always be up to date.
+
+One of the draw backs is a slower time to first byte (TTFB) since the server is waiting for data and generating the page.
+
+## Static Site Generation (SSG)
+
+At build time, your app will fetch all the data required and compile it down to static webpages. This provides the best performance and can easily be cached on a CDN.
+
+If your data changes between builds, you might end up causing your webpage to display stale data.
+
+## Methods for Prerendering using Next.js
+
+Next.js offers SSR and SSG out of the box. All you have to do is add either `getStaticProps` for (SSG) or `getServerSideProps` for (SSR) on your pages.
+
+### getStaticProps
+
+`getStaticProps` is a server-side function that will only be called at build time. The build will then use the response from `getStaticProps` to generate a static webpage.
+
+Due to it being called server-side, it is okay to add any sensitive logic or direct calls to databases without worry.
+
+Since stale data is a problem with static generated pages, there is an option you can set to revalidate your static page and rebuild it if data changes. `revalidate: 60` will check your data every 60 seconds and rebuild the page if needed.
+
+Example Use:
+```jsx
+// This function gets called at build time on server-side.
+export async function getStaticProps() {
+
+  const res = await fetch('https://.../data')
+  const data = await res.json()
+
+  // By returning { props: data }, the Dashboard component
+  // will receive `data` as a prop at build time
+  return {
+    props: {
+      data,
+    },
+    // Check if data changes every 60 seconds.
+    // Rebuild page if different
+    revalidate: 60,
+  }
+}
+
+// data will be populated at build time by getStaticProps()
+export default function Dashboard({ data }) {
+  return (
+      <div>{data}</div>
+  )
+}
+```
+
+See more details and options from the [official documentation](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation)
+
+### getServerSideProps
+
+`getServerSideProps` is similar to `getStaticProps` but is called every time the page loads instead of at build time. This ensures that all of your initial data is up to date on every load.
+
+Again, due to it being called server-side, it is okay to add any sensitive logic or direct calls to databases without worry.
+
+Since this is called on every load, you do not need to revalidate like `getStaticProps`. This also leads to a slower load time since you are no longer serving a static file, but have to rebuild on every load.
+
+Example Use:
+```jsx
+// This function gets called at build time on server-side.
+export async function getServerSideProps() {
+
+  const res = await fetch('https://.../data')
+  const data = await res.json()
+
+  // By returning { props: data }, the Dashboard component
+  // will receive `data` as a prop at build time
+  return {
+    props: {
+      data,
+    }
+  }
+}
+
+// data will be populated at build time by getServerSideProps()
+export default function Dashboard({ data }) {
+  return (
+      <div>{data}</div>
+  )
+}
+```
+
+See more details and options from the [official documentation](https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering)
+
+### Best choice
+
+If performance is your number one priority, SSG is the better solution. You are not waiting for your server to respond and your static generated site can be cached across a CDN.
+
+If you are worried about stale data, you can have a static generated shell with loading states and fetch the data client-side in parallel. You get the benefit of having a fast TTFB while keeping your data up to date.
+
+---
+- Next.js [Docs](https://nextjs.org/docs/getting-started)
+- Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech and programming. I am also documenting my journey learning design.

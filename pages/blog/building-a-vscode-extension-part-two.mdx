@@ -1,0 +1,92 @@
+---
+title: "Building a VSCode Extension: Part Two"
+brief: "Now that I have an idea of what I am going to build, It's time to set up the repository.\nVSCode has a straightforward method for bootstrapping a new extension.\nMaking sure all the prerequisites are installed\nThe prerequisites for developing an extens..."
+date: "2020-08-28T16:02:28.779Z"
+---
+
+## Building a VSCode Extension: Part Two
+
+Now that I have an idea of what I am going to build, It's time to set up the repository.
+
+VSCode has a straightforward method for bootstrapping a new extension.
+
+## Making sure all the prerequisites are installed
+
+The prerequisites for developing an extension is having [Node.js](http://nodejs.org) and [Git](https://git-scm.com/) installed on your machine.
+
+If you need to install Node, I recommend using [NVM](https://github.com/nvm-sh/nvm#installing-and-updating) if you are on Linux or macOS and [NVM-windows](https://github.com/nvm-sh/nvm#installing-and-updating) for windows.
+
+*Disclaimer: I develop on Linux, so I will be using those commands.*
+
+Install NVM using
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+```
+Restart your terminal then install node using
+```bash
+# Current LTS version while writing this is v12
+nvm install 12
+# I recommend setting this version as default
+nvm alias default 12
+```
+
+## Bootstrapping the extension repository
+
+Now that node is installed to the latest LTS, it's time to bootstrap the extension repository.
+
+Navigate to wherever you want to create the repository. For me, it's in a folder called `workspace`
+```bash
+cd ~/workspace
+```
+
+VSCode offers a [Yeoman](https://yeoman.io/) template to generate a basic extension.
+
+Install the required NPM packages globally for Yeoman and the [VS Code Extension](https://www.npmjs.com/package/generator-code) template. After its installed, you can run the generator.
+```bash
+# Install the npm packages globally
+npm install -g yo generator-code
+
+# Running the generator
+yo code
+
+# ? What type of extension do you want to create? New Extension (TypeScript)
+# ? What's the name of your extension?
+### Press <Enter> to choose default for all options below ###
+
+# ? What's the identifier of your extension?
+# ? What's the description of your extension?
+# ? Initialize a git repository? Yes
+# ? Which package manager to use? yarn
+```
+
+I decided to use yarn because I normally use NPM but I wanted to try something new.
+
+Since I am hosting the code on GitHub, I create a new empty repository there. Then I linked my GitHub repository with my local one.
+```bash
+cd vscode-todo-task-manager/
+git remote add origin git@github.com:CodeByCorey/vscode-todo-task-manager.git
+
+git commit -am 'initialize extension'
+
+git push -u origin master
+```
+
+## Starting the development environment
+
+Now that the repository is set up, time to run it locally.
+
+```bash
+# Since I am already in the project directory
+code .
+# the . means it will open the current directory in vscode
+```
+
+Once VScode is open, press `F5` to compile and run the extension.
+
+To verify it is running, hit (`ctrl+shift+p`) and run the hello world command.
+
+## Time to dig into the API docs
+
+Now that I have the base project running, I need to start reading the [API Docs](https://code.visualstudio.com/api/extension-guides/overview) to figure out how to start implementing the task manager.
+
+I might also look at some open-source extensions to see how they implement specific features. I tend to learn a lot from reading open-source projects.

@@ -1,0 +1,381 @@
+---
+title: "Authentication for Next.js using Firebase"
+brief: "On my Next.js project, I wanted to add some authentication. I decided to use Firebase for my user management and data store.\nWhat I needed:\n\nOAuth using Twitter\nclient-side authentication\nProtected pages\nserver-side authentication\n\n\nAssumptions: You ..."
+date: "2020-10-13T13:13:21.356Z"
+---
+
+## Authentication for Next.js using Firebase
+
+On my Next.js project, I wanted to add some authentication. I decided to use Firebase for my user management and data store.
+
+What I needed:
+- OAuth using Twitter
+- client-side authentication
+- Protected pages
+- server-side authentication
+
+> Assumptions: You already have a base Next.js project setup and you created a project in Firebase.
+
+## Setup Firebase
+
+Install Firebase's packages
+```bash
+npm i --save firebase firebase-admin
+```
+
+Create a `env.local` file and add all the necessary Firebase keys needed
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=********************
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=***********
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=*********
+
+FIREBASE_PRIVATE_KEY=*********************
+FIREBASE_CLIENT_EMAIL=*************
+FIREBASE_DATABASE_URL=*************
+```
+
+Now we need to create some files to handle connecting to Firebase.
+
+`lib/firebase.ts` - handling OAuth and maintaining authentication.
+```ts
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/functions';
+import 'firebase/firestore';
+
+if (!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+  });
+}
+
+export default firebase;
+```
+
+`lib/firebase-admin.ts` - verifying tokens server side.
+```ts
+import admin from 'firebase-admin';
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL
+    }),
+    databaseURL: process.env.FIREBASE_DATABASE_URL
+  });
+}
+
+const db = admin.firestore();
+const auth = admin.auth();
+
+export { db, auth };
+```
+
+`lib/db.ts` - database queries
+```ts
+import firebase from '../lib/firebase';
+
+const firestore = firebase.firestore();
+
+export function updateUser(uid: string, data: any) {
+  return firestore.collection('users').doc(uid).update(data);
+}
+
+export function createUser(uid: string, data: any) {
+  return firestore
+    .collection('users')
+    .doc(uid)
+    .set({ uid, ...data }, { merge: true });
+}
+```
+
+Now we can easily use these lib files to build hooks for maintaining our user's session and auth state.
+
+## Building the Auth Hook.
+
+I decided to use the context API for handling auth state. This way I can easily access any of the auth variables throughout the application.
+
+First, I created `lib/auth.tsx`.
+
+Then I set up the context portion of the hook
+```jsx
+interface AuthContext {
+  auth: Auth | null;
+  loading: boolean;
+  signInWithTwitter: () => Promise<void>;
+  signOut: () => Promise<void>;
+}
+
+// Create context with a default state.
+const authContext: Context<AuthContext> = createContext<AuthContext>({
+  auth: null,
+  loading: true,
+  signInWithTwitter: async () => {},
+  signOut: async () => {}
+});
+
+export function AuthProvider({ children }) {
+  const auth = useProvideAuth();
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+}
+
+// Helper to easily get auth context within components
+export const useAuth = () => useContext(authContext);
+```
+
+Time for the more complicated part, implementing `useProvideAuth()`.
+
+```jsx
+function useProvideAuth() {
+  const [auth, setAuth] = useState<Auth | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  /**
+   * Callback function used for firebase.auth.onAuthStateChanged().
+   * Takes the user object returned and formats it for my state.
+   * We fetch the idToken and append it to my auth state and store it.
+   */
+  const authStateChanged = async (authState: firebase.User | null) => {
+    // Formats response into my required state.
+    const formattedAuth = formatAuth(authState);
+    // Fetch firebase auth ID Token.
+    formattedAuth.token = await authState.getIdToken();
+    // Stores auth into state.
+    setAuth(formattedAuth);
+    // Sets loading state to false.
+    setLoading(false);
+  };
+
+  /**
+   * Callback function used for response from firebase OAuth.
+   * Store user object returned in firestore.
+   * @param firebase User Credential
+   */
+  const signedIn = async (resp: firebase.auth.UserCredential) => {
+    // Format user into my required state.
+    const storeUser = formatAuth(resp.user);
+    // firestore database function
+    createUser(storeUser.uid, storeUser);
+  };
+
+  /**
+   * Callback for when firebase signOut.
+   * Sets auth state to null and loading to true.
+   */
+  const clear = () => {
+    setAuth(null);
+    setLoading(true);
+  };
+
+  /**
+   * Triggers firebase Oauth for twitter and calls signIn when successful.
+   * sets loading to true.
+   */
+  const signInWithTwitter = () => {
+    setLoading(true);
+    return firebase.auth().signInWithPopup(new firebase.auth.TwitterAuthProvider()).then(signedIn);
+  };
+
+  /**
+   * Calls firebase signOut and with clear callback to reset state.
+   */
+  const signOut = () => {
+    return firebase.auth().signOut().then(clear);
+  };
+
+  /**
+   * Watches for state change for firebase auth and calls the handleUser callback
+   * on every change.
+   */
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(authStateChanged);
+    return () => unsubscribe();
+  }, []);
+
+  // returns state values and callbacks for signIn and signOut.
+  return {
+    auth,
+    loading,
+    signInWithTwitter,
+    signOut
+  };
+}
+```
+
+## Using Auth Hook
+
+I added `AuthProvider` to my `pages/_app.tsx`.
+
+```jsx
+import { AppProps } from 'next/app';
+import { AuthProvider } from '../lib/auth';
+
+import '../styles/globals.css';
+
+export default function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
+}
+```
+
+Now we can use the `AuthContext` in our pages.
+
+We can add a sign in button on `pages/index.tsx`. If we are authenticated, we can display a link and sign out button.
+
+```jsx
+import { useAuth } from '../lib/auth';
+import Link from 'next/link';
+import { useEffect } from 'react';
+
+export default function Home() {
+  const { auth, signOut, signInWithTwitter } = useAuth();
+
+  return (
+    <div>
+      {auth ? (
+        <div>
+          <Link href='/dashboard'>
+            <a>Dashboard</a>
+          </Link>
+          <button onClick={() => signOut()}>Sign Out</button>
+        </div>
+      ) : (
+        <button onClick={() => signInWithTwitter()}>Sign In</button>
+      )}
+    </div>
+  );
+}
+```
+
+I want my dashboard route to be protected with auth. If user is not authenticated, it will redirect back to the index page.
+
+```jsx
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAuth } from '../lib/auth';
+
+export default function Dashboard() {
+  const { auth, loading, signOut } = useAuth();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    // If auth is null and we are no longer loading
+    if (!auth && !loading) {
+      // redirect to index
+      router.push('/');
+    }
+  }, [auth, loading]);
+
+  return (
+    <div>
+      <p>Dashboard: Hello World</p>
+      {auth && (
+        <div>
+          <button onClick={() => signOut()}>Sign Out</button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+## Server-Side Authentication
+
+Server-side authentication would be handled by passing the id token from the client to the API. The API would then verify the token on every request.
+
+Let's first create a fetch util that passes the token. `util/fetcher.ts`.
+```ts
+const fetcher = async (url: string, token: string) => {
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json', token }),
+    credentials: 'same-origin'
+  });
+
+  return res.json();
+};
+
+export default fetcher;
+```
+
+We can then verify the token on the API route using `firebase-admin`.
+
+API Route: `pages/api/user.ts`
+```ts
+import { NextApiRequest, NextApiResponse } from 'next';
+import { auth } from '../../lib/firebase-admin';
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const { uid } = await auth.verifyIdToken(req.headers.token);
+
+    res.status(200).json({ uid });
+  } catch (error) {
+    res.status(401).json({ error });
+  }
+};
+```
+
+We can now make the API call to fetch the user data inside our dashboard page. I use the `useSWR` hook for handling API calls.
+
+`pages/dashboard.tsx`
+
+```jsx
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import useSWR from 'swr';
+import { useAuth } from '../lib/auth';
+import fetcher from '../util/fetcher';
+
+export default function Dashboard() {
+  const { auth, loading, signOut } = useAuth();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!auth && !loading) {
+      router.push('/');
+    }
+  }, [auth, loading]);
+
+  const { data } = useSWR(auth ? ['/api/user', auth.token] : null, fetcher);
+
+  return (
+    <div>
+      <p>Dashboard: Hello World</p>
+      {auth && (
+        <div>
+          <button onClick={() => signOut()}>Sign Out</button>
+        </div>
+      )}
+      {data && <div>{data}</div>}
+    </div>
+  );
+}
+```
+
+## Conclusion
+
+I now have working authentication for my web app using Firebase.
+- The user can sign in using Twitter's OAuth.
+- It creates the user and stores it in Firebase.
+- I have a protected route with a redirect if the user is not authenticated.
+- I have a protected endpoint that verifies the user's token on ever request.
+
+Here is the [Repository](https://github.com/CodeByCorey/nextjs-firebase-auth) with working code for the article.
+
+It might not be the best solution, but it gets the job done.
+
+---
+- Nest.js [Docs](https://nextjs.org/docs/getting-started)
+- Firebase [Docs](https://firebase.google.com/docs/)
+- SWR [Docs](https://swr.vercel.app/)
+- Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech and programming. I am also documenting my journey learning design.

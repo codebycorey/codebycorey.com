@@ -1,0 +1,168 @@
+---
+title: "Utility-First CSS Is All the Rage"
+brief: "Introduction to styles\nWhen you are building a website, you typically want to style your HTML. You could use inline styles on your HTML elements.\n<article style=\"background-color: purple; text-align:center; width: 750px;\">\n    <h1 style=\"color: red; ..."
+date: "2020-09-18T15:16:02.737Z"
+---
+
+## Utility-First CSS Is All the Rage
+
+## Introduction to styles
+When you are building a website, you typically want to style your HTML. You could use inline styles on your HTML elements.
+```html
+<article style="background-color: purple; text-align:center; width: 750px;">
+    <h1 style="color: red; font-weight: bold; font-size: 72px;">Inline Style Header</h1>
+    <p style="color: green;">I am styling this html with inline styles.</p>
+    <a href="#" style="color: blue;">I am styling this html with inline styles.</p>
+</article>
+```
+Great, now we have some styles on our HTML! Inline styles do the job but it can quickly grow into something difficult to manage. There are a couple of problems too. If you open this website on a device that is smaller than 750px, your webpage will be too wide. You also cannot create different hover styles for your anchor tag.
+
+## CSS to the rescue
+
+Cascading Style Sheets (CSS) added more features and simplified styling. It brought the ability to combine a list of styles under a single class name.
+```html
+<style>
+  .article-container {
+    background-color: purple;
+    text-align:center;
+    width: 750px;
+  }
+  .article-header {
+    color: red;
+    font-weight: bold;
+    font-size: 72px;
+  }
+  .article-body {
+    color: green;
+  }
+  .article-link {
+    color: blue;
+  }
+  .article-link:hover {
+    color: grey;
+  }
+  @media only screen and (max-width: 500px) {
+  /* For mobile phones: */
+  .article-container {
+    width: 100%;
+  }
+}
+</style>
+<article class="article-container">
+    <h1 class="article-header">Inline Style Header</h1>
+    <p class="article-body">I am styling this html with inline styles.</p>
+    <a href="#" class="article-link">I am styling this html with inline styles.</p>
+</article>
+```
+One of great things about CSS classes is that you can share styles across multiple elements. If you change the styles under the class, it will affect all elements using that class. It also adds new ways to style elements such as pseudo classes: hover, focus, active, and more. Pseudo classes allow you to have different styles on an element based the status of the element. CSS also introduced responsive design using media queries that helped produce a better design experience across multiple devices.
+
+## Common pitfalls of CSS
+
+CSS has some great benefits but it can have some problems. As your project continues to grow, you start to add more and more styles. Your style sheets can become complicated quickly, especially if you are sharing classes across multiple elements or components. If you make a change to a class, it is hard to tell how many components the change might affect. When this happens, you start to move to less shared classes and more specialized classes. Now you run into the problem with having redundant styles causing your stylesheets to grow. This will increase your load time and make it harder to understand all the code inside the stylesheet.
+
+## Introduction to Utility-First CSS
+
+Imagine cleaner inline styles that has all the features of CSS. That is essentially what Utility-First CSS is. Your CSS framework is set up with atomic css classes. Every class created adds one style and you have a class for every possible style you will need.
+
+```html
+<style>
+  .bg-purple {
+    background-color: purple;
+  }
+  .text-center {
+    text-align:center;
+  }
+  .w-50 {
+    width: 50%;
+  }
+  .text-red {
+    color: red;
+  }
+  .font-bold {
+    font-weight: bold;
+  }
+  .font-large {
+    font-size: 72px;
+  }
+  .text-green {
+    color: green;
+  }
+  .text-blue {
+    color: blue;
+  }
+  .hover-text-grey:hover {
+    color: grey;
+  }
+  @media only screen and (max-width: 500px) {
+  /* For mobile phones: */
+  .mobile-w-100 {
+    width: 100%;
+  }
+}
+</style>
+<article class="bg-purple text-center w-50 mobile-w-100">
+    <h1 class="text-red font-bold font-large">Inline Style Header</h1>
+    <p class="text-green">I am styling this html with inline styles.</p>
+    <a href="#" class="text-blue hover-text-grey">I am styling this html with inline styles.</p>
+</article>
+```
+
+As you can see from the example, all the CSS classes are responsible for one style. Once you have a utility first framework, you rarely have to write custom CSS. This means your CSS will no longer grow and you can focus on styling your elements instead of thinking about CSS. Maintaining HTML is way easier than maintaining CSS classes.
+
+## Recommended Framework
+
+If you are now looking for a utility-first CSS framework, there are a couple of different options. [Bootstrap](https://getbootstrap.com/) has a decent amount of utility classes but focuses a lot on predefined components. I would recommend [Tailwind CSS](https://tailwindcss.com/). Tailwind is developed to be full utility first and is constantly improving. Their documentation is easy to follow and the creator also made [full tutorial](https://tailwindcss.com/course) on building a website using tailwind.
+
+### Installing Tailwind CSS
+
+To install tailwind, I would recommend checking out the [documentation](https://tailwindcss.com/docs/installation). You need to have an NPM project setup so you can use their NPM package.
+
+```bash
+# Using npm
+npm install tailwindcss
+```
+
+You need to add the tailwind directives to your CSS
+```css
+/* styles.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+If you want to add any customization to your tailwind framework, you will need to set up the config using
+```bash
+npx tailwindcss init
+```
+This will generate the `tailwind.config.js` file where you can modify, extend, and configure custom styles.
+
+Now when you want to compile your CSS, you can use the Tailwind CLI or postCSS CLI. The command for Tailwind CLI is simple but you lose out on some added benefits of postCSS.
+```bash
+# CLI
+npx tailwindcss build styles.css -o output.css
+```
+
+For postCSS, you will need to install `autoprefixer` and `postcss-cli`
+```
+npm i postcss-cli autoprefixer
+```
+Next, create a `postcss.config.js`
+```js
+module.exports = {
+  plugins: [
+    require("tailwindcss"),
+    require("autoprefixer")
+  ],
+};
+```
+You can run your postcss to compile your CSS for use in your HTML using
+```
+postcss styles.css -o styles.compiled.css
+```
+
+## Conclusion
+
+I have really enjoyed using Utility-First CSS. I have never been a fan of writing CSS. Class names are hard to manage and time-consuming thinking through what to call them. I can clearly see what styles are being applied to my HTML elements, and they are not hidden behind a single class name. I think there is a reason Tailwind CSS has grown in popularity so quickly. Do you use Utility-First CSS?
+
+---
+- Documentation for [Tailwind CSS](https://tailwindcss.com/)
+- Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech, programming, and working from home.
