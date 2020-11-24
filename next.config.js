@@ -1,11 +1,12 @@
 const withMdxEnhanced = require('next-mdx-enhanced');
+const mdxPrism = require('mdx-prism');
 
 module.exports = withMdxEnhanced({
   layoutPath: 'layouts',
   defaultLayout: true,
   fileExtensions: ['mdx'],
   remarkPlugins: [],
-  rehypePlugins: [],
+  rehypePlugins: [mdxPrism],
   usesSrc: false,
   extendFrontMatter: {
     process: (mdxContent, frontMatter) => {},
