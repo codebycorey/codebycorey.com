@@ -5,6 +5,7 @@ import * as Fathom from 'fathom-client';
 
 import '../styles/global.css';
 import 'typeface-roboto';
+import { ThemeProvider } from '../context/theme-context';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router: NextRouter = useRouter();
@@ -28,5 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', onRouteChangeComplete);
     };
   });
-  return <Component {...pageProps} />;
+  return (
+    <ThemeProvider>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
 }

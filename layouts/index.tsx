@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { FrontMatter } from '../@types/mdx';
+import { FrontMatter } from '../@types/*.mdx';
 
 interface BlogLayoutProps {
   children: ReactNode;
