@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { AppProps } from 'next/app';
 import { useRouter, NextRouter } from 'next/router';
 import * as Fathom from 'fathom-client';
+import { DefaultSeo } from 'next-seo';
 
 import '../styles/global.css';
 import 'typeface-roboto';
+import SEO from '../next-seo.config';
 import { ThemeProvider } from '../context/theme-context';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -31,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
   });
   return (
     <ThemeProvider>
+      <DefaultSeo {...SEO} />
       <Component {...pageProps} />
     </ThemeProvider>
   );
