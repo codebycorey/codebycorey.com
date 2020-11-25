@@ -1,18 +1,20 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
-const name: string = 'Corey O\'Donnell';
-export const siteTitle: string = 'Corey O\'Donnell';
+import NavBar from '@components/nav-bar';
+
+const name: string = "Corey O'Donnell";
+export const siteTitle: string = "Corey O'Donnell";
 
 interface Props {
-    children: React.ReactNode,
-    home?: boolean;
+  children: React.ReactNode;
+  home?: boolean;
 }
 
-export default function Layout({ children, home }: Props) {
-    return (
-      <>
-        <Head>
+export default function Layout({ children }: Props) {
+  return (
+    <>
+      {/* <Head>
           <title>{siteTitle}</title>
           <meta name="title" content="Corey O'Donnell | Full-Stack Web Developer" />
           <meta
@@ -27,8 +29,9 @@ export default function Layout({ children, home }: Props) {
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@CodeByCorey" />
           <meta property="og:image" content="https://coreyodonnell.tech/og/website_og.png" />
-        </Head>
-        <main>{children}</main>
-      </>
-    );
+        </Head> */}
+      <NavBar />
+      <main>{children}</main>
+    </>
+  );
 }

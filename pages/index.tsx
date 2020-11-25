@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import Layout from '../components/layout';
-import { fetchMultiplePagesOfPosts } from '../lib/posts';
+
+import Layout from '@components/layout';
+import { fetchMultiplePagesOfPosts } from '@lib/posts';
 
 export default function Home({ posts }: any) {
   const [darkMode, setDarkMode] = useState(false);
