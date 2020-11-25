@@ -10,7 +10,7 @@ const NavBar: FC = () => {
   const isActive = (href: string) => (router.pathname === href ? 'border-b-2' : '');
 
   return (
-    <nav className="text-gray-200 bg-gray-900 sticky top-0 m-0">
+    <nav className="text-gray-200 bg-gray-900 sticky top-0 m-0 z-50">
       <div className="p-6 max-w-screen-lg mx-auto flex items-center justify-between md:text-lg uppercase">
         <div className="flex">
           <Link href="/">

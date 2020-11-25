@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import Layout from '@components/layout';
+import BlogLink from '@components/blog-link';
 
 import { frontMatter as blogPosts } from './blog/**/*.mdx';
 // console.log('frontMatter', blogPosts);
@@ -35,10 +36,7 @@ const BlogIndex: FC = () => {
         </div>
         <h2 className="text-5xl my-6">All Posts</h2>
         {sorted.map((post) => (
-          <div key={post.title}>
-            <h3>{post.title}</h3>
-            <p>{post.brief}</p>
-          </div>
+          <BlogLink key={post.title} blog={post} />
         ))}
       </div>
     </Layout>
