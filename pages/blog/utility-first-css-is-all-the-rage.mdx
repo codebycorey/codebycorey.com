@@ -1,13 +1,13 @@
 ---
-title: "Utility-First CSS Is All the Rage"
+title: 'Utility-First CSS Is All the Rage'
 brief: "Introduction to styles\nWhen you are building a website, you typically want to style your HTML. You could use inline styles on your HTML elements.\n<article style=\"background-color: purple; text-align:center; width: 750px;\">\n    <h1 style=\"color: red; ..."
-date: "2020-09-18T15:16:02.737Z"
+date: '2020-09-18T15:16:02.737Z'
 ---
 
-## Utility-First CSS Is All the Rage
-
 ## Introduction to styles
+
 When you are building a website, you typically want to style your HTML. You could use inline styles on your HTML elements.
+
 ```html
 <article style="background-color: purple; text-align:center; width: 750px;">
     <h1 style="color: red; font-weight: bold; font-size: 72px;">Inline Style Header</h1>
@@ -15,11 +15,13 @@ When you are building a website, you typically want to style your HTML. You coul
     <a href="#" style="color: blue;">I am styling this html with inline styles.</p>
 </article>
 ```
+
 Great, now we have some styles on our HTML! Inline styles do the job but it can quickly grow into something difficult to manage. There are a couple of problems too. If you open this website on a device that is smaller than 750px, your webpage will be too wide. You also cannot create different hover styles for your anchor tag.
 
 ## CSS to the rescue
 
 Cascading Style Sheets (CSS) added more features and simplified styling. It brought the ability to combine a list of styles under a single class name.
+
 ```html
 <style>
   .article-container {
@@ -54,6 +56,7 @@ Cascading Style Sheets (CSS) added more features and simplified styling. It brou
     <a href="#" class="article-link">I am styling this html with inline styles.</p>
 </article>
 ```
+
 One of great things about CSS classes is that you can share styles across multiple elements. If you change the styles under the class, it will affect all elements using that class. It also adds new ways to style elements such as pseudo classes: hover, focus, active, and more. Pseudo classes allow you to have different styles on an element based the status of the element. CSS also introduced responsive design using media queries that helped produce a better design experience across multiple devices.
 
 ## Common pitfalls of CSS
@@ -123,38 +126,45 @@ npm install tailwindcss
 ```
 
 You need to add the tailwind directives to your CSS
+
 ```css
 /* styles.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
+
 If you want to add any customization to your tailwind framework, you will need to set up the config using
+
 ```bash
 npx tailwindcss init
 ```
+
 This will generate the `tailwind.config.js` file where you can modify, extend, and configure custom styles.
 
 Now when you want to compile your CSS, you can use the Tailwind CLI or postCSS CLI. The command for Tailwind CLI is simple but you lose out on some added benefits of postCSS.
+
 ```bash
 # CLI
 npx tailwindcss build styles.css -o output.css
 ```
 
 For postCSS, you will need to install `autoprefixer` and `postcss-cli`
+
 ```
 npm i postcss-cli autoprefixer
 ```
+
 Next, create a `postcss.config.js`
+
 ```js
 module.exports = {
-  plugins: [
-    require("tailwindcss"),
-    require("autoprefixer")
-  ],
+  plugins: [require('tailwindcss'), require('autoprefixer')]
 };
 ```
+
 You can run your postcss to compile your CSS for use in your HTML using
+
 ```
 postcss styles.css -o styles.compiled.css
 ```
@@ -164,5 +174,6 @@ postcss styles.css -o styles.compiled.css
 I have really enjoyed using Utility-First CSS. I have never been a fan of writing CSS. Class names are hard to manage and time-consuming thinking through what to call them. I can clearly see what styles are being applied to my HTML elements, and they are not hidden behind a single class name. I think there is a reason Tailwind CSS has grown in popularity so quickly. Do you use Utility-First CSS?
 
 ---
+
 - Documentation for [Tailwind CSS](https://tailwindcss.com/)
 - Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech, programming, and working from home.

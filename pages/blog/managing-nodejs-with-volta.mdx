@@ -1,56 +1,64 @@
 ---
-title: "Managing Node.js with Volta"
+title: 'Managing Node.js with Volta'
 brief: "I recently wrote a blog post about how I use NVM to manage my node version. Someone commented on the post saying I should look into Volta\nWhat is Volta\nVolta is a command line tool used to manage your Node.js. It is built using Rust and is shipped as..."
-date: "2020-09-11T13:07:06.896Z"
+date: '2020-09-11T13:07:06.896Z'
 ---
-
-## Managing Node.js with Volta
 
 I recently wrote a blog post about how I use NVM to [manage my node version](https://blog.coreyodonnell.tech/managing-my-node-versions). Someone commented on the post saying I should look into [Volta](https://volta.sh/)
 
 ## What is Volta
 
-Volta is a command line tool used to manage your Node.js. It is built using Rust and is shipped as a static binary that can be ran on Windows and all *nix shells. The goal is to make sure every developer working on the project seamlessly has the same tools and versions installed.
+Volta is a command line tool used to manage your Node.js. It is built using Rust and is shipped as a static binary that can be ran on Windows and all \*nix shells. The goal is to make sure every developer working on the project seamlessly has the same tools and versions installed.
 
 ### Installation
 
 The installation is simple.
+
 ```bash
 # install Volta
 curl https://get.volta.sh | bash
 ```
 
 The script installs the binary in `~/.volta` and adds `~/.volta/bin` to your systems path inside of your `~/.bash_profile`, `~/.profile`, and `~/.bashrc`.
+
 ```
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 ```
+
 Now you can start using Volta to manage Node.js.
 
 ### Using Volta
 
 You can easily install node using
+
 ```bash
 # Install node
 volta install node
 # or you can install a specific version
 volta install node@12
 ```
+
 Now node should be available to use whenever you open your terminal.
 
 If you want to set Volta to always load a specific version of node for your active package you can use `pin`.
+
 ```bash
 volta pin node@12.18.3
 ```
+
 This command will store your pinned version in your `package.json`.
+
 ```json
 "volta": {
   "node": "12.18.3"
 }
 ```
+
 Every time you navigate to your project, Volta will automatically set your active node version to whatever is pinned.
 
 You can even install and pin global packages like yarn using Volta to make sure everyone on your team is using the same version for their global packages.
+
 ```bash
 volta install yarn
 volta pin yarn
@@ -71,6 +79,7 @@ NVM does not automatically switch your active node version to your pinned versio
 Even though I have been using NVM for almost 4 years, I think Volta takes the crown. I plan to use Volta for managing all my Node.js needs from now on. The speed and simplicity of the tool just makes it the better choice. NVM, I am thankful you for all the headaches you have saved me in the past but I think it is time to move on.
 
 ---
+
 - [Volta Docs](https://docs.volta.sh/guide/)
 - [NVM Docs](https://github.com/nvm-sh/nvm/blob/master/README.md)
 - Previous post about using [NVM to manage node version](https://blog.coreyodonnell.tech/managing-my-node-versions)

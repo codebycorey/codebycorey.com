@@ -9,7 +9,7 @@ const BlogIndex: FC = () => {
   const sorted = blogPosts.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
   return (
     <Layout>
-      <div className="max-w-screen-md mx-auto flex flex-col justify-center align-middle p-6">
+      <div className="max-w-screen-lg mx-auto flex flex-col justify-center align-middle p-6">
         <h1 className="text-8xl mb-6">Blog</h1>
         <p className="my-2">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quidem veritatis earum, iure adipisci asperiores voluptatem ipsum doloribus
@@ -34,7 +34,7 @@ const BlogIndex: FC = () => {
             </div>
           </div>
         </div>
-        <h2 className="text-5xl my-6">All Posts</h2>
+        <h2 className="text-6xl my-12">All Posts</h2>
         {sorted.map((post) => (
           <BlogLink key={post.title} blog={post} />
         ))}

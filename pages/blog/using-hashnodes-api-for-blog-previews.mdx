@@ -1,10 +1,8 @@
 ---
 title: "Using Hashnode's API for Blog Previews"
-brief: "I recently decided to host my blog on Hashnode so I could spend more time writing and less managing the code. I still wanted to display previews and links to my most recent posts on my portfolio website. Luckily, Hashnode offers a GraphQL API where I..."
-date: "2020-09-08T13:36:45.864Z"
+brief: 'I recently decided to host my blog on Hashnode so I could spend more time writing and less managing the code. I still wanted to display previews and links to my most recent posts on my portfolio website. Luckily, Hashnode offers a GraphQL API where I...'
+date: '2020-09-08T13:36:45.864Z'
 ---
-
-## Using Hashnode's API for Blog Previews
 
 I recently decided to host my blog on Hashnode so I could spend more time writing and less managing the code. I still wanted to display previews and links to my most recent posts on my portfolio website. Luckily, Hashnode offers a GraphQL API where I can fetch my most recent posts.
 
@@ -28,6 +26,7 @@ You can access the API playground and docs at [api.hashnode.com](https://api.has
   }
 }
 ```
+
 - `user(username: "CodeByCorey")`: Query for my user
   - `publication`: Contains all information for my blog publication
     - `posts(page: 0)`: Returns all the posts on the first page
@@ -63,10 +62,10 @@ export const fetchPosts = async () => {
   const resp: Response = await fetch('https://api.hashnode.com', {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json',
+      'Content-type': 'application/json'
     },
-    body: JSON.stringify({ query }),
-  })
+    body: JSON.stringify({ query })
+  });
   const hashnodeResponse = await resp.json();
   return hashnodeResponse.data.user.publication.posts;
 };
@@ -75,17 +74,16 @@ export const fetchPosts = async () => {
 I wanted to only display the last three posts. I added another function to slice the posts to limit the response. This
 
 ```typescript
-export const fetchThreeMostRecentPost = async() => {
+export const fetchThreeMostRecentPost = async () => {
   const posts = await fetchPosts();
   return posts.slice(0, 3);
-}
+};
 ```
 
 Inside my container component, I used the Next.js `getStaticProps` function to fetch the posts and pass them to the props of my component. I added the revalidate setting to automatically regenerate my HTML when I create a new post on Hashnode.
 
 ```typescript
 export async function getStaticProps() {
-
   const posts = await fetchThreeMostRecentPosts();
   return {
     props: {
@@ -97,6 +95,7 @@ export async function getStaticProps() {
 ```
 
 Now that all the data is being fetched and passed to the props, It was now time to style my components. I have been using Tailwind CSS for my portfolio website. Here is the `RecentBlogPosts` component:
+
 ```typescript
 export default function RecentBlogPosts({ posts }: Props) {
   return (
@@ -110,10 +109,7 @@ export default function RecentBlogPosts({ posts }: Props) {
         ))}
       </div>
       <div className="flex flex-wrap justify-center">
-        <a
-          className="text-green-500 font-semibold hover:text-gray-800 py-4 px-4 rounded"
-          href="https://blog.coreyodonnell.tech/"
-        >
+        <a className="text-green-500 font-semibold hover:text-gray-800 py-4 px-4 rounded" href="https://blog.coreyodonnell.tech/">
           View all posts
         </a>
       </div>
@@ -121,7 +117,9 @@ export default function RecentBlogPosts({ posts }: Props) {
   );
 }
 ```
+
 BlogPreview:
+
 ```typescript
 export default function BlogPreview({ post }: Props) {
   return (
@@ -175,12 +173,13 @@ export default function BlogPreview({ post }: Props) {
     </div>
   );
 }
-
 ```
+
 The result after styling my components:
 ![hashnode_api_blog_preview.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1599530492695/SpYR5UpX0.png)
 
 ---
+
 - Hashnode API - [api.hashnode.com](https://api.hashnode.com/)
 - Next.js Docs - [https://nextjs.org/](https://nextjs.org/)
 - You can check out my [portfolio page](https://coreyodonnell.tech) - [Source Code](https://github.com/CodeByCorey/coreyodonnell.tech)(work in progress)

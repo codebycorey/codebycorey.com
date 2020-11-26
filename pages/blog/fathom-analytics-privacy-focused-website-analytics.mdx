@@ -1,13 +1,11 @@
 ---
-title: "Fathom Analytics: Privacy-Focused Website Analytics"
+title: 'Fathom Analytics: Privacy-Focused Website Analytics'
 brief: "The Rise of Privacy\nStop stealing your visitors' personal information. Recently, there has been a growing trend of people starting to take their privacy more serious. They realize that they are being tracked across the entire web of internet. Imagine..."
-date: "2020-09-23T16:41:03.843Z"
+date: '2020-09-23T16:41:03.843Z'
 ---
 
-
-## Fathom Analytics: Privacy-Focused Website Analytics
-
 ## The Rise of Privacy
+
 Stop stealing your visitors' personal information. Recently, there has been a growing trend of people starting to take their privacy more serious. They realize that they are being tracked across the entire web of internet. Imagine someone following you all day watching every little thing you do without you knowing. They watch you while you are working, reading, and playing. Tools such as Google Analytics make it easier for you to have more insight on your website but this comes at the expense of invading your user's privacy. Countries are adding laws where website need to be more transparent on their tracking or will be fined. Great news is there are tools that are privacy oriented to help keep your visitors' privacy intact while still collecting valuable metrics.
 
 ## Introducing Fathom Analytics
@@ -17,6 +15,7 @@ Stop stealing your visitors' personal information. Recently, there has been a gr
 I have been using [Fathom Analytics](https://usefathom.com/ref/45XEAJ) (Referral link for $10 off) for my blog and side projects for the past couple months. It has been a great tool to collect metrics without invading my visitors' privacy.
 
 Some great benefits using Fathom:
+
 - You don't need to display cookie notices as they do not use cookies, nor track invasive data.
 - No personal information is collected from my visitors. Privacy is their number one focus.
 - Ability to use a custom domain for tracking to prevent ad-blockers from blocking the script from loading.
@@ -30,6 +29,7 @@ Some great benefits using Fathom:
 ### Usage
 
 Using Fathom is extremely simple. All you need to do is add a new site in your Fathom settings. This will generate a `Site ID` and provide you with fathom script to be added to your HTML.
+
 ```html
 <!-- Fathom - beautiful, simple website analytics -->
 <script src="https://cdn.usefathom.com/script.js" site="SITE_ID" defer></script>
@@ -39,33 +39,34 @@ Using Fathom is extremely simple. All you need to do is add a new site in your F
 They also have JavaScript package [fathom-client](https://github.com/derrickreimer/fathom-client) to make it easy to add it to your JavaScript Frameworks. I use the client inside my Next.js projects.
 
 Example Use in Next.js:
+
 ```js
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
-import * as Fathom from 'fathom-client'
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import * as Fathom from 'fathom-client';
 
 export default function App({ Component, pageProps }) {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     // Initialize Fathom when the app loads
     Fathom.load('SITE_ID', {
       includedDomains: ['YOUR_SITE_URL']
-    })
+    });
 
     function onRouteChangeComplete() {
-      Fathom.trackPageview()
+      Fathom.trackPageview();
     }
     // Record a pageview when route changes
-    router.events.on('routeChangeComplete', onRouteChangeComplete)
+    router.events.on('routeChangeComplete', onRouteChangeComplete);
 
     // Unassign event listener
     return () => {
-      router.events.off('routeChangeComplete', onRouteChangeComplete)
-    }
-  }, [])
+      router.events.off('routeChangeComplete', onRouteChangeComplete);
+    };
+  }, []);
 
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }
 ```
 
@@ -74,5 +75,5 @@ export default function App({ Component, pageProps }) {
 Be a part of the growing movement of improving privacy. I know privacy is important for me. Ditch the invasive tracking tools such as Google Analytics. Switch to something that still gives you metrics awhile still providing privacy. Try [Fathom Analytics](https://usefathom.com/ref/45XEAJ)! (Referral link for $10 off).
 
 ---
-- Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech, programming, and working from home.
 
+- Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech, programming, and working from home.

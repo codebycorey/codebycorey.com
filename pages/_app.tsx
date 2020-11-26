@@ -5,6 +5,8 @@ import * as Fathom from 'fathom-client';
 import { DefaultSeo } from 'next-seo';
 
 import '../styles/global.css';
+import 'prism-themes/themes/prism-dracula.css';
+
 import 'typeface-roboto';
 import SEO from '../next-seo.config';
 import { ThemeProvider } from '../context/theme-context';

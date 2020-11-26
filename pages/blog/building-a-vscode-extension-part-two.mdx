@@ -1,10 +1,8 @@
 ---
-title: "Building a VSCode Extension: Part Two"
+title: 'Building a VSCode Extension: Part Two'
 brief: "Now that I have an idea of what I am going to build, It's time to set up the repository.\nVSCode has a straightforward method for bootstrapping a new extension.\nMaking sure all the prerequisites are installed\nThe prerequisites for developing an extens..."
-date: "2020-08-28T16:02:28.779Z"
+date: '2020-08-28T16:02:28.779Z'
 ---
-
-## Building a VSCode Extension: Part Two
 
 Now that I have an idea of what I am going to build, It's time to set up the repository.
 
@@ -16,13 +14,16 @@ The prerequisites for developing an extension is having [Node.js](http://nodejs.
 
 If you need to install Node, I recommend using [NVM](https://github.com/nvm-sh/nvm#installing-and-updating) if you are on Linux or macOS and [NVM-windows](https://github.com/nvm-sh/nvm#installing-and-updating) for windows.
 
-*Disclaimer: I develop on Linux, so I will be using those commands.*
+_Disclaimer: I develop on Linux, so I will be using those commands._
 
 Install NVM using
+
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 ```
+
 Restart your terminal then install node using
+
 ```bash
 # Current LTS version while writing this is v12
 nvm install 12
@@ -35,6 +36,7 @@ nvm alias default 12
 Now that node is installed to the latest LTS, it's time to bootstrap the extension repository.
 
 Navigate to wherever you want to create the repository. For me, it's in a folder called `workspace`
+
 ```bash
 cd ~/workspace
 ```
@@ -42,6 +44,7 @@ cd ~/workspace
 VSCode offers a [Yeoman](https://yeoman.io/) template to generate a basic extension.
 
 Install the required NPM packages globally for Yeoman and the [VS Code Extension](https://www.npmjs.com/package/generator-code) template. After its installed, you can run the generator.
+
 ```bash
 # Install the npm packages globally
 npm install -g yo generator-code
@@ -62,6 +65,7 @@ yo code
 I decided to use yarn because I normally use NPM but I wanted to try something new.
 
 Since I am hosting the code on GitHub, I create a new empty repository there. Then I linked my GitHub repository with my local one.
+
 ```bash
 cd vscode-todo-task-manager/
 git remote add origin git@github.com:CodeByCorey/vscode-todo-task-manager.git

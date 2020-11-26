@@ -1,10 +1,8 @@
 ---
-title: "Defeating Flash of Unstyled Text (FOUT)"
+title: 'Defeating Flash of Unstyled Text (FOUT)'
 brief: "I noticed when I loaded my personal site without cache, my text would first display without the correct font. It eventually restyle using the original font after everything loaded.\n\nI was originally using a NPM package called typeface-roboto to load ..."
-date: "2020-09-24T19:24:53.487Z"
+date: '2020-09-24T19:24:53.487Z'
 ---
-
-## Defeating Flash of Unstyled Text (FOUT)
 
 I noticed when I loaded my personal site without cache, my text would first display without the correct font. It eventually restyle using the original font after everything loaded.
 
@@ -20,11 +18,8 @@ I looked through the code inside the package and checked out the CSS files. Here
   font-style: normal;
   font-display: swap; /* Line Causing FOUT */
   font-weight: 500;
-  src:
-    local('Roboto Medium '),
-    local('Roboto-Medium'),
-    url('/fonts/roboto-latin-500.woff2') format('woff2'),
-    url('/fonts/roboto-latin-500.woff') format('woff');
+  src: local('Roboto Medium '), local('Roboto-Medium'), url('/fonts/roboto-latin-500.woff2') format('woff2'), url('/fonts/roboto-latin-500.woff')
+      format('woff');
 }
 ```
 
@@ -40,11 +35,8 @@ I pulled all the font files into my project instead of using the NPM package. Th
   font-style: normal;
   font-display: block; /* No longer causing FOUT */
   font-weight: 500;
-  src:
-    local('Roboto Medium '),
-    local('Roboto-Medium'),
-    url('/fonts/roboto-latin-500.woff2') format('woff2'),
-    url('/fonts/roboto-latin-500.woff') format('woff');
+  src: local('Roboto Medium '), local('Roboto-Medium'), url('/fonts/roboto-latin-500.woff2') format('woff2'), url('/fonts/roboto-latin-500.woff')
+      format('woff');
 }
 ```
 
@@ -53,5 +45,6 @@ Since my websites design is heavily focused on typography. I was willing to sacr
 ![no-flash.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1600973956338/KNgGDNZ9i.gif)
 
 ---
+
 - Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech, programming, and working from home.
 - [Personal Website](https://coreyodonnell.tech) in case you wanted to check it out yourself

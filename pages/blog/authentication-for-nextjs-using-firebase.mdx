@@ -1,14 +1,13 @@
 ---
-title: "Authentication for Next.js using Firebase"
+title: 'Authentication for Next.js using Firebase'
 brief: "On my Next.js project, I wanted to add some authentication. I decided to use Firebase for my user management and data store.\nWhat I needed:\n\nOAuth using Twitter\nclient-side authentication\nProtected pages\nserver-side authentication\n\n\nAssumptions: You ..."
-date: "2020-10-13T13:13:21.356Z"
+date: '2020-10-13T13:13:21.356Z'
 ---
-
-## Authentication for Next.js using Firebase
 
 On my Next.js project, I wanted to add some authentication. I decided to use Firebase for my user management and data store.
 
 What I needed:
+
 - OAuth using Twitter
 - client-side authentication
 - Protected pages
@@ -19,11 +18,13 @@ What I needed:
 ## Setup Firebase
 
 Install Firebase's packages
+
 ```bash
 npm i --save firebase firebase-admin
 ```
 
 Create a `env.local` file and add all the necessary Firebase keys needed
+
 ```
 NEXT_PUBLIC_FIREBASE_API_KEY=********************
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=***********
@@ -37,6 +38,7 @@ FIREBASE_DATABASE_URL=*************
 Now we need to create some files to handle connecting to Firebase.
 
 `lib/firebase.ts` - handling OAuth and maintaining authentication.
+
 ```ts
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -55,6 +57,7 @@ export default firebase;
 ```
 
 `lib/firebase-admin.ts` - verifying tokens server side.
+
 ```ts
 import admin from 'firebase-admin';
 
@@ -76,6 +79,7 @@ export { db, auth };
 ```
 
 `lib/db.ts` - database queries
+
 ```ts
 import firebase from '../lib/firebase';
 
@@ -102,6 +106,7 @@ I decided to use the context API for handling auth state. This way I can easily 
 First, I created `lib/auth.tsx`.
 
 Then I set up the context portion of the hook
+
 ```jsx
 interface AuthContext {
   auth: Auth | null;
@@ -111,12 +116,15 @@ interface AuthContext {
 }
 
 // Create context with a default state.
-const authContext: Context<AuthContext> = createContext<AuthContext>({
-  auth: null,
-  loading: true,
-  signInWithTwitter: async () => {},
-  signOut: async () => {}
-});
+const authContext: Context<AuthContext> =
+  createContext <
+  AuthContext >
+  {
+    auth: null,
+    loading: true,
+    signInWithTwitter: async () => {},
+    signOut: async () => {}
+  };
 
 export function AuthProvider({ children }) {
   const auth = useProvideAuth();
@@ -131,8 +139,8 @@ Time for the more complicated part, implementing `useProvideAuth()`.
 
 ```jsx
 function useProvideAuth() {
-  const [auth, setAuth] = useState<Auth | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [auth, setAuth] = (useState < Auth) | (null > null);
+  const [loading, setLoading] = useState < boolean > true;
 
   /**
    * Callback function used for firebase.auth.onAuthStateChanged().
@@ -241,7 +249,7 @@ export default function Home() {
     <div>
       {auth ? (
         <div>
-          <Link href='/dashboard'>
+          <Link href="/dashboard">
             <a>Dashboard</a>
           </Link>
           <button onClick={() => signOut()}>Sign Out</button>
@@ -292,6 +300,7 @@ export default function Dashboard() {
 Server-side authentication would be handled by passing the id token from the client to the API. The API would then verify the token on every request.
 
 Let's first create a fetch util that passes the token. `util/fetcher.ts`.
+
 ```ts
 const fetcher = async (url: string, token: string) => {
   const res = await fetch(url, {
@@ -309,6 +318,7 @@ export default fetcher;
 We can then verify the token on the API route using `firebase-admin`.
 
 API Route: `pages/api/user.ts`
+
 ```ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { auth } from '../../lib/firebase-admin';
@@ -365,6 +375,7 @@ export default function Dashboard() {
 ## Conclusion
 
 I now have working authentication for my web app using Firebase.
+
 - The user can sign in using Twitter's OAuth.
 - It creates the user and stores it in Firebase.
 - I have a protected route with a redirect if the user is not authenticated.
@@ -375,6 +386,7 @@ Here is the [Repository](https://github.com/CodeByCorey/nextjs-firebase-auth) wi
 It might not be the best solution, but it gets the job done.
 
 ---
+
 - Nest.js [Docs](https://nextjs.org/docs/getting-started)
 - Firebase [Docs](https://firebase.google.com/docs/)
 - SWR [Docs](https://swr.vercel.app/)

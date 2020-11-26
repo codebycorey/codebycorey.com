@@ -1,10 +1,8 @@
 ---
-title: "Building a VSCode Extension: Part Three"
+title: 'Building a VSCode Extension: Part Three'
 brief: "Now that I have a blank VS Code extension set up and working, I want to start building on it.\nAdding some Code formatting configs\nThe Yeoman template for VS Code Extension does not have any formatting configs that I typically use for my projects.\nI m..."
-date: "2020-09-01T16:16:57.910Z"
+date: '2020-09-01T16:16:57.910Z'
 ---
-
-## Building a VSCode Extension: Part Three
 
 Now that I have a blank VS Code extension set up and working, I want to start building on it.
 
@@ -39,20 +37,22 @@ indent_size = 2
 ```
 
 [Prettier](https://prettier.io/) adds even more code formatting. It really helps create a consistent code style. Every developer has a different way of implementing code. Having a consistent style is important for open source. Here is the `.prettierrc` config I am using for my extension.
+
 ```json
 {
-    "printWidth": 160,
-    "trailingComma": "none",
-    "tabWidth": 4,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "jsxSingleQuote": true,
-    "bracketSpacing": true
+  "printWidth": 160,
+  "trailingComma": "none",
+  "tabWidth": 4,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "bracketSpacing": true
 }
 ```
 
 I work on multiple projects that all require a different node version. I use [NVM](https://github.com/nvm-sh/nvm#installing-and-updating) along with [AVN](https://github.com/wbyoung/avn) to auto switch my node version depending on which repository I am in. Example `.node-version` file used in this repository.
+
 ```
 v12.18.3
 ```
@@ -64,18 +64,21 @@ With some consistency added to the code base, it's time to work on the react app
 Creating a brand new react app is fairly simple using the [create-react-app](https://create-react-app.dev/) tool.
 
 I knew I wanted the app in a subdirectory called webview in my extension. First I navigated to the `src` directory and then used `create-react-app` to set up an empty react app. I used the typescript template since I wanted this entire extension using typescript including the react portion.
+
 ```
 cd src/
 npx create-react-app webview --template typescript
 ```
 
 Now I just wanted to verify everything was set up and working.
+
 ```
 cd webview/
 npm run start
 ```
 
 It failed with this error...
+
 ```
 There might be a problem with the project dependency tree.
 It is likely not a bug in Create React App, but something you need to fix locally.
@@ -122,6 +125,7 @@ P.S. We know this message is long but please read the steps above :-) We hope yo
 I looked in the root package.json for my VS Code extension and it is using `eslint@7` and react-scrips requires `eslint@6`. Due to how yarn/npm handles packages, my react app was not installing `eslint` at `v6` because yarn already saw it installed at v7 at the root of the project.
 
 The easiest solution I used was to downgrade my extension's `eslint` version on my root project.
+
 ```
 # navigate back to the root of the project
 cd ../../
@@ -129,14 +133,18 @@ yarn add -D eslint@6
 cd src/webview
 yarn start
 ```
+
 Boom! It worked and opened my app in the browser at `http://localhost:3000`
 
 I moved the `extension.ts` into its own directory to help keep the webview and extension separate.
+
 ```
 mkdir -p src/extension
 mv src/extension.ts src/extension/extension.ts
 ```
+
 and changed the `main` key on the package.json to use the new folder structure
+
 ```
 "main": "./dist/extension/extension.js"
 ```
@@ -146,6 +154,7 @@ and changed the `main` key on the package.json to use the new folder structure
 The react app is working in my browser but how do I make VS Code display it?
 
 First thing I did was add the VS Code commands that would open the react app inside package.json
+
 ```json
 "activationEvents": [
     "onCommand:vscode-task-manager.openTodoManager"
@@ -159,32 +168,29 @@ First thing I did was add the VS Code commands that would open the react app ins
     ]
 }
 ```
+
 Inside `extension.ts` I replace the helloWorld command with my new command.
 Using the [Webview docs](https://code.visualstudio.com/api/extension-guides/webview) I figured out how to open a panel with HTML.
+
 ```typescript
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
-    context.subscriptions.push(
-        vscode.commands.registerCommand('vscode-task-manager.openTodoManager', () => {
-            // Create and show panel
-            const panel = vscode.window.createWebviewPanel(
-                'todoManager',
-                'Todo Manager',
-                vscode.ViewColumn.One,
-                {
-                    enableScripts: true
-                }
-            );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('vscode-task-manager.openTodoManager', () => {
+      // Create and show panel
+      const panel = vscode.window.createWebviewPanel('todoManager', 'Todo Manager', vscode.ViewColumn.One, {
+        enableScripts: true
+      });
 
-            // And set its HTML content
-            panel.webview.html = getWebviewContent();
-        })
-    );
+      // And set its HTML content
+      panel.webview.html = getWebviewContent();
+    })
+  );
 }
 
 function getWebviewContent() {
-    return `
+  return `
         <!DOCTYPE html>
         <html lang="en">
             <head>
@@ -199,11 +205,13 @@ function getWebviewContent() {
     `;
 }
 ```
+
 When you run the extension and trigger the `Todo Manager` command, it should open a new panel that display `Hello TODO`;
 
 Now lets figure out how to get my react resources loaded into the HTML.
 
 I need to move my reacts compiled code into the `dist` directory for my extension to use. I created a npm script inside my react project to move the folder after its finished building using `postbuild`.
+
 ```json
   "scripts": {
     "start": "react-scripts start",
@@ -220,22 +228,22 @@ React is nice enough to offer an `asset-manifest.json` to find out the name of a
 
 ```typescript
 function getWebviewContent(context: vscode.ExtensionContext): string {
-    const { extensionPath } = context;
+  const { extensionPath } = context;
 
-    const webviewPath: string = path.join(extensionPath, 'dist', 'webview');
-    const assetManifest: AssetManifest = require(path.join(webviewPath, 'asset-manifest.json'));
+  const webviewPath: string = path.join(extensionPath, 'dist', 'webview');
+  const assetManifest: AssetManifest = require(path.join(webviewPath, 'asset-manifest.json'));
 
-    const main: string = assetManifest.files['main.js'];
-    const styles: string = assetManifest.files['main.css'];
-    const runTime: string = assetManifest.files['runtime-main.js'];
-    const chunk: string = Object.keys(assetManifest.files).find((key) => key.endsWith('chunk.js')) as string;
+  const main: string = assetManifest.files['main.js'];
+  const styles: string = assetManifest.files['main.css'];
+  const runTime: string = assetManifest.files['runtime-main.js'];
+  const chunk: string = Object.keys(assetManifest.files).find((key) => key.endsWith('chunk.js')) as string;
 
-    const mainUri: vscode.Uri = vscode.Uri.file(path.join(webviewPath, main)).with({ scheme: 'vscode-resource' });
-    const stylesUri: vscode.Uri = vscode.Uri.file(path.join(webviewPath, styles)).with({ scheme: 'vscode-resource' });
-    const runTimeMainUri: vscode.Uri = vscode.Uri.file(path.join(webviewPath, runTime)).with({ scheme: 'vscode-resource' });
-    const chunkUri: vscode.Uri = vscode.Uri.file(path.join(webviewPath, chunk)).with({ scheme: 'vscode-resource' });
+  const mainUri: vscode.Uri = vscode.Uri.file(path.join(webviewPath, main)).with({ scheme: 'vscode-resource' });
+  const stylesUri: vscode.Uri = vscode.Uri.file(path.join(webviewPath, styles)).with({ scheme: 'vscode-resource' });
+  const runTimeMainUri: vscode.Uri = vscode.Uri.file(path.join(webviewPath, runTime)).with({ scheme: 'vscode-resource' });
+  const chunkUri: vscode.Uri = vscode.Uri.file(path.join(webviewPath, chunk)).with({ scheme: 'vscode-resource' });
 
-    return `
+  return `
         <!DOCTYPE html>
         <html lang="en">
             <head>
