@@ -10,7 +10,7 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.3.1",
-    "autoprefixer": "^10.0.2",
+    "autoprefixer": "^10.0.4",
     "babel-plugin-import-glob-array": "^0.2.0",
     "date-fns": "^2.16.1",
     "fathom-client": "^3.0.0",
@@ -23,12 +23,13 @@
     "prismjs": "^1.22.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "reading-time": "^1.2.1",
     "rehype": "^11.0.0",
     "tailwindcss": "^2.0.1",
     "typeface-roboto": "^1.1.13"
   },
   "devDependencies": {
-    "@types/node": "^14.14.9",
+    "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
     "typescript": "^4.1.2"
   },
