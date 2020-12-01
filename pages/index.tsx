@@ -2,12 +2,15 @@ import { useState } from 'react';
 
 import Layout from '@components/layout';
 import { fetchMultiplePagesOfPosts } from '@lib/posts';
+import { frontMatter as blogPosts } from './blog/**/*.mdx';
+import Link from 'next/link';
 
-export default function Home({ posts }: any) {
+export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
+  const posts = blogPosts;
 
   return (
-    <Layout>
+    <Layout home>
       <div className={`w-full md:h-screen flex flex-wrap text-lg ${darkMode ? 'dark' : ''}`}>
         <div className="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 w-full md:w-7/12 h-full flex flex-wrap content-between justify-between items-between p-10">
           <div className="w-full flex justify-between">
@@ -60,14 +63,9 @@ export default function Home({ posts }: any) {
                     <h2>Links</h2>
                   </li>
                   <li>
-                    <a
-                      href="https://blog.coreyodonnell.tech"
-                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      Blog
-                    </a>
+                    <Link href="/blog">
+                      <a className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline">Blog</a>
+                    </Link>
                   </li>
                   <li>
                     <a
@@ -118,30 +116,16 @@ export default function Home({ posts }: any) {
         <div className="w-full md:w-5/12 h-full bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
           <h2 className="m-5 text-4xl font-light">Recent Blog Posts</h2>
           {posts.map((post: any) => (
-            <a
-              key={post.slug}
-              href={`https://blog.coreyodonnell.tech/${post.slug}`}
-              rel="noopener"
-              target="_blank"
-              className="mx-5 my-12 pb-10 block"
-            >
-              <h3 className="text-2xl font-bold mb-5 leading-snug">{post.title}</h3>
-              <p className="font-light leading-snug">{post.brief}</p>
-            </a>
+            <Link key={post.title} href={`blog/${post.__resourcePath.replace('blog/', '').replace('.mdx', '')}`}>
+              <a className="mx-5 my-12 pb-10 block">
+                <h3 className="text-2xl font-bold mb-5 leading-snug">{post.title}</h3>
+                <p className="font-light leading-snug">{post.brief}</p>
+              </a>
+            </Link>
           ))}
           <div className="w-full text-center font-thin md:hidden">© 2020 Corey O'Donnell. All Rights Reserved.</div>
         </div>
       </div>
     </Layout>
   );
-}
-
-export async function getStaticProps() {
-  const posts = await fetchMultiplePagesOfPosts();
-  return {
-    props: {
-      posts
-    },
-    revalidate: 60
-  };
 }

@@ -16,14 +16,14 @@ const NavBar: FC = () => {
           <Link href="/">
             <a className={`mx-2 md:mx-4 py-1 ${isActive('/')}`}>Home</a>
           </Link>
-          <Link href="/about">
+          {/* <Link href="/about">
             <a className={`mx-2 md:mx-4 py-1 ${isActive('/about')}`}>About</a>
-          </Link>
+          </Link> */}
           <Link href="/blog">
             <a className={`mx-2 md:mx-4 py-1 ${isActive('/blog')}`}>Blog</a>
           </Link>
         </div>
-        <ThemeSwitcher />
+        {/* <ThemeSwitcher /> */}
       </div>
     </nav>
   );

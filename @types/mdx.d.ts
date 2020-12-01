@@ -9,7 +9,12 @@ declare module '*.mdx' {
     title: string;
     date: string;
     brief: string;
-    by?: string;
+    readingTime: {
+      text: string;
+      time: number;
+      words: number;
+      minutes: number;
+    };
     __resourcePath: string;
   }
 

@@ -1,5 +1,6 @@
 const withMdxEnhanced = require('next-mdx-enhanced');
 const mdxPrism = require('mdx-prism');
+const readingTime = require('reading-time');
 
 module.exports = withMdxEnhanced({
   layoutPath: 'layouts',
@@ -9,8 +10,10 @@ module.exports = withMdxEnhanced({
   rehypePlugins: [mdxPrism],
   usesSrc: false,
   extendFrontMatter: {
-    process: (mdxContent, frontMatter) => {},
-    phase: 'prebuild|loader|both'
+    process: (mdxContent, frontMatter) => ({
+      readingTime: readingTime(mdxContent)
+    }),
+    phase: 'both'
   },
   reExportDataFetching: false
 })(/* your normal nextjs config */);
