@@ -13,10 +13,10 @@ export default {
     description,
     images: [
       {
-        url: 'https://codebycorey.com/static/images/og.jpg',
+        url: 'https://codebycorey.com/static/images/og.png',
         alt: title,
-        width: 1280,
-        height: 720
+        width: 800,
+        height: 420
       }
     ]
   },
