@@ -1,7 +1,7 @@
 ---
-title: "Prerender React using Next js"
-brief: "When you want to improve your website's performance or search engine optimization (SEO), prerendering your application is a must. Next.js is the perfect framework to add server-side rendering (SSR) or static site generation (SSG) for your React web a..."
-date: "2020-11-05T14:04:59.934Z"
+title: 'Prerender React using Next js'
+brief: "When you want to improve your website's performance or search engine optimization (SEO), prerendering your application is a must. Next.js is the perfect framework"
+date: '2020-11-05T14:04:59.934Z'
 ---
 
 When you want to improve your website's performance or search engine optimization (SEO), prerendering your application is a must. Next.js is the perfect framework to add server-side rendering (SSR) or static site generation (SSG) for your React web app.
@@ -15,6 +15,7 @@ Before JavaScript frameworks became popular, most websites were built with HTML 
 With React, nothing gets displayed until all of your JavaScript loads. Your HTML is nearly empty and React injects your content in your HTML with JavaScript.
 
 Example HTML with React.
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -22,10 +23,7 @@ Example HTML with React.
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="Web site created using create-react-app" />
     <title>React App</title>
   </head>
   <body>
@@ -36,6 +34,7 @@ Example HTML with React.
 ```
 
 This leads multiple problems:
+
 1. When the browser is loading the JavaScript, the screen is blank because `<div id="root"></div>` does not show anything. Depending on the size of your JavaScript bundle, this could lead to your visitors staring at a white screen for a couple of seconds. This is poor UX.
 2. Most SEO crawlers do not have JavaScript enabled. DuckDuckGo, Google, Bing and any other search engine would not actually know what is on your website since it requires JavaScript to display the content. You will not be ranked at all on Search Engines.
 
@@ -64,30 +63,28 @@ Due to it being called server-side, it is okay to add any sensitive logic or dir
 Since stale data is a problem with static generated pages, there is an option you can set to revalidate your static page and rebuild it if data changes. `revalidate: 60` will check your data every 60 seconds and rebuild the page if needed.
 
 Example Use:
+
 ```jsx
 // This function gets called at build time on server-side.
 export async function getStaticProps() {
-
-  const res = await fetch('https://.../data')
-  const data = await res.json()
+  const res = await fetch('https://.../data');
+  const data = await res.json();
 
   // By returning { props: data }, the Dashboard component
   // will receive `data` as a prop at build time
   return {
     props: {
-      data,
+      data
     },
     // Check if data changes every 60 seconds.
     // Rebuild page if different
-    revalidate: 60,
-  }
+    revalidate: 60
+  };
 }
 
 // data will be populated at build time by getStaticProps()
 export default function Dashboard({ data }) {
-  return (
-      <div>{data}</div>
-  )
+  return <div>{data}</div>;
 }
 ```
 
@@ -102,27 +99,25 @@ Again, due to it being called server-side, it is okay to add any sensitive logic
 Since this is called on every load, you do not need to revalidate like `getStaticProps`. This also leads to a slower load time since you are no longer serving a static file, but have to rebuild on every load.
 
 Example Use:
+
 ```jsx
 // This function gets called at build time on server-side.
 export async function getServerSideProps() {
-
-  const res = await fetch('https://.../data')
-  const data = await res.json()
+  const res = await fetch('https://.../data');
+  const data = await res.json();
 
   // By returning { props: data }, the Dashboard component
   // will receive `data` as a prop at build time
   return {
     props: {
-      data,
+      data
     }
-  }
+  };
 }
 
 // data will be populated at build time by getServerSideProps()
 export default function Dashboard({ data }) {
-  return (
-      <div>{data}</div>
-  )
+  return <div>{data}</div>;
 }
 ```
 
@@ -135,5 +130,6 @@ If performance is your number one priority, SSG is the better solution. You are 
 If you are worried about stale data, you can have a static generated shell with loading states and fetch the data client-side in parallel. You get the benefit of having a fast TTFB while keeping your data up to date.
 
 ---
+
 - Next.js [Docs](https://nextjs.org/docs/getting-started)
 - Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech and programming. I am also documenting my journey learning design.

@@ -37,7 +37,7 @@ const generateRSS = async () => {
   posts.forEach((post) => {
     feed.addItem({
       title: post.title,
-      id: post.fileName,
+      // id: `https://codebycorey.com/blog/${post.fileName}`,
       link: `https://codebycorey.com/blog/${post.fileName}`,
       date: new Date(post.date),
       description: post.brief,
