@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useTheme } from '../context/theme-context';
+import { useTheme } from '@hooks/use-theme';
 
 const ThemeSwitcher: FC = () => {
   const { darkMode, toggleTheme } = useTheme();
