@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
     // Initialize Fathom when the app loads
     Fathom.load('ILBUCPDU', {
       url: 'https://ptarmigan.codebycorey.com/script.js',
-      excludedDomains: ['localhost']
+      includedDomains: ['codebycorey.com']
     });
 
     function onRouteChangeComplete() {
