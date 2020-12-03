@@ -2,9 +2,14 @@ import { useEffect } from 'react';
 import { AppProps } from 'next/app';
 import { useRouter, NextRouter } from 'next/router';
 import * as Fathom from 'fathom-client';
+import { DefaultSeo } from 'next-seo';
 
 import '../styles/global.css';
+import 'prism-themes/themes/prism-dracula.css';
+
 import 'typeface-roboto';
+import SEO from '../next-seo.config';
+import { ThemeProvider } from '@hooks/use-theme';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router: NextRouter = useRouter();
@@ -13,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
     // Initialize Fathom when the app loads
     Fathom.load('ILBUCPDU', {
       url: 'https://ptarmigan.codebycorey.com/script.js',
-      excludedDomains: ['localhost']
+      includedDomains: ['codebycorey.com']
     });
 
     function onRouteChangeComplete() {
@@ -28,5 +33,10 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeComplete', onRouteChangeComplete);
     };
   });
-  return <Component {...pageProps} />;
+  return (
+    <ThemeProvider>
+      <DefaultSeo {...SEO} />
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
 }

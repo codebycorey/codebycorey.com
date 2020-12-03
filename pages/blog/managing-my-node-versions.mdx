@@ -1,0 +1,89 @@
+---
+title: 'Managing my node versions'
+brief: 'Working on multiple projects at a time, I typically have to switch what version of node I am running. NVM is a great tool for the job.'
+date: '2020-09-02T18:26:52.391Z'
+---
+
+Working on multiple projects at a time, I typically have to switch what version of node I am running. For work, the front end code is using NodeJS v10 and our API micro-services are using NodeJS v8. My personal projects are using NodeJS v12, and sometimes I like to play around with bleeding edge features on the newest and latest version.
+
+Since I am constantly requiring different node versions, I need a tool to make this process easy.
+
+## Methods that will not work
+
+I currently develop my personal projects using Ubuntu. I could easily install node using `apt`.
+
+```
+sudo apt install nodejs
+```
+
+This won't work for me. How would I switch between all the different node versions? You can install specific versions using apt but you cannot switch easily. It would also take more work to lock your apt version down so whenever you perform an update across your system, it doesn't update node without you realizing it.
+
+I also do not think we should be installing NodeJS with `sudo` permissions. You are now giving NodeJS full control over your computer. NPM installs third-party modules and it can contain any script the provider wants. How can you trust a third-party script with full control? Unless you read every module and submodule's code before you install it, there might be something malicious. I would rather not take the risk and stay away from `sudo`.
+
+You could download the binary directly from the NodeJS website and place it in your `~/.local/bin` folder and make sure that folder is in your `$PATH` but you still cannot manage different versions easily.
+
+## NVM to the rescue!
+
+[Official Docs](https://github.com/nvm-sh/nvm/blob/master/README.md)
+
+I have been using NVM to managing my node version for the past 4 years and it's one of the first things I install on a new computer.
+
+Installation is fairly simple. They provide a one line copy and paste to install and set up your environment.
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+# Version might be difference since article was published
+```
+
+When the above script runs, it installs nvm in `~/.nvm` and adds the initializer for your terminal (`~/.bash_profile`, `~/.zshrc`, `~/.profile`, or `~/.bashrc`).
+
+```bash
+# Initializer
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+After the script finishes, all you need to do is restart your terminal and it should work. You can verify by typing `nvm --version` or `command -v nvm`.
+
+If it does not work, nvm provides troubleshooting steps for [Linux](https://github.com/nvm-sh/nvm/blob/master/README.md#troubleshooting-on-linux) and [macOS](https://github.com/nvm-sh/nvm/blob/master/README.md#troubleshooting-on-macos)
+
+### Using NVM after its installed
+
+Once you have nvm installed and working, it's easy to manage node.
+
+You can easily install whatever version you want using `nvm install`
+
+```bash
+# For most recent version of nodejs v12
+nvm install 12
+# You can be more specific
+nvm install 12.18.3
+```
+
+To switch `node` version you can call `nvm use`
+
+```bash
+# To enable node 12
+nvm use 12
+# to enable node 8
+nvm use 8
+```
+
+If your folder contains a `.nvmrc` file you can just run `nvm use` and it will pull the version from `.nvmrc`.
+
+To trigger `nvm use` automatically, you can use another package called [AVN](https://github.com/wbyoung/avn) or a [lightweight script](https://github.com/nvm-sh/nvm/blob/master/README.md#automatically-call-nvm-use) offered by nvm.
+
+### Complaints of NVM being slow
+
+Every time you start a new terminal, NVM automatically sources your default node version. When this process runs, it calls `npm config get prefix`. This command has some performance issues and there has been a [ticket](https://github.com/nvm-sh/nvm/issues/2212) create explaining the reason.
+
+There are two solutions that help with terminal performance. You can remove the default node version using `nvm unalias default` or when you source nvm you add `--no-use`.
+
+```bash
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh --no-use"
+```
+
+NVM will no longer source node at startup and you will have to manually run `nvm use` before running anything with node.
+
+## Conclusion
+
+I have been using NVM for the past 4 years. It has given me all the tools I need to update and manage my node versions safely. The installation is simple and straightforward. I have never had any problems with it and use it almost daily.

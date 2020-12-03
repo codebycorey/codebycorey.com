@@ -1,0 +1,95 @@
+---
+title: 'Dark Mode Toggle Using Tailwind CSS'
+brief: 'Tailwind recently released a setting that enables dark mode styles. You can add a prefix to specific classes to only enable when dark mode is enabled.'
+date: '2020-10-03T02:27:05.848Z'
+---
+
+Tailwind recently released an experimental setting that enables dark mode styles. It allows you to add a prefix to specific classes to only enable the styles when dark mode is enabled. It's currently labeled experimental and future versions might have breaking changes so use at your own risk.
+
+```html
+<div class="bg-white text-black dark:bg-black dark:text-white"></div>
+```
+
+## Enabling Dark Mode
+
+To enable dark mode add the `experimental` object to your tailwind.config.js with `darkModeVariant: true`.
+
+```js
+// tailwind.config.js
+module.exports = {
+  experimental: {
+    darkModeVariant: true
+  }
+  // ...
+};
+```
+
+The default strategy is using a media query and will set dark mode based on the operating system performances. This is great for keeping your website themed the way the user's computer is set but your user cannot easily toggle your websites theme without changing their operating system settings.
+
+Tailwind offers a setting to use a class instead of the media query so you can toggle dark mode by adding and removed the `.dark` CSS class.
+
+```js
+// tailwind.config.js
+module.exports = {
+  experimental: {
+    darkModeVariant: true
+  },
+  dark: 'class'
+  // ...
+};
+```
+
+Example of using dark mode in your HTML
+
+```html
+<body class="dark">
+  <div class="bg-white text-black dark:bg-black dark:text-white"></div>
+</body>
+```
+
+## Toggle Button using React
+
+I added a toggle button on my website using a simple react hook. The button with switch between
+
+```js
+export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  return (
+    <div className={`w-full md:h-screen ${darkMode ? 'dark' : ''}`}>
+      <div className="bg-gray-100 dark:bg-gray-900 dark:text-white">
+        <button onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? (
+            <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            </svg>
+          ) : (
+            <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              />
+            </svg>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
+Now I have a button that will switch between a sun and a moon icon based on whether dark mode is true or not.
+
+![toggle button.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1601691182598/YPJuxUFwT.gif)
+
+---
+
+- Documentation for dark mode [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss/pull/2279)
+- Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech and programming. I am also documenting my journey learning design.
