@@ -47,19 +47,20 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
         title={title}
         url={url}
       />
-      <article className="max-w-screen-lg flex flex-col justify-center items-center mx-auto pb-12">
+      <article className="max-w-screen-lg flex flex-col justify-center items-center mx-auto px-4 pb-12">
         <header className="border-gray-400 mb-12">
-          <h1 className="my-10 text-8xl w-full font-bold leading-snug">{frontMatter.title}</h1>
-          <div className="w-full flex text-xl border-b-2 border-t-2 py-4">
+          <h1 className="my-10 text-4xl md:text-8xl w-full font-bold leading-snug">{frontMatter.title}</h1>
+          <div className="w-full flex md:text-xl border-b-2 border-t-2 p-4">
             <a target="_blank" rel="noopener noreferrer nofollow" href="https://twitter.com/CodeByCorey" className="flex m-1">
-              <Image className="rounded-full" src={`/static/images/profile.png`} width={64} height={64} />
+              <span className="sr-only">Twitter</span>
+              <Image className="rounded-full" src={`/static/images/profile.png`} width={64} height={64} alt="Corey O'Donnell Avatar" />
             </a>
             <div className="flex-grow flex flex-col justify-between px-2">
               <a
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 href="https://twitter.com/CodeByCorey"
-                className="font-bold text-2xl text-gray-800"
+                className="font-bold text-lg md:text-2xl text-gray-800"
               >
                 Corey O'Donnell
               </a>
@@ -73,7 +74,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
             </div>
           </div>
         </header>
-        <div className="prose prose-2xl max-w-none">{children}</div>
+        <div className="prose md:prose-2xl w-full md:max-w-none">{children}</div>
       </article>
     </Layout>
   );

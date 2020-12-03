@@ -15,7 +15,7 @@ const BlogIndex: FC = () => {
   return (
     <Layout>
       <div className="max-w-screen-lg mx-auto flex flex-col justify-center align-middle p-6">
-        <h1 className="text-8xl mb-6 font-bold leading-snug">Blog</h1>
+        <h1 className="text-8xl font-bold leading-snug">Blog</h1>
         {/* <p className="my-2 text-xl text-gray-700">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quidem veritatis earum, iure adipisci asperiores voluptatem ipsum doloribus
           odio doloremque beatae praesentium excepturi repudiandae neque fugit autem corporis laborum aut.
