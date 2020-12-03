@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
 import Layout from '@components/layout';
-import { fetchMultiplePagesOfPosts } from '@lib/posts';
 import { frontMatter as blogPosts } from './blog/**/*.mdx';
 import Link from 'next/link';
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
-  const posts = blogPosts;
+  const posts = blogPosts.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
 
   return (
     <Layout home>

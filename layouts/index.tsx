@@ -68,7 +68,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
                 <Date dateString={frontMatter.date} />
               </p>
             </div>
-            <div className="flex flex-col justify-between text-right">
+            <div className="flex flex-col justify-end text-right">
               <p className="text-gray-500">{frontMatter.readingTime.text}</p>
               {/* <p className="text-gray-500">12314</p> */}
             </div>
