@@ -1,8 +1,9 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { FrontMatter } from '../@types/*.mdx';
 import Layout from '@components/layout';
 import Image from 'next/image';
 import Date from '@components/date';
+import PageViews from '@components/page-views';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 
 interface BlogLayoutProps {
@@ -18,6 +19,10 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
     url: `https://codebycorey.com/static/images/${slug}/header.png`,
     alt: title
   };
+
+  useEffect(() => {
+    fetch(`/api/add-page-view?slug=${encodeURIComponent(slug)}`);
+  }, [slug]);
 
   return (
     <Layout>
@@ -68,9 +73,11 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
                 <Date dateString={frontMatter.date} />
               </p>
             </div>
-            <div className="flex flex-col justify-end text-right">
+            <div className="flex flex-col justify-between text-right">
               <p className="text-gray-500">{frontMatter.readingTime.text}</p>
-              {/* <p className="text-gray-500">12314</p> */}
+              <p className="text-gray-500">
+                <PageViews slug={slug} />
+              </p>
             </div>
           </div>
         </header>

@@ -115,7 +115,7 @@ export default function Home() {
         <div className="w-full md:w-5/12 h-full bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
           <h2 className="m-5 text-4xl font-light">Recent Blog Posts</h2>
           {posts.map((post: any) => (
-            <Link key={post.title} href={`blog/${post.__resourcePath.replace('blog/', '').replace('.mdx', '')}`}>
+            <Link key={post.title} href={`/blog/${post.__resourcePath.replace('blog/', '').replace('.mdx', '')}`}>
               <a className="mx-5 my-12 pb-10 block">
                 <h3 className="text-2xl font-bold mb-5 leading-snug">{post.title}</h3>
                 <p className="font-light leading-snug">{post.brief}</p>

@@ -3,6 +3,7 @@ import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Date from '@components/date';
+import PageViews from '@components/page-views';
 
 interface BlogLinkProps {
   blog: FrontMatter;
@@ -19,7 +20,11 @@ const BlogLink: FC<BlogLinkProps> = ({ blog }) => {
         <p className="text-xl text-gray-700">{brief}</p>
         <div className="text-gray-500 flex justify-between mt-4">
           <Date dateString={date} />
-          <span>{readingTime.text}</span>
+          <div>
+            <span>{readingTime.text}</span>
+            {' / '}
+            <PageViews slug={slug} />
+          </div>
         </div>
       </a>
     </Link>
