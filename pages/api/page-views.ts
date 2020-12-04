@@ -10,7 +10,7 @@ const PageViews = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const { data, error } = await supabase.from('page-views').select().filter('slug', 'eq', slug);
-  console.log('PageViews', data);
+
   return res.status(200).json({
     total: data?.length || null
   });
