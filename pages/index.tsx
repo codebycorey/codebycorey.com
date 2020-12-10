@@ -67,6 +67,11 @@ export default function Home() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/ama">
+                      <a className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline">AMA</a>
+                    </Link>
+                  </li>
+                  <li>
                     <a
                       href="https://twitter.com/CodeByCorey"
                       className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"

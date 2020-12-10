@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { supabase } from '@lib/supabase';
+import { SupabaseAdmin } from '@lib/supabase-admin';
 
 const AddPageView = async (req: NextApiRequest, res: NextApiResponse) => {
   const { slug } = req.query;
@@ -9,7 +9,7 @@ const AddPageView = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  const { data, error } = await supabase.from('page-views').insert({
+  const { data, error } = await SupabaseAdmin.from('page-views').insert({
     slug
   });
 

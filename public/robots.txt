@@ -1,4 +1,4 @@
 User-agent: *
-Disallow:
+Disallow: /admin
 
 Sitemap: https://codebycorey.com/sitemap.xml
