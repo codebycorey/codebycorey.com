@@ -8,7 +8,6 @@ const AMAAdmin = async (req: NextApiRequest, res: NextApiResponse) => {
   if (authError) return res.status(401).json({ error: authError.message });
 
   const { data } = await SupabaseAdmin.from('ama').select();
-  console.log('data', data);
   return res.status(200).json(data);
 };
 

@@ -1,29 +1,34 @@
 import Layout from '@components/layout';
 import { FC, FormEvent, useState } from 'react';
-import useSWR from 'swr';
 import SubmitQuestion from '@components/ama/submit-question';
 import Question from '@components/ama/question';
 import { AMAQuestion } from '@models/AMAQuestions';
 import { NextSeo } from 'next-seo';
+import { GetStaticProps } from 'next';
+import { SupabaseAdmin } from '@lib/supabase-admin';
 
-const AMA: FC = () => {
-  const { data, error } = useSWR<AMAQuestion[]>('/api/ama');
-  console.log('DATA', data);
-  // @todo use variables for NextSeo
+interface AMAProps {
+  amaQuestions: AMAQuestion[];
+}
+
+const AMA: FC<AMAProps> = ({ amaQuestions }) => {
+  const url: string = 'https://codebycorey.com/ama';
+  const title: string = "AMA - Corey O'Donnell";
+  const description: string = 'Lets have some fun! Ask me anything you want.';
   return (
     <Layout>
       <NextSeo
-        title="AMA - Corey O'Donnell"
-        description="Lets have some fun! Ask me anything you want."
-        canonical="https://codebycorey.com/ama"
+        title={title}
+        description={description}
+        canonical={url}
         openGraph={{
-          url: 'https://codebycorey.com/ama',
-          title: "AMA - Corey O'Donnell",
-          description: 'Lets have some fun! Ask me anything you want.',
+          url,
+          title,
+          description,
           images: [
             {
               url: 'https://codebycorey.com/static/images/ama-og.png',
-              alt: "AMA- Corey O'Donnell"
+              alt: title
             }
           ]
         }}
@@ -32,10 +37,20 @@ const AMA: FC = () => {
         <h1 className="my-10 text-4xl md:text-8xl w-full font-bold leading-snug">Ask Me Anything</h1>
         <p className="w-full text-2xl md:text-4xl mb-10">Lets have some fun! Ask me anything you want. Questions will be shown after I answer.</p>
         <SubmitQuestion />
-        <div className="mt-2">{data && data.map((amaQuestion) => <Question key={amaQuestion.id} {...amaQuestion} />)}</div>
+        <div className="mt-2">{amaQuestions && amaQuestions.map((amaQuestion) => <Question key={amaQuestion.id} {...amaQuestion} />)}</div>
       </div>
     </Layout>
   );
 };
 
 export default AMA;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const { data: amaQuestions } = await SupabaseAdmin.from('ama').select().is('published', true);
+  return {
+    props: {
+      amaQuestions
+    },
+    revalidate: 60
+  };
+};
