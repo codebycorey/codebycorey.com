@@ -1,11 +1,5 @@
-import Head from 'next/head';
-import Link from 'next/link';
-
-import NavBar from '@components/nav-bar';
-import Footer from '@components/footer';
-
-const name: string = "Corey O'Donnell";
-export const siteTitle: string = "Corey O'Donnell";
+import NavBar from '@components/NavBar';
+import Footer from '@components/layout/Footer';
 
 interface Props {
   children: React.ReactNode;

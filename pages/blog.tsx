@@ -1,17 +1,25 @@
 import { FC, useState } from 'react';
-
-import Layout from '@components/layout';
-import BlogLink from '@components/blog-link';
-
-import { frontMatter as blogPosts } from './blog/**/*.mdx';
+import Layout from '@components/layout/Layout';
+import BlogLink from '@components/blog/BlogLink';
 import { NextSeo } from 'next-seo';
+import { MdxFrontMatter } from '@models/MdxFrontMatter';
+import { GetStaticProps } from 'next';
+import { getAllFilesFrontMatter } from '@lib/mdx';
 
-const BlogIndex: FC = () => {
+interface BlogProps {
+  posts: MdxFrontMatter[];
+}
+
+export const getStaticProps: GetStaticProps<BlogProps> = async () => {
+  const files: MdxFrontMatter[] = await getAllFilesFrontMatter('blog');
+  const posts = files.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
+  return { props: { posts } };
+};
+
+const BlogIndex: FC<BlogProps> = ({ posts }) => {
   const [filter, setFilter] = useState('');
 
-  const sorted = blogPosts
-    .sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)))
-    .filter((frontMatter) => frontMatter.title.toLowerCase().includes(filter.toLowerCase()));
+  const filteredPosts = posts.filter((frontMatter) => frontMatter.title.toLowerCase().includes(filter.toLowerCase()));
 
   return (
     <Layout>
@@ -46,7 +54,7 @@ const BlogIndex: FC = () => {
           </div>
         </div>
         <h2 className="text-6xl my-12 font-bold">All Posts</h2>
-        {sorted.map((post) => (
+        {filteredPosts.map((post) => (
           <BlogLink key={post.title} blog={post} />
         ))}
       </div>

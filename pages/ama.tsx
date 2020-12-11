@@ -1,5 +1,5 @@
-import Layout from '@components/layout';
-import { FC, FormEvent, useState } from 'react';
+import Layout from '@components/layout/Layout';
+import { FC } from 'react';
 import SubmitQuestion from '@components/ama/submit-question';
 import Question from '@components/ama/question';
 import { AMAQuestion } from '@models/AMAQuestions';
