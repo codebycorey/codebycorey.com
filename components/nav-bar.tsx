@@ -22,6 +22,9 @@ const NavBar: FC = () => {
           <Link href="/blog">
             <a className={`mx-2 md:mx-4 py-1 ${isActive('/blog')}`}>Blog</a>
           </Link>
+          <Link href="/ama">
+            <a className={`mx-2 md:mx-4 py-1 ${isActive('/ama')}`}>AMA</a>
+          </Link>
         </div>
         {/* <ThemeSwitcher /> */}
       </div>

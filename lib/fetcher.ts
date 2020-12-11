@@ -1,6 +1,15 @@
-const Fetcher = async (input: RequestInfo, init?: RequestInit) => {
+const fetcher = async (input: RequestInfo, init?: RequestInit) => {
   const res: Response = await fetch(input, init);
   return await res.json();
 };
 
-export default Fetcher;
+const fetcherWithToken = async (url: string, token: string) => {
+  const res: Response = await fetch(url, {
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json', token }),
+    credentials: 'same-origin'
+  });
+  return await res.json();
+};
+
+export { fetcher, fetcherWithToken };

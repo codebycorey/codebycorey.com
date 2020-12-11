@@ -4,6 +4,7 @@ import Layout from '@components/layout';
 import BlogLink from '@components/blog-link';
 
 import { frontMatter as blogPosts } from './blog/**/*.mdx';
+import { NextSeo } from 'next-seo';
 
 const BlogIndex: FC = () => {
   const [filter, setFilter] = useState('');
@@ -14,6 +15,7 @@ const BlogIndex: FC = () => {
 
   return (
     <Layout>
+      <NextSeo title="Blog - Corey O'Donnell" canonical="https://codebycorey.com/blog" />
       <div className="max-w-screen-lg mx-auto flex flex-col justify-center align-middle p-6">
         <h1 className="text-8xl font-bold leading-snug">Blog</h1>
         {/* <p className="my-2 text-xl text-gray-700">

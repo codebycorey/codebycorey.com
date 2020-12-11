@@ -10,6 +10,7 @@ import 'prism-themes/themes/prism-dracula.css';
 import 'typeface-roboto';
 import SEO from '../next-seo.config';
 import { ThemeProvider } from '@hooks/use-theme';
+import { AuthProvider } from '@hooks/use-auth';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router: NextRouter = useRouter();
@@ -34,9 +35,11 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   });
   return (
-    <ThemeProvider>
-      <DefaultSeo {...SEO} />
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <DefaultSeo {...SEO} />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
