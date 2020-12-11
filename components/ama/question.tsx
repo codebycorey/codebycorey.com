@@ -1,4 +1,4 @@
-import Date from '@components/date';
+import Date from '@components/Date';
 import { AMAQuestion } from '@models/AMAQuestions';
 import { FC } from 'react';
 

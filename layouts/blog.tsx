@@ -1,9 +1,9 @@
 import { FC, ReactNode, useEffect } from 'react';
 import { FrontMatter } from '../@types/*.mdx';
-import Layout from '@components/layout';
+import Layout from '@components/layout/Layout';
 import Image from 'next/image';
-import Date from '@components/date';
-import PageViews from '@components/page-views';
+import Date from '@components/Date';
+import PageViews from '@components/PageViews';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 
 interface BlogLayoutProps {

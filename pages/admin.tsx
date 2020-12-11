@@ -4,7 +4,7 @@ import { SupabaseClient } from '@lib/supabase-client';
 import useSWR from 'swr';
 import { fetcherWithToken } from '@lib/fetcher';
 import { AMAQuestion } from '@models/AMAQuestions';
-import Date from '@components/date';
+import Date from '@components/Date';
 import EditQuestion from '@components/admin/EditQuestion';
 
 const Admin: FC = () => {

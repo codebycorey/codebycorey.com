@@ -1,17 +1,16 @@
 import { FrontMatter } from '*.mdx';
 import { FC } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import Date from '@components/date';
-import PageViews from '@components/page-views';
+import Date from '@components/Date';
+import PageViews from '@components/PageViews';
+import { MdxFrontMatter } from '@models/MdxFrontMatter';
 
 interface BlogLinkProps {
-  blog: FrontMatter;
+  blog: MdxFrontMatter;
 }
 
 const BlogLink: FC<BlogLinkProps> = ({ blog }) => {
-  const { title, brief, date, readingTime, __resourcePath } = blog;
-  const slug = __resourcePath.replace('blog/', '').replace('.mdx', '');
+  const { title, brief, date, readingTime, slug } = blog;
 
   return (
     <Link href={`/blog/${slug}`}>
@@ -23,7 +22,7 @@ const BlogLink: FC<BlogLinkProps> = ({ blog }) => {
           <div>
             <span>{readingTime.text}</span>
             {' / '}
-            <PageViews slug={slug} />
+            <PageViews slug={slug || ''} />
           </div>
         </div>
       </a>

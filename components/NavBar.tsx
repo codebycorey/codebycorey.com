@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
-import ThemeSwitcher from './theme-switcher';
+import ThemeSwitcher from './ThemeSwitcher';
 
 const NavBar: FC = () => {
   const router = useRouter();

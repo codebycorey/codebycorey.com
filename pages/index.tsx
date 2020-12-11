@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
-import Layout from '@components/layout';
-import { frontMatter as blogPosts } from './blog/**/*.mdx';
+import Layout from '@components/layout/Layout';
 import Link from 'next/link';
+import { MdxFrontMatter } from '@models/MdxFrontMatter';
+import { getAllFilesFrontMatter } from '@lib/mdx';
+import { GetStaticProps } from 'next';
 
-export default function Home() {
+interface HomeProps {
+  posts: MdxFrontMatter[];
+}
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const files: MdxFrontMatter[] = await getAllFilesFrontMatter('blog');
+  const posts = files.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
+  return { props: { posts } };
+};
+
+const Home: FC<HomeProps> = ({ posts }) => {
   const [darkMode, setDarkMode] = useState(false);
-  const posts = blogPosts.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
+  const postsOrdered = posts.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
 
   return (
     <Layout home>
@@ -119,8 +131,8 @@ export default function Home() {
         </div>
         <div className="w-full md:w-5/12 h-full bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
           <h2 className="m-5 text-4xl font-light">Recent Blog Posts</h2>
-          {posts.map((post: any) => (
-            <Link key={post.title} href={`/blog/${post.__resourcePath.replace('blog/', '').replace('.mdx', '')}`}>
+          {postsOrdered.map((post: MdxFrontMatter) => (
+            <Link key={post.title} href={`/blog/${post.slug}`}>
               <a className="mx-5 my-12 pb-10 block">
                 <h3 className="text-2xl font-bold mb-5 leading-snug">{post.title}</h3>
                 <p className="font-light leading-snug">{post.brief}</p>
@@ -132,4 +144,6 @@ export default function Home() {
       </div>
     </Layout>
   );
-}
+};
+
+export default Home;
