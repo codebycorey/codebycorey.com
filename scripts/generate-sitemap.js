@@ -3,16 +3,17 @@ const globby = require('globby');
 const prettier = require('prettier');
 
 const generateSitemap = async () => {
-  const pages = await globby(['pages/**/*{.ts,.tsx,.mdx}', '!pages/_*{.ts,.tsx}', '!pages/api']);
-
+  const pages = await globby(['pages/**/*.{ts,tsx,mdx}', '_content/**/*.mdx', '!pages/**/[*.{ts,tsx}', '!pages/_*.{ts,tsx}', '!pages/api']);
+  console.log('PAGES', pages);
   urlSet = pages
     .map((page) => {
       const path = page
         .replace('pages', '')
+        .replace('_content', '')
         .replace(/(.tsx|.ts)/, '')
         .replace('.mdx', '');
       const route = path === '/index' ? '' : path;
-      return `<url><loc>${`https://codebycorey.com${route}`}</loc></url>`;
+      return `<url><loc>https://codebycorey.com${route}</loc></url>`;
     })
     .join('');
 
