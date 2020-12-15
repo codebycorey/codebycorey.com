@@ -15,6 +15,7 @@ class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png" />
           <link rel="manifest" href="/static/favicon/site.webmanifest" />
+          <meta name="monetization" content="$ilp.uphold.com/GAK9Q8Wb6Q9A"></meta>
         </Head>
         <body>
           <Main />
