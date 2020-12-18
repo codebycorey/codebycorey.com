@@ -35,5 +35,4 @@ const generateSitemap = async () => {
   fs.writeFileSync('public/sitemap.xml', formatted);
 };
 
-// export default GenerateRSS;
 module.exports = generateSitemap;
