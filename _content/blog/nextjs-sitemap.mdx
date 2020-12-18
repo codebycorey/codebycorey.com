@@ -12,7 +12,7 @@ Let's check out a couple of ways we can accomplish this.
 
 ## Create a sitemap using a script at build time
 
-If all of your content and pages is local in your project, you can easily use a script at build time to create a `sitemap.xml`.
+If all of your content and pages are local in your project, you can easily use a script at build time to create a `sitemap.xml`.
 
 My blog uses [MDX](https://mdxjs.com/) files instead of a CMS, so I do not have to worry about my content changing after build time.
 
@@ -95,7 +95,7 @@ What we could do is create an API route to fetch the data, and we rewrite the si
 
 First create the API route:
 
-`public/api/sitemap`
+`pages/api/sitemap.ts`
 
 ```ts
 export default async (req, res) => {
