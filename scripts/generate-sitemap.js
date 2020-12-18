@@ -3,8 +3,15 @@ const globby = require('globby');
 const prettier = require('prettier');
 
 const generateSitemap = async () => {
-  const pages = await globby(['pages/**/*.{ts,tsx,mdx}', '_content/**/*.mdx', '!pages/**/[*.{ts,tsx}', '!pages/_*.{ts,tsx}', '!pages/api']);
-  console.log('PAGES', pages);
+  const pages = await globby([
+    'pages/**/*.{ts,tsx,mdx}',
+    '_content/**/*.mdx',
+    '!pages/**/[*.{ts,tsx}',
+    '!pages/_*.{ts,tsx}',
+    '!pages/api',
+    '!pages/admin.tsx'
+  ]);
+
   urlSet = pages
     .map((page) => {
       const path = page
