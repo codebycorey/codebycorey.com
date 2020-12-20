@@ -12,7 +12,7 @@ const generateSitemap = async () => {
     '!pages/admin.tsx'
   ]);
 
-  urlSet = pages
+  const urlSet = pages
     .map((page) => {
       const path = page
         .replace('pages', '')

@@ -42,7 +42,7 @@ const generateSitemap = async () => {
     '!pages/admin.tsx' // Ignore pages not meant to be indexed
   ]);
 
-  urlSet = pages
+  const urlSet = pages
     .map((page) => {
       // Remove none route related parts of filename.
       const path = page
@@ -103,18 +103,12 @@ export default async (req, res) => {
   const resp = await fetch('MOCK_URL');
   const externalPosts = await resp.json();
 
-  const routes = externalPosts.map((post) => `/posts/${posts.slug}`);
-  const localRoutes = await globby([
-    'pages/**/*.{ts,tsx,mdx}', // All routes inside /pages
-    '!pages/**/[*.{ts,tsx}', // Ignore my dynamic route index Example /pages/blog/[slug].tsx
-    '!pages/_*.{ts,tsx}', // Ignore next.js files
-    '!pages/api', // Ignore API routes
-    '!pages/admin.tsx' // Ignore pages not meant to be indexed
-  ]);
+  const routes = externalPosts.map((post) => `/blog/${posts.slug}`);
+  const localRoutes = ['/index', '/blog'];
 
   const pages = routes.concat(localRoutes);
 
-  urlSet = pages
+  const urlSet = pages
     .map((page) => {
       // Remove none route related parts of filename.
       const path = page
