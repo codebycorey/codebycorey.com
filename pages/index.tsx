@@ -57,13 +57,13 @@ const Home: FC<HomeProps> = ({ posts }) => {
               Corey O'Donnell
             </h1>
             <p className="text-xl md:text-4xl my-10 md:mb-0 md:mt-6 leading-tight tracking-wider">
-              Web developer, TypeScript enthusiast, and Problem Solver
+              Web Developer, TypeScript Enthusiast, and Problem Solver
             </p>
           </div>
           <div className="w-full flex flex-wrap">
             <div className="w-full flex flex-wrap justify-between">
               <div className="w-full md:w-1/2 mb-10 md:mb-0 font-light">
-                <h2 className="font-bold bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 ">About</h2>
+                <h2 className="font-bold bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500">About</h2>
                 <p className="leading-snug">
                   My name is Corey O'Donnell and I am a full-stack web developer. The tech stack I primarily work with is TypeScript, React.js,
                   Node.js, and Python. I love spending my free time learning new things and improving myself. My son and my wife are my everything. I
