@@ -1,5 +1,5 @@
 const title = "CodeByCorey | Corey O'Donnell – Web Developer and writer";
-const description = 'Web developer and TypeScript enthusiast';
+const description = 'Web developer, TypeScript enthusiast, and Problem Solver';
 
 export default {
   title,
