@@ -7,7 +7,7 @@ interface PageViewsProps {
 }
 
 const PageViews: FC<PageViewsProps> = ({ slug }) => {
-  const { data } = useSWR(`/api/page-views?slug=${encodeURIComponent(slug)}`, fetcher);
+  const { data } = useSWR(`/api/views/${slug}`, fetcher);
 
   return <>{data?.total ? `${data.total} views` : `–––`}</>;
 };
