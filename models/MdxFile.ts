@@ -1,7 +1,6 @@
-import { MdxSource } from 'next-mdx-remote/hydrate';
 import { MdxFrontMatter } from './MdxFrontMatter';
 
 export interface MdxFile {
-  mdxSource: MdxSource;
+  mdxSource: any;
   frontMatter: MdxFrontMatter;
 }
