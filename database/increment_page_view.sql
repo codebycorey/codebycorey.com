@@ -7,7 +7,7 @@ BEGIN
         UPDATE pages
         SET view_count = view_count + 1,
             updated_at = now()
-        WHERE slug = slug;
+        WHERE slug = page_slug;
     ELSE
         INSERT into pages(slug) VALUES (page_slug);
     END IF;
