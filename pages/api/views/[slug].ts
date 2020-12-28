@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (data) {
       return res.status(200).json({
-        total: data[0].view_count || null
+        total: data[0]?.view_count || null
       });
     }
   }

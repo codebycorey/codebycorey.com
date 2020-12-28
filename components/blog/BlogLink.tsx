@@ -1,4 +1,3 @@
-import { FrontMatter } from '*.mdx';
 import { FC } from 'react';
 import Link from 'next/link';
 import Date from '@components/Date';
