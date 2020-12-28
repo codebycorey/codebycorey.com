@@ -20,7 +20,9 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
   };
 
   useEffect(() => {
-    fetch(`/api/add-page-view?slug=${encodeURIComponent(slug || '')}`);
+    fetch(`/api/views/${slug}`, {
+      method: 'POST'
+    });
   }, [slug]);
 
   return (
