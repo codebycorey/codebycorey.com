@@ -103,13 +103,13 @@ export default function RecentBlogPosts({ posts }: Props) {
       <h2 className="text-center text-2xl md:text-4xl pb-6">Recent Blog Posts</h2>
       <div className="flex flex-wrap justify-center">
         {posts.map((post, index) => (
-          <a key={index} href={`https://blog.coreyodonnell.tech/${post.slug}`} className="md:w-2/3 lg:w-1/3 px-5 my-2">
+          <a key={index} href={`https://blog.codebycorey.com/${post.slug}`} className="md:w-2/3 lg:w-1/3 px-5 my-2">
             <BlogPreview post={post} />
           </a>
         ))}
       </div>
       <div className="flex flex-wrap justify-center">
-        <a className="text-green-500 font-semibold hover:text-gray-800 py-4 px-4 rounded" href="https://blog.coreyodonnell.tech/">
+        <a className="text-green-500 font-semibold hover:text-gray-800 py-4 px-4 rounded" href="https://blog.codebycorey.com/">
           View all posts
         </a>
       </div>
@@ -176,11 +176,18 @@ export default function BlogPreview({ post }: Props) {
 ```
 
 The result after styling my components:
-![hashnode_api_blog_preview.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1599530492695/SpYR5UpX0.png)
+
+<Image
+  alt={`Blog post previews based on hashnode api`}
+  width={1280}
+  height={713}
+  layout="responsive"
+  src={`/static/images/using-hashnodes-api-for-blog-previews/hashnode_api_blog_preview.png`}
+/>
 
 ---
 
 - Hashnode API - [api.hashnode.com](https://api.hashnode.com/)
 - Next.js Docs - [https://nextjs.org/](https://nextjs.org/)
-- You can check out my [portfolio page](https://coreyodonnell.tech) - [Source Code](https://github.com/CodeByCorey/coreyodonnell.tech)(work in progress)
+- You can check out the [Source Code](https://github.com/CodeByCorey/codebycorey.com)(work in progress)
 - Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech and working from home.

@@ -6,6 +6,7 @@ import readingTime from 'reading-time';
 import renderToString from 'next-mdx-remote/render-to-string';
 import { MdxFile } from '@models/MdxFile';
 import { MdxFrontMatter } from '@models/MdxFrontMatter';
+import MdxComponents from '@components/mdx';
 
 const root = process.cwd();
 const contentPath = path.join(root, '_content');
@@ -21,6 +22,7 @@ export async function getFileBySlug(type: string, slug: string): Promise<MdxFile
 
   const { data, content } = matter(source);
   const mdxSource = await renderToString(content, {
+    components: MdxComponents,
     mdxOptions: {
       remarkPlugins: [],
       rehypePlugins: [mdxPrism]
