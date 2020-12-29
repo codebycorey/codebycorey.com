@@ -20,7 +20,9 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
   };
 
   useEffect(() => {
-    fetch(`/api/add-page-view?slug=${encodeURIComponent(slug || '')}`);
+    fetch(`/api/views/${slug}`, {
+      method: 'POST'
+    });
   }, [slug]);
 
   return (
@@ -53,7 +55,9 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
       />
       <article className="max-w-screen-lg flex flex-col justify-center items-center mx-auto px-4 pb-12">
         <header className="border-gray-400 mb-12">
-          <h1 className="my-10 text-4xl md:text-8xl w-full font-bold leading-snug">{frontMatter.title}</h1>
+          <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 my-10 text-4xl md:text-8xl w-full font-bold md:leading-snug py-8">
+            {frontMatter.title}
+          </h1>
           <div className="w-full flex md:text-xl border-b-2 border-t-2 p-4">
             <a target="_blank" rel="noopener noreferrer nofollow" href="https://twitter.com/CodeByCorey" className="flex m-1">
               <span className="sr-only">Twitter</span>

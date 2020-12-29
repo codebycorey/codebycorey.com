@@ -25,7 +25,9 @@ const BlogIndex: FC<BlogProps> = ({ posts }) => {
     <Layout>
       <NextSeo title="Blog - Corey O'Donnell" canonical="https://codebycorey.com/blog" />
       <div className="max-w-screen-lg mx-auto flex flex-col justify-center align-middle p-6">
-        <h1 className="text-8xl font-bold leading-snug">Blog</h1>
+        <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 text-8xl font-bold leading-snug">
+          Blog
+        </h1>
         {/* <p className="my-2 text-xl text-gray-700">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quidem veritatis earum, iure adipisci asperiores voluptatem ipsum doloribus
           odio doloremque beatae praesentium excepturi repudiandae neque fugit autem corporis laborum aut.

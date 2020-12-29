@@ -3,9 +3,16 @@ const globby = require('globby');
 const prettier = require('prettier');
 
 const generateSitemap = async () => {
-  const pages = await globby(['pages/**/*.{ts,tsx,mdx}', '_content/**/*.mdx', '!pages/**/[*.{ts,tsx}', '!pages/_*.{ts,tsx}', '!pages/api']);
-  console.log('PAGES', pages);
-  urlSet = pages
+  const pages = await globby([
+    'pages/**/*.{ts,tsx,mdx}',
+    '_content/**/*.mdx',
+    '!pages/**/[*.{ts,tsx}',
+    '!pages/_*.{ts,tsx}',
+    '!pages/api',
+    '!pages/admin.tsx'
+  ]);
+
+  const urlSet = pages
     .map((page) => {
       const path = page
         .replace('pages', '')
@@ -28,5 +35,4 @@ const generateSitemap = async () => {
   fs.writeFileSync('public/sitemap.xml', formatted);
 };
 
-// export default GenerateRSS;
 module.exports = generateSitemap;
