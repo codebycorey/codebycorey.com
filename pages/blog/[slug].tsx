@@ -4,6 +4,7 @@ import hydrate from 'next-mdx-remote/hydrate';
 import { getFiles, getFileBySlug } from '@lib/mdx';
 import { FC } from 'react';
 import { MdxFile } from '@models/MdxFile';
+import MdxComponents from '@components/mdx';
 
 interface BlogPostProps extends MdxFile {}
 
@@ -27,7 +28,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) 
 };
 
 const Blog: FC<BlogPostProps> = ({ mdxSource, frontMatter }) => {
-  const content = hydrate(mdxSource);
+  const content = hydrate(mdxSource, { components: MdxComponents });
 
   return <BlogLayout frontMatter={frontMatter}>{content}</BlogLayout>;
 };

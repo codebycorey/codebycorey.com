@@ -6,7 +6,13 @@ date: '2020-09-24T19:24:53.487Z'
 
 I noticed when I loaded my personal site without cache, my text would first display without the correct font. It eventually restyle using the original font after everything loaded.
 
-![font-flash.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1600973770807/HEhsPBgji.gif)
+<Image
+  alt={`Font shifting as it loads`}
+  width={1865}
+  height={898}
+  layout="responsive"
+  src={`/static/images/defeating-flash-of-unstyled-text-fout/font-shift.gif`}
+/>
 
 I was originally using a NPM package called `typeface-roboto` to load my font. This was awesome because I wanted to host the fonts myself instead of pulling from a CDN. I realized the styles included in the package was the reason for my Flash of Unstyled Text (FOUT).
 
@@ -42,9 +48,8 @@ I pulled all the font files into my project instead of using the NPM package. Th
 
 Since my websites design is heavily focused on typography. I was willing to sacrifice some performance to give my fonts a little more time to load before anything is displayed.
 
-![no-flash.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1600973956338/KNgGDNZ9i.gif)
+<Image alt={`Font loads without shift`} width={1865} height={898} src={`/static/images/defeating-flash-of-unstyled-text-fout/no-font-shift.gif`} />
 
 ---
 
 - Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech, programming, and working from home.
-- [Personal Website](https://coreyodonnell.tech) in case you wanted to check it out yourself
