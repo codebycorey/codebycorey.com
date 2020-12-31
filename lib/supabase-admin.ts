@@ -1,6 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Create a single supabase client for interacting with your database
-const SupabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', process.env.SUPABASE_SERVICE_KEY || '');
+const supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseServerKey: string = process.env.SUPABASE_SERVICE_KEY || '';
+
+const SupabaseAdmin = createClient(supabaseUrl, supabaseServerKey);
 
 export { SupabaseAdmin };
