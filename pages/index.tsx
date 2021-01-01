@@ -128,7 +128,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
                 </ul>
               </div>
             </div>
-            <div className="w-full mt-10 font-thin hidden md:block">© 2020 Corey O'Donnell. All Rights Reserved.</div>
+            <div className="w-full mt-10 font-thin hidden md:block">© 2021 Corey O'Donnell. All Rights Reserved.</div>
           </div>
         </div>
         <div className="w-full md:w-5/12 h-full bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
@@ -141,7 +141,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
               </a>
             </Link>
           ))}
-          <div className="w-full text-center font-thin md:hidden">© 2020 Corey O'Donnell. All Rights Reserved.</div>
+          <div className="w-full text-center font-thin md:hidden">© 2021 Corey O'Donnell. All Rights Reserved.</div>
         </div>
       </div>
     </Layout>

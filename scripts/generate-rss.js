@@ -23,7 +23,7 @@ const generateRSS = async () => {
     link: 'https://codebycorey.com',
     description: 'Web developer and TypeScript enthusiast',
     language: 'en',
-    copyright: "Copyright 2020, Corey O'Donnell",
+    copyright: "Copyright 2021, Corey O'Donnell",
     feedLinks: {
       rss: 'https://codebycorey.com/rss.xml'
     },
