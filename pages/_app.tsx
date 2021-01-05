@@ -3,13 +3,13 @@ import { AppProps } from 'next/app';
 import { useRouter, NextRouter } from 'next/router';
 import * as Fathom from 'fathom-client';
 import { DefaultSeo } from 'next-seo';
+import { ThemeProvider } from 'next-themes';
 
 import '../styles/global.css';
 import 'prism-themes/themes/prism-dracula.css';
 
 import 'typeface-roboto';
 import SEO from '../next-seo.config';
-import { ThemeProvider } from '@hooks/use-theme';
 import { AuthProvider } from '@hooks/use-auth';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
   return (
     <AuthProvider>
-      <ThemeProvider>
+      <ThemeProvider attribute="class">
         <DefaultSeo {...SEO} />
         <Component {...pageProps} />
       </ThemeProvider>

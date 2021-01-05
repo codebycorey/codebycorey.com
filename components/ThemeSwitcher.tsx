@@ -1,11 +1,12 @@
 import { FC } from 'react';
-import { useTheme } from '@hooks/use-theme';
+import { useTheme } from 'next-themes';
 
 const ThemeSwitcher: FC = () => {
-  const { darkMode, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+
   return (
-    <button className="w-8 h-8 md:w-10 md:h-10" onClick={() => toggleTheme()} aria-label="Dark mode toggle">
-      {darkMode ? (
+    <button className="w-8 h-8 md:w-10 md:h-10" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label="Dark mode toggle">
+      {theme === 'dark' ? (
         <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             strokeLinecap="round"
