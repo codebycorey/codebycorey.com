@@ -55,7 +55,7 @@ const BlogIndex: FC<BlogProps> = ({ posts }) => {
             </div>
           </div>
         </div>
-        <h2 className="text-6xl my-12 font-bold">All Posts</h2>
+        <h2 className="text-6xl my-12 font-bold dark:text-gray-100">All Posts</h2>
         {filteredPosts.map((post) => (
           <BlogLink key={post.title} blog={post} />
         ))}

@@ -14,9 +14,9 @@ const BlogLink: FC<BlogLinkProps> = ({ blog }) => {
   return (
     <Link href={`/blog/${slug}`}>
       <a className="w-100 flex flex-col mb-16">
-        <h3 className="text-4xl mb-4">{title}</h3>
-        <p className="text-xl text-gray-700">{brief}</p>
-        <div className="text-gray-500 flex justify-between mt-4">
+        <h3 className="text-4xl mb-4 dark:text-gray-100">{title}</h3>
+        <p className="text-xl text-gray-700 dark:text-gray-300">{brief}</p>
+        <div className="text-gray-500 dark:text-gray-400 flex justify-between mt-4">
           <Date dateString={date} />
           <div>
             <span>{readingTime.text}</span>

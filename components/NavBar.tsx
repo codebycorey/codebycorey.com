@@ -26,7 +26,7 @@ const NavBar: FC = () => {
             <a className={`mx-2 md:mx-4 py-1 ${isActive('/ama')}`}>AMA</a>
           </Link>
         </div>
-        {/* <ThemeSwitcher /> */}
+        <ThemeSwitcher />
       </div>
     </nav>
   );
