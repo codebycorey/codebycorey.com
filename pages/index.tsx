@@ -18,12 +18,11 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 };
 
 const Home: FC<HomeProps> = ({ posts }) => {
-  const [darkMode, setDarkMode] = useState(false);
   const postsOrdered = posts.sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)));
 
   return (
     <Layout home>
-      <div className={`w-full md:h-screen flex flex-wrap text-lg ${darkMode ? 'dark' : ''}`}>
+      <div className="w-full md:h-screen flex flex-wrap text-lg">
         <div className="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 w-full md:w-7/12 h-full flex flex-wrap content-between justify-between items-between p-10">
           <div className="w-full flex justify-between">
             <div className="text-2xl md:text-4xl font-light">CodeByCorey</div>
