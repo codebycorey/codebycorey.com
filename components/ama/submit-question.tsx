@@ -42,7 +42,7 @@ const SubmitQuestion: FC = () => {
         <button
           type="submit"
           disabled={question.length === 0}
-          className="flex-shrink disabled:opacity-50 whitespace-nowrap mt-6 md:mt-0 md:ml-6 p-4 border border-transparent shadow-sm text-xl rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          className="flex-shrink disabled:opacity-50 whitespace-nowrap mt-6 md:mt-0 md:ml-6 p-4 border border-transparent shadow-sm text-xl rounded-md text-gray-100 bg-gray-900 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
         >
           Ask the question!
         </button>

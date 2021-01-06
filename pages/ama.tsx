@@ -34,8 +34,12 @@ const AMA: FC<AMAProps> = ({ amaQuestions }) => {
         }}
       />
       <div className="max-w-screen-lg flex flex-col mx-auto px-4 pb-12 min-h-screen">
-        <h1 className="my-10 text-4xl md:text-8xl w-full font-bold leading-snug">Ask Me Anything</h1>
-        <p className="w-full text-2xl md:text-4xl mb-10">Lets have some fun! Ask me anything you want. Questions will be shown after I answer.</p>
+        <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 my-10 text-4xl md:text-8xl w-full font-bold leading-snug py-2">
+          Ask Me Anything
+        </h1>
+        <p className="w-full text-2xl md:text-4xl mb-10 dark:text-gray-100">
+          Lets have some fun! Ask me anything you want. Questions will be shown after I answer.
+        </p>
         <SubmitQuestion />
         <div className="mt-2">{amaQuestions && amaQuestions.map((amaQuestion) => <Question key={amaQuestion.id} {...amaQuestion} />)}</div>
       </div>

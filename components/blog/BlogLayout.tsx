@@ -63,28 +63,28 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
               <span className="sr-only">Twitter</span>
               <Image className="rounded-full" src={`/static/images/profile.png`} width={64} height={64} alt="Corey O'Donnell Avatar" />
             </a>
-            <div className="flex-grow flex flex-col justify-between px-2">
+            <div className="flex-grow flex flex-col justify-between px-4">
               <a
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 href="https://twitter.com/CodeByCorey"
-                className="font-bold text-lg md:text-2xl text-gray-800"
+                className="font-bold text-lg md:text-2xl text-gray-800 dark:text-gray-100"
               >
                 Corey O'Donnell
               </a>
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-300">
                 <Date dateString={frontMatter.date} />
               </p>
             </div>
             <div className="flex flex-col justify-between text-right">
-              <p className="text-gray-500">{frontMatter.readingTime.text}</p>
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-300">{frontMatter.readingTime.text}</p>
+              <p className="text-gray-500 dark:text-gray-300">
                 <PageViews slug={slug || ''} />
               </p>
             </div>
           </div>
         </header>
-        <div className="prose md:prose-2xl w-full md:max-w-none">{children}</div>
+        <div className="prose dark:prose-dark md:prose-2xl w-full md:max-w-none">{children}</div>
       </article>
     </Layout>
   );
