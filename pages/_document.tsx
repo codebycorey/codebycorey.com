@@ -10,6 +10,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <link rel="preload" href="/fonts/mulish.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
           <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
           <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png" />

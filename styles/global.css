@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 300 400 700;
+  font-display: optional;
+  src: url(/fonts/mulish.woff2) format('woff2');
+}

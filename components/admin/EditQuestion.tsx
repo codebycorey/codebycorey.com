@@ -48,7 +48,7 @@ const EditQuestion: FC<EditQuestionProps> = ({ amaQuestion, onSubmit, onCancel }
         >
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div>
-              <label htmlFor="question" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="question" className="block text-sm text-gray-700">
                 Question
               </label>
               <div className="mt-1">
@@ -64,7 +64,7 @@ const EditQuestion: FC<EditQuestionProps> = ({ amaQuestion, onSubmit, onCancel }
               </div>
             </div>
             <div className="mt-5">
-              <label htmlFor="answer" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="answer" className="block text-sm text-gray-700">
                 Answer
               </label>
               <div className="mt-1">
@@ -90,7 +90,7 @@ const EditQuestion: FC<EditQuestionProps> = ({ amaQuestion, onSubmit, onCancel }
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <label htmlFor="published" className="font-medium text-gray-700">
+                  <label htmlFor="published" className="text-gray-700">
                     Published
                   </label>
                 </div>
@@ -101,14 +101,14 @@ const EditQuestion: FC<EditQuestionProps> = ({ amaQuestion, onSubmit, onCancel }
             <button
               onClick={() => onCancel()}
               type="button"
-              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
             >
               Cancel
             </button>
             <button
               onClick={() => handleSubmit()}
               type="button"
-              className="ml-2 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              className="ml-2 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
               Submit
             </button>
