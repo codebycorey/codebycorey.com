@@ -13,7 +13,8 @@ module.exports = {
         gray: colors.trueGray
       },
       fontFamily: {
-        sans: ['Roboto', ...fontFamily.sans]
+        sans: ['Mulish']
+        // sans: ['Mulish', ...fontFamily.sans]
       },
       typography: (theme) => ({
         DEFAULT: {
