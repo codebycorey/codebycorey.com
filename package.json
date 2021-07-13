@@ -30,8 +30,7 @@
     "reading-time": "^1.2.1",
     "rehype": "^11.0.0",
     "swr": "^0.4.0",
-    "tailwindcss": "^2.0.2",
-    "typeface-roboto": "^1.1.13"
+    "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
     "@types/node": "^16.3.1",
