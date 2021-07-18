@@ -8,7 +8,6 @@ import { ThemeProvider } from 'next-themes';
 import '../styles/global.css';
 import 'prism-themes/themes/prism-dracula.css';
 
-import 'typeface-roboto';
 import SEO from '../next-seo.config';
 import { AuthProvider } from '@hooks/use-auth';
 
