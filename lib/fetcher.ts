@@ -1,4 +1,4 @@
-const fetcher = async (input: RequestInfo, init?: RequestInit) => {
+const fetcher: typeof fetch = async (input, init?) => {
   const res: Response = await fetch(input, init);
   return await res.json();
 };

@@ -3,24 +3,17 @@ import { FC, FormEvent, useState } from 'react';
 const SubmitQuestion: FC = () => {
   const [question, setQuestion] = useState('');
   const [name, setName] = useState('');
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSuccess(false);
 
     fetch('/api/ama/submit-question', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question, name: name || null })
-    })
-      .then(() => {
-        setQuestion('');
-        setName('');
-        setSuccess(true);
-      })
-      .catch(() => setError(true));
+    }).then(() => {
+      setQuestion('');
+      setName('');
+    });
   }
   return (
     <form className="w-full flex flex-col justify-end" onSubmit={handleSubmit}>

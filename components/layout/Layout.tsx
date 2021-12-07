@@ -1,8 +1,9 @@
+import { ReactNode } from 'react';
 import NavBar from '@components/NavBar';
 import Footer from '@components/layout/Footer';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   home?: boolean;
 }
 

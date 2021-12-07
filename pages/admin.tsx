@@ -50,6 +50,7 @@ const Admin: FC = () => {
             </div>
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <nav className="mt-5 flex-1 px-2 bg-gray-800 space-y-1">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a href="#" className="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm rounded-md">
                   <svg
                     className="text-gray-300 mr-3 h-6 w-6"
