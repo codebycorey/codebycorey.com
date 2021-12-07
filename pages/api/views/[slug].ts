@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { SupabaseAdmin } from '@lib/supabase-admin';
 
 // @todo: Wrap in try catch with proper error handling
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const GetViewsBySlug = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     await SupabaseAdmin.rpc('increment_page_view', { page_slug: req.query.slug });
     return res.status(200).json({
@@ -24,3 +24,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     message: 'Unsupported Request'
   });
 };
+
+export default GetViewsBySlug;
