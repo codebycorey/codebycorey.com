@@ -32,7 +32,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
           </div>
           <div className="w-full">
             <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 text-4xl lg:text-8xl my-10 md:my-0 py-2 font-bold ">
-              Corey O'Donnell
+              {"Corey O'Donnell"}
             </h1>
             <p className="text-xl md:text-3xl my-10 md:mb-0 md:mt-6 leading-tight tracking-wider">
               Web Developer, TypeScript Enthusiast, and Problem Solver
@@ -43,7 +43,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
               <div className="w-full md:w-1/2 mb-10 md:mb-0 ">
                 <h2 className="font-bold bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500">About</h2>
                 <p className="leading-snug">
-                  My name is Corey O'Donnell and I am a full-stack web developer. The tech stack I primarily work with is TypeScript, React.js,
+                  My name is {"Corey O'Donnell"} and I am a full-stack web developer. The tech stack I primarily work with is TypeScript, React.js,
                   Node.js, and Python. I love spending my free time learning new things and improving myself. My son and my wife are my everything. I
                   have a weird obsession for houseplants and always looking to increase my collection.
                 </p>
@@ -106,7 +106,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
                 </ul>
               </div>
             </div>
-            <div className="w-full mt-10 font-light hidden md:block">© 2021 Corey O'Donnell. All Rights Reserved.</div>
+            <div className="w-full mt-10 font-light hidden md:block">© 2021 {"Corey O'Donnell"}. All Rights Reserved.</div>
           </div>
         </div>
         <div className="w-full md:w-5/12 h-full bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
@@ -119,7 +119,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
               </a>
             </Link>
           ))}
-          <div className="w-full text-center font-light md:hidden">© 2021 Corey O'Donnell. All Rights Reserved.</div>
+          <div className="w-full text-center font-light md:hidden">© 2021 {"Corey O'Donnell"}. All Rights Reserved.</div>
         </div>
       </div>
     </Layout>

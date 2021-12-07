@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { SupabaseAdmin } from '@lib/supabase-admin';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const GetAllViews = async (_req: NextApiRequest, res: NextApiResponse) => {
   const { data } = await SupabaseAdmin.from('pages').select();
 
   const total = data?.reduce((acc, row) => acc + row.view_count, 0);
@@ -10,3 +10,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     total
   });
 };
+
+export default GetAllViews;

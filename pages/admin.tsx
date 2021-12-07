@@ -1,7 +1,9 @@
 import { FC, useState } from 'react';
-import { useAuth } from '@hooks/use-auth';
-import { SupabaseClient } from '@lib/supabase-client';
+import Image from 'next/image';
 import useSWR from 'swr';
+
+import { useAuth } from '@hooks/use-auth';
+// import { SupabaseClient } from '@lib/supabase-client';
 import { fetcherWithToken } from '@lib/fetcher';
 import { AMAQuestion } from '@models/AMAQuestions';
 import Date from '@components/Date';
@@ -10,7 +12,7 @@ import EditQuestion from '@components/admin/EditQuestion';
 const Admin: FC = () => {
   const [edit, setEdit] = useState<AMAQuestion | null>(null);
   const { session, signIn, signOut } = useAuth();
-  const { data, error } = useSWR(session ? ['/api/ama/admin', session.access_token] : null, fetcherWithToken);
+  const { data } = useSWR(session ? ['/api/ama/admin', session.access_token] : null, fetcherWithToken);
 
   function handleSubmit(updated: AMAQuestion) {
     fetch('/api/ama/admin/update-question', {
@@ -33,7 +35,7 @@ const Admin: FC = () => {
                   {session ? (
                     <>
                       <div>
-                        <img className="inline-block h-9 w-9 rounded-full" src={session?.user.user_metadata.avatar_url} alt="" />
+                        <Image className="inline-block h-9 w-9 rounded-full" src={session?.user.user_metadata.avatar_url} alt="Avatar" />
                       </div>
                       <div className="ml-3">
                         <p className="text-sm text-white">{session?.user.user_metadata.full_name}</p>

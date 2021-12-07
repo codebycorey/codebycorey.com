@@ -70,7 +70,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ children, frontMatter }) => {
                 href="https://twitter.com/CodeByCorey"
                 className="font-bold text-lg md:text-2xl text-gray-800 dark:text-gray-100"
               >
-                Corey O'Donnell
+                {"Corey O'Donnell"}
               </a>
               <p className="text-gray-500 dark:text-gray-300">
                 <Date dateString={frontMatter.date} />
