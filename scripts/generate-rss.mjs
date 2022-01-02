@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const globby = require('globby');
-const Feed = require('feed').Feed;
-const matter = require('gray-matter');
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
+import { globby } from 'globby';
+import { Feed } from 'feed';
+import matter from 'gray-matter';
 
 const generateRSS = async () => {
   const pages = await globby(['_content/blog/*.mdx']);
@@ -10,8 +10,8 @@ const generateRSS = async () => {
   const posts = pages
     .map((page) => {
       const fileName = page.replace('_content/blog/', '').replace('.mdx', '');
-      const postPath = path.join(process.cwd(), page);
-      const postContent = fs.readFileSync(postPath, 'utf8');
+      const postPath = join(process.cwd(), page);
+      const postContent = readFileSync(postPath, 'utf8');
       const { data } = matter(postContent);
       return { ...data, fileName };
     })
@@ -25,12 +25,12 @@ const generateRSS = async () => {
     language: 'en',
     copyright: "Copyright 2021, Corey O'Donnell",
     feedLinks: {
-      rss: 'https://codebycorey.com/rss.xml'
+      rss: 'https://codebycorey.com/rss.xml',
     },
     author: {
       name: "Corey O'Donnell",
-      link: 'https://twitter.com/codebycorey'
-    }
+      link: 'https://twitter.com/codebycorey',
+    },
   });
 
   posts.forEach((post) => {
@@ -43,13 +43,13 @@ const generateRSS = async () => {
       image: `https://codebycorey.com/static/images/${post.fileName}/header.png`,
       author: {
         name: "Corey O'Donnell",
-        link: 'https://twitter.com/codebycorey'
-      }
+        link: 'https://twitter.com/codebycorey',
+      },
     });
   });
 
   const rss = feed.rss2();
-  fs.writeFileSync('./public/rss.xml', rss);
+  writeFileSync('./public/rss.xml', rss);
 };
 
-module.exports = generateRSS;
+generateRSS();
