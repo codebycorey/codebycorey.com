@@ -9,7 +9,7 @@ const PageViews = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  const { data, error } = await SupabaseAdmin.from('page-views').select().filter('slug', 'eq', slug);
+  const { data } = await SupabaseAdmin.from('page-views').select().filter('slug', 'eq', slug);
 
   return res.status(200).json({
     total: data?.length || null

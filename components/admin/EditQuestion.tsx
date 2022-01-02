@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react';
 
 interface EditQuestionProps {
   amaQuestion: AMAQuestion;
+  // eslint-disable-next-line no-unused-vars
   onSubmit: (updated: AMAQuestion) => void;
   onCancel: () => void;
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import Layout from '@components/layout/Layout';
 import ThemeSwitcher from '@components/ThemeSwitcher';
@@ -55,11 +55,13 @@ const Home: FC<HomeProps> = ({ posts }) => {
                   </li>
                   <li>
                     <Link href="/blog">
+                      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                       <a className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline">Blog</a>
                     </Link>
                   </li>
                   <li>
                     <Link href="/ama">
+                      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                       <a className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline">AMA</a>
                     </Link>
                   </li>
@@ -113,6 +115,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
           <h2 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-500 to-green-400 m-5 text-4xl font-bold">Recent Blog Posts</h2>
           {postsOrdered.map((post: MdxFrontMatter) => (
             <Link key={post.title} href={`/blog/${post.slug}`}>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a className="mx-5 my-12 pb-10 block">
                 <h3 className="text-2xl font-bold mb-5 leading-snug">{post.title}</h3>
                 <p className="leading-snug">{post.brief}</p>

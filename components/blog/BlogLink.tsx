@@ -13,6 +13,7 @@ const BlogLink: FC<BlogLinkProps> = ({ blog }) => {
 
   return (
     <Link href={`/blog/${slug}`}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className="w-100 flex flex-col mb-16">
         <h3 className="text-4xl mb-4 dark:text-gray-100">{title}</h3>
         <p className="text-xl text-gray-700 dark:text-gray-300">{brief}</p>

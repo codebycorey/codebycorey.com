@@ -9,7 +9,7 @@ const AddPageView = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   }
 
-  const { data, error } = await SupabaseAdmin.from('page-views').insert({
+  await SupabaseAdmin.from('page-views').insert({
     slug
   });
 
