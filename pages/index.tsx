@@ -7,6 +7,7 @@ import { MdxFrontMatter } from '@models/MdxFrontMatter';
 import { getAllFilesFrontMatter } from '@lib/mdx';
 import { GetStaticProps } from 'next';
 import { Sidebar } from '@components/layout/intrinsic/sidebar';
+import { Stack } from '@components/layout/intrinsic/stack';
 
 interface HomeProps {
   posts: MdxFrontMatter[];
@@ -37,7 +38,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
           </div>
           <div className="w-full">
             <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 text-4xl lg:text-8xl my-10 md:my-0 py-2 font-bold ">
-              {"Corey O'Donnell"}
+              {'Website'}
             </h1>
             <p className="text-xl md:text-3xl my-10 md:mb-0 md:mt-6 leading-tight tracking-wider">
               Web Developer
@@ -114,24 +115,24 @@ const Home: FC<HomeProps> = ({ posts }) => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-5/12 md:h-screen bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
-          <h2 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-500 to-green-400 m-5 text-4xl font-bold">
+        <Stack className="w-full md:w-5/12 md:h-screen bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
+          <h2 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-500 to-green-400 p-5 text-4xl font-bold">
             Recent Blog Posts
           </h2>
           {postsOrdered.map((post: MdxFrontMatter) => (
             <Link key={post.title} href={`/blog/${post.slug}`}>
-              <a className="mx-5 my-12 pb-10 block">
-                <h3 className="text-2xl font-bold mb-5 leading-snug">
-                  {post.title}
-                </h3>
-                <p className="leading-snug">{post.brief}</p>
+              <a className="px-5 pb-10 block">
+                <Stack>
+                  <h3 className="text-2xl font-bold">{post.title}</h3>
+                  <p>{post.brief}</p>
+                </Stack>
               </a>
             </Link>
           ))}
           <div className="w-full text-center font-light md:hidden">
             © 2021 {"Corey O'Donnell"}. All Rights Reserved.
           </div>
-        </div>
+        </Stack>
       </Sidebar>
     </Layout>
   );
