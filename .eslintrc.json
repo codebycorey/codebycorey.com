@@ -8,5 +8,8 @@
     "plugin:jsx-a11y/strict",
     "next/core-web-vitals",
     "prettier"
-  ]
+  ],
+  "rules": {
+    "jsx-a11y/anchor-is-valid": "off"
+  }
 }

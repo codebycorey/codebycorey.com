@@ -9,7 +9,7 @@ interface PageViewsProps {
 const PageViews: FC<PageViewsProps> = ({ slug }) => {
   const { data } = useSWR(`/api/views/${slug}`, fetcher);
 
-  return <>{data?.total ? `${data.total} views` : `–––`}</>;
+  return <>{data?.total ? `${data.total} views` : '–––'}</>;
 };
 
 export default PageViews;
