@@ -13,9 +13,6 @@ module.exports = {
       colors: {
         gray: colors.neutral,
       },
-      flexGrow: {
-        999: 999,
-      },
       fontFamily: {
         sans: ['Mulish', ...fontFamily.sans],
       },

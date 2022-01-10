@@ -38,7 +38,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
           </div>
           <div className="w-full">
             <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 text-4xl lg:text-8xl my-10 md:my-0 py-2 font-bold ">
-              {'Website'}
+              {"Corey O'Donnell"}
             </h1>
             <p className="text-xl md:text-3xl my-10 md:mb-0 md:mt-6 leading-tight tracking-wider">
               Web Developer
