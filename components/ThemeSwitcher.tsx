@@ -1,13 +1,28 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
 const ThemeSwitcher: FC = () => {
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
   return (
-    <button className="w-8 h-8 md:w-10 md:h-10" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label="Dark mode toggle">
+    <button
+      className="w-8 h-8"
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      aria-label="Dark mode toggle"
+    >
       {theme === 'dark' ? (
-        <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="w-8 h-8"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -16,7 +31,13 @@ const ThemeSwitcher: FC = () => {
           />
         </svg>
       ) : (
-        <svg className="w-8 h-8 md:w-10 md:h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg
+          className="w-8 h-8"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
