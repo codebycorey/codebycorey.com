@@ -32,9 +32,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
         <div className="md:h-screen text-lg bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 h-full flex flex-wrap content-between justify-between items-between p-10">
           <div className="w-full flex justify-between">
             <div className="text-2xl md:text-3xl font-light">codebycorey</div>
-            <div>
-              <ThemeSwitcher />
-            </div>
+            <ThemeSwitcher />
           </div>
           <div className="w-full">
             <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 text-4xl lg:text-8xl my-10 md:my-0 py-2 font-bold ">
