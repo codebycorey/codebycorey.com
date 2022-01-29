@@ -1,0 +1,38 @@
+:root {
+  --font-plain: Mulish, '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial',
+    'sans-serif';
+  /* --font-serif: Georgia, serif; */
+  /* --font-special: Barlow Condensed, Helvetica, sans-serif; */
+  /* --font-mono: Menlo, Courier, Courier New, Andale Mono, monospace; */
+  --color-dark: #171717;
+  --color-darkish: #404040;
+  --color-lightish: #d4d4d4;
+  --color-light: #f5f5f5;
+  --color-mid: #737373;
+
+  --color-purple: #1d4ed8;
+  --color-green: #22c55e;
+
+  --ratio: 1.4;
+  --space--5: clamp(0.33rem, 0.39rem + -0.29vw, 0.18rem);
+  --space--4: clamp(0.41rem, 0.47rem + -0.31vw, 0.25rem);
+  --space--3: clamp(0.51rem, 0.57rem + -0.31vw, 0.35rem);
+  --space--2: clamp(0.64rem, 0.69rem + -0.27vw, 0.5rem);
+  --space--1: clamp(0.8rem, 0.84rem + -0.18vw, 0.71rem);
+  --space-0: clamp(1rem, 1rem + 0vw, 1rem);
+  --space-1: clamp(1.25rem, 1.19rem + 0.32vw, 1.41rem);
+  --space-2: clamp(1.56rem, 1.39rem + 0.85vw, 2rem);
+  --space-3: clamp(1.95rem, 1.61rem + 1.7vw, 2.83rem);
+  --space-4: clamp(2.44rem, 1.83rem + 3.04vw, 4rem);
+  --space-5: clamp(3.05rem, 2.04rem + 5.07vw, 5.65rem);
+  --measure: 75ch; /* 65ch; */
+  --line-height: var(--ratio);
+  --line-height-small: calc(0.8 * var(--ratio));
+  --border-thin: var(--space--5);
+  --border-thick: var(--space--2);
+  line-height: var(--ratio);
+  font-size: calc(0.111vw + 1em);
+  font-family: var(--font-plain);
+  background: var(--color-light);
+  color: var(--color-dark);
+}

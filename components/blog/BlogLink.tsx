@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Date from '@components/Date';
 import PageViews from '@components/PageViews';
 import { MdxFrontMatter } from '@models/MdxFrontMatter';
+import { Stack } from '@components/composition';
 
 interface BlogLinkProps {
   blog: MdxFrontMatter;
@@ -13,17 +14,20 @@ const BlogLink: FC<BlogLinkProps> = ({ blog }) => {
 
   return (
     <Link href={`/blog/${slug}`}>
-      <a className="w-100 flex flex-col mb-16">
-        <h3 className="text-4xl mb-4 dark:text-gray-100">{title}</h3>
-        <p className="text-xl text-gray-700 dark:text-gray-300">{brief}</p>
-        <div className="text-gray-500 dark:text-gray-400 flex justify-between mt-4">
-          <Date dateString={date} />
-          <div>
-            <span>{readingTime.text}</span>
-            {' / '}
-            <PageViews slug={slug || ''} />
+      <a>
+        <Stack style={{ '--space': 'var(--space-1)' }}>
+          <h3>{title}</h3>
+          <p>{brief}</p>
+          <div className="blog-list">
+            <Date dateString={date} />
+            <div>
+              disc
+              <span>{readingTime.text}</span>
+              {' / '}
+              <PageViews slug={slug || ''} />
+            </div>
           </div>
-        </div>
+        </Stack>
       </a>
     </Link>
   );

@@ -1,6 +1,7 @@
 {
   "root": true,
-  // "parser": "@typescript-eslint/parser",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -10,6 +11,9 @@
     "prettier"
   ],
   "rules": {
-    "jsx-a11y/anchor-is-valid": "off"
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/no-redundant-roles": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
   }
 }

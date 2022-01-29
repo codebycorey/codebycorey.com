@@ -6,6 +6,7 @@ import { AMAQuestion } from '@models/AMAQuestions';
 import { NextSeo } from 'next-seo';
 import { GetStaticProps } from 'next';
 import { SupabaseAdmin } from '@lib/supabase-admin';
+import { Stack } from '@components/composition';
 
 interface AMAProps {
   amaQuestions: AMAQuestion[];
@@ -28,21 +29,25 @@ const AMA: FC<AMAProps> = ({ amaQuestions }) => {
           images: [
             {
               url: 'https://codebycorey.com/static/images/ama-og.png',
-              alt: title
-            }
-          ]
+              alt: title,
+            },
+          ],
         }}
       />
-      <div className="max-w-screen-lg flex flex-col mx-auto px-4 pb-12 min-h-screen">
-        <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 my-10 text-4xl md:text-8xl w-full font-bold leading-snug py-2">
-          Ask Me Anything
-        </h1>
-        <p className="w-full text-2xl md:text-4xl mb-10 dark:text-gray-100">
-          Lets have some fun! Ask me anything you want. Questions will be shown after I answer.
+      <Stack className="ama">
+        <h1>Ask Me Anything</h1>
+        <p>
+          Lets have some fun! Ask me anything you want. Questions will be shown
+          after I answer.
         </p>
         <SubmitQuestion />
-        <div className="mt-2">{amaQuestions && amaQuestions.map((amaQuestion) => <Question key={amaQuestion.id} {...amaQuestion} />)}</div>
-      </div>
+        <div>
+          {amaQuestions &&
+            amaQuestions.map((amaQuestion) => (
+              <Question key={amaQuestion.id} {...amaQuestion} />
+            ))}
+        </div>
+      </Stack>
     </Layout>
   );
 };
@@ -50,11 +55,13 @@ const AMA: FC<AMAProps> = ({ amaQuestions }) => {
 export default AMA;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data: amaQuestions } = await SupabaseAdmin.from('ama').select().is('published', true);
+  const { data: amaQuestions } = await SupabaseAdmin.from('ama')
+    .select()
+    .is('published', true);
   return {
     props: {
-      amaQuestions
+      amaQuestions,
     },
-    revalidate: 60
+    revalidate: 60,
   };
 };

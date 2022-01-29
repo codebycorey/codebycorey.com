@@ -5,7 +5,7 @@ import * as Fathom from 'fathom-client';
 import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 
-import '../styles/global.css';
+import '../styles/styles.css';
 import 'prism-themes/themes/prism-dracula.css';
 
 import SEO from '../next-seo.config';
@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
     // Initialize Fathom when the app loads
     Fathom.load('ILBUCPDU', {
       url: 'https://ptarmigan.codebycorey.com/script.js',
-      includedDomains: ['codebycorey.com']
+      includedDomains: ['codebycorey.com'],
     });
 
     function onRouteChangeComplete() {

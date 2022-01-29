@@ -1,0 +1,23 @@
+.cover {
+  display: flex;
+  flex-direction: column;
+  height: var(--cover-height, 100vh);
+}
+
+.cover > * {
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-1);
+}
+
+.cover > :first-child:not(.cover-center) {
+  margin-top: 0;
+}
+
+.cover > :last-child:not(.cover-center) {
+  margin-bottom: 0;
+}
+
+.cover > .cover-center {
+  margin-top: auto;
+  margin-bottom: auto;
+}

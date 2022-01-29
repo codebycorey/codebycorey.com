@@ -1,11 +1,44 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+h1,
+h2 {
+  color: transparent;
+  background-clip: text;
+  background-image: linear-gradient(
+    to left,
+    var(--color-purple),
+    var(--color-green)
+  );
+  font-weight: 700;
+}
 
-@font-face {
-  font-family: 'Mulish';
-  font-style: normal;
-  font-weight: 300 400 700;
-  font-display: optional;
-  src: url(/fonts/mulish.woff2) format('woff2');
+.h1,
+h1 {
+  font-size: var(--space-5);
+}
+
+.h2,
+h2 {
+  font-size: var(--space-3);
+}
+
+.h3,
+h3 {
+  font-size: var(--space-2);
+}
+
+.h4,
+h4 {
+  font-size: var(--space-1);
+}
+
+main > * {
+  max-width: var(--main-width, 100%);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: var(--color-mid);
 }

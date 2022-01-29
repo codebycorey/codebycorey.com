@@ -1,14 +1,11 @@
 import { FC } from 'react';
+import { GetStaticProps } from 'next';
 
-import Layout from '@components/layout/Layout';
+import Link from '@components/Link';
 import ThemeSwitcher from '@components/ThemeSwitcher';
-import Link from 'next/link';
 import { MdxFrontMatter } from '@models/MdxFrontMatter';
 import { getAllFilesFrontMatter } from '@lib/mdx';
-import { GetStaticProps } from 'next';
-import { Sidebar } from '@components/layout/intrinsic/sidebar';
-import { Stack } from '@components/layout/intrinsic/stack';
-
+import { Cover, Sidebar, Split, Stack } from '@components/composition';
 interface HomeProps {
   posts: MdxFrontMatter[];
 }
@@ -27,112 +24,79 @@ const Home: FC<HomeProps> = ({ posts }) => {
   );
 
   return (
-    <Layout home>
-      <Sidebar side="right">
-        <div className="md:h-screen text-lg bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 h-full flex flex-wrap content-between justify-between items-between p-10">
-          <div className="w-full flex justify-between">
-            <div className="text-2xl md:text-3xl font-light">codebycorey</div>
+    <main>
+      <Sidebar data-direction="right">
+        <Cover className="home-cover p-3">
+          <Split className="home-header">
+            <p>codebycorey</p>
             <ThemeSwitcher />
-          </div>
-          <div className="w-full">
-            <h1 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 text-4xl lg:text-8xl my-10 md:my-0 py-2 font-bold ">
-              {"Corey O'Donnell"}
-            </h1>
-            <p className="text-xl md:text-3xl my-10 md:mb-0 md:mt-6 leading-tight tracking-wider">
-              Web Developer
-            </p>
-          </div>
-          <div className="w-full flex flex-wrap">
-            <div className="w-full flex flex-wrap justify-between">
-              <div className="w-full md:w-1/2 mb-10 md:mb-0 ">
-                <h2 className="font-bold bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500">
-                  About
-                </h2>
-                <p className="leading-snug">
-                  My name is {"Corey O'Donnell"} and I am a full-stack web
-                  developer. The tech stack I primarily work with is TypeScript,
-                  React.js, Node.js. I love spending my free time learning new
-                  things and improving myself. My son and my wife are my
-                  everything.
+          </Split>
+          <Stack className="cover-center">
+            <h1>{"Corey O'Donnell"}</h1>
+            <p className="h2">Web Developer</p>
+          </Stack>
+          <Stack>
+            <Sidebar className="home-about-link-gap" data-direction="right">
+              <Stack>
+                <h2 className="h4">About</h2>
+                <p>
+                  I am a full-stack web developer. The tech stack I primarily
+                  work with is TypeScript, React.js, Node.js. I love spending my
+                  free time learning new things and improving myself. My son and
+                  my wife are my everything.
                 </p>
-              </div>
-              <div className="mr-24">
-                <ul className="list-none p-0 flex flex-col text-left">
-                  <li className="font-bold bg-clip-text text-transparent bg-gradient-to-l from-blue-700 dark:from-blue-500 to-green-500 ">
-                    <h2>Links</h2>
+              </Stack>
+              <Stack className="link-list test-util">
+                <h2 className="h4">Links</h2>
+                <ul role="list">
+                  <li>
+                    <Link href="/blog">Blog</Link>
                   </li>
                   <li>
-                    <Link href="/blog">
-                      <a className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline">
-                        Blog
-                      </a>
-                    </Link>
+                    <Link href="/ama">AMA</Link>
                   </li>
                   <li>
-                    <Link href="/ama">
-                      <a className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline">
-                        AMA
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href="https://twitter.com/CodeByCorey"
-                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                    >
+                    <Link href="https://twitter.com/CodeByCorey" external>
                       Twitter
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href="https://github.com/CodeByCorey"
-                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                    >
+                    <Link href="https://github.com/CodeByCorey" external>
                       GitHub
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="https://www.linkedin.com/in/CodeByCorey"
-                      className="inline-block text-gray-900 hover:text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 no-underline"
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
+                      external
                     >
                       LinkedIn
-                    </a>
+                    </Link>
                   </li>
                 </ul>
-              </div>
+              </Stack>
+            </Sidebar>
+            <div className="copyright">
+              © 2022 {"Corey O'Donnell"}. All Rights Reserved.
             </div>
-            <div className="w-full mt-10 font-light hidden md:block">
-              © 2021 {"Corey O'Donnell"}. All Rights Reserved.
-            </div>
-          </div>
-        </div>
-        <Stack className="w-full md:w-5/12 md:h-screen bg-gray-900 text-gray-100 md:border-l-2 border-gray-100 dark:border-gray-700 p-5 md:overflow-y-scroll">
-          <h2 className="bg-clip-text text-transparent bg-gradient-to-l from-blue-500 to-green-400 p-5 text-4xl font-bold">
-            Recent Blog Posts
-          </h2>
+          </Stack>
+        </Cover>
+        <Stack className="home-sidebar p-3">
+          <h2>Recent Blog Posts</h2>
           {postsOrdered.map((post: MdxFrontMatter) => (
             <Link key={post.title} href={`/blog/${post.slug}`}>
-              <a className="px-5 pb-10 block">
-                <Stack>
-                  <h3 className="text-2xl font-bold">{post.title}</h3>
-                  <p>{post.brief}</p>
-                </Stack>
-              </a>
+              <Stack className="home-sidebar-link">
+                <h3>{post.title}</h3>
+                <p>{post.brief}</p>
+              </Stack>
             </Link>
           ))}
-          <div className="w-full text-center font-light md:hidden">
-            © 2021 {"Corey O'Donnell"}. All Rights Reserved.
+          <div className="copyright">
+            © 2022 {"Corey O'Donnell"}. All Rights Reserved.
           </div>
         </Stack>
       </Sidebar>
-    </Layout>
+    </main>
   );
 };
 

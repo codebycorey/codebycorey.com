@@ -11,15 +11,17 @@ const ThemeSwitcher: FC = () => {
 
   return (
     <button
-      className="w-8 h-8"
+      className="theme-switcher"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       aria-label="Dark mode toggle"
     >
       {theme === 'dark' ? (
         <svg
-          className="w-8 h-8"
+          className="icon"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
+          width="0.75em"
+          height="0.75em"
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
@@ -32,9 +34,11 @@ const ThemeSwitcher: FC = () => {
         </svg>
       ) : (
         <svg
-          className="w-8 h-8"
+          className="icon"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
+          width="0.75em"
+          height="0.75em"
           viewBox="0 0 24 24"
           stroke="currentColor"
         >

@@ -4,16 +4,18 @@ import Footer from '@components/layout/Footer';
 
 interface Props {
   children: ReactNode;
-  home?: boolean;
 }
 
-export default function Layout({ children, home }: Props) {
-  if (home) return <main>{children}</main>;
-
+/**
+ * @todo Layout Probably is not needed. Each route would cause a rerender since they
+ * are different. Meaning Layout would be unnecessary.
+ * @returns
+ */
+export default function Layout({ children }: Props) {
   return (
     <>
       <NavBar />
-      <main className="bg-gray-100 dark:bg-gray-900">{children}</main>
+      <main>{children}</main>
       <Footer />
     </>
   );
