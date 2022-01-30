@@ -1,11 +1,11 @@
 import { FC, HTMLAttributes } from 'react';
-import { IntrinsicStyles } from './types/styles';
+import { CompositionStyles } from './types/styles';
 
-interface IntrinsicProps extends HTMLAttributes<HTMLDivElement> {
-  style?: IntrinsicStyles;
+interface CompositionProps extends HTMLAttributes<HTMLDivElement> {
+  style?: CompositionStyles;
 }
 
-export enum IntrinsicComponent {
+export enum CompositionComponent {
   Center = 'center',
   Cover = 'cover',
   Icon = 'icon',
@@ -15,8 +15,8 @@ export enum IntrinsicComponent {
   Switcher = 'switcher',
 }
 
-export function IntrinsicFactory<T>(component: IntrinsicComponent) {
-  const intrinsic: FC<T & IntrinsicProps> = ({
+export function CompositionFactory<T>(component: CompositionComponent) {
+  const Composition: FC<T & CompositionProps> = ({
     children,
     className,
     ...props
@@ -28,5 +28,5 @@ export function IntrinsicFactory<T>(component: IntrinsicComponent) {
       </div>
     );
   };
-  return intrinsic;
+  return Composition;
 }

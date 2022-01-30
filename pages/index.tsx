@@ -85,7 +85,7 @@ const Home: FC<HomeProps> = ({ posts }) => {
           <h2>Recent Blog Posts</h2>
           {postsOrdered.map((post: MdxFrontMatter) => (
             <Link key={post.title} href={`/blog/${post.slug}`}>
-              <Stack className="home-sidebar-link">
+              <Stack className="stack-space-1">
                 <h3>{post.title}</h3>
                 <p>{post.brief}</p>
               </Stack>

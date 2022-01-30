@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export interface IntrinsicStyles extends CSSProperties {
+export interface CompositionStyles extends CSSProperties {
   '--content-min'?: CSSProperties['minWidth'];
 
   '--color-dark'?: CSSProperties['color'];

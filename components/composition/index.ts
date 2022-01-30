@@ -1,9 +1,9 @@
-import { IntrinsicComponent, IntrinsicFactory } from './factory';
+import { CompositionComponent, CompositionFactory } from './factory';
 
-export const Center = IntrinsicFactory(IntrinsicComponent.Center);
-export const Cover = IntrinsicFactory(IntrinsicComponent.Cover);
-export const Icon = IntrinsicFactory(IntrinsicComponent.Icon);
-export const Sidebar = IntrinsicFactory(IntrinsicComponent.Sidebar);
-export const Split = IntrinsicFactory(IntrinsicComponent.Split);
-export const Stack = IntrinsicFactory(IntrinsicComponent.Stack);
-export const Switcher = IntrinsicFactory(IntrinsicComponent.Switcher);
+export const Center = CompositionFactory(CompositionComponent.Center);
+export const Cover = CompositionFactory(CompositionComponent.Cover);
+export const Icon = CompositionFactory(CompositionComponent.Icon);
+export const Sidebar = CompositionFactory(CompositionComponent.Sidebar);
+export const Split = CompositionFactory(CompositionComponent.Split);
+export const Stack = CompositionFactory(CompositionComponent.Stack);
+export const Switcher = CompositionFactory(CompositionComponent.Switcher);
