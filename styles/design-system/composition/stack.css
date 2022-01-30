@@ -12,3 +12,12 @@
 .stack > * + * {
   margin-block-start: var(--stack-space, var(--space-2));
 }
+
+.stack[data-direction='row'] {
+  flex-direction: row;
+}
+
+.stack[data-direction='row'] > * + * {
+  margin-block-start: 0;
+  margin-inline-start: var(--stack-space, var(--space-2));
+}
