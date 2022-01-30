@@ -33,7 +33,7 @@ const BlogIndex: FC<BlogProps> = ({ posts }) => {
         canonical="https://codebycorey.com/blog"
       />
       <Center>
-        <Stack style={{ '--space': 'var(--s4)' }}>
+        <Stack className="stack-space-4">
           <h1>Blog</h1>
           <div className="relative rounded-md shadow-sm">
             <input
@@ -42,25 +42,6 @@ const BlogIndex: FC<BlogProps> = ({ posts }) => {
               placeholder="Search Articles"
               onChange={(e) => setFilter(e.target.value)}
             />
-            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <svg
-                className=" text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                width="0.75em"
-                height="0.75em"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
           </div>
           <h2>All Posts</h2>
           {filteredPosts.map((post) => (
