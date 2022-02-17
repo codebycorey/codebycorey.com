@@ -15,6 +15,7 @@
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
+    "@sentry/nextjs": "^6.17.9",
     "@supabase/supabase-js": "^1.29.1",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
@@ -25,7 +26,7 @@
     "globby": "^12.0.2",
     "gray-matter": "^4.0.3",
     "mdx-prism": "^0.3.4",
-    "next": "^12.0.7",
+    "next": "^12.0.10",
     "next-mdx-remote": "^3.0.8",
     "next-seo": "^4.28.1",
     "next-themes": "0.0.15",
