@@ -34,3 +34,6 @@ public/sitemap.xml
 public/rss.xml
 
 .vercel
+
+# Sentry
+.sentryclirc
