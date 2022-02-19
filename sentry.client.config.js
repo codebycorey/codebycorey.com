@@ -19,5 +19,5 @@ Sentry.init({
     }),
   ],
 
-  tracesSampleRate: 0.1,
+  tracesSampleRate: 1.0,
 });
