@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /admin
-
-Sitemap: https://codebycorey.com/sitemap.xml
