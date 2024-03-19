@@ -8,21 +8,27 @@ import { ReactElement } from 'react';
 const root = process.cwd();
 const contentPath = path.join(root, '_content');
 
-export type MdxCompiledFrontMatter = {
+export type MdxCompiledMetadata = {
   title: string;
   brief: string;
   date: string;
-};
-
-export type MdxFrontMatter = MdxCompiledFrontMatter & {
   slug: string;
-  readingTime: ReadTimeResults;
 };
 
-export type MdxFile = {
-  content: ReactElement;
-  frontmatter: MdxFrontMatter;
+export type BlogMetadata = MdxCompiledMetadata & {
+  readingTime: ReadTimeResults;
+  viewCount: number;
 };
+
+export type MdxFile<
+  Metadata extends MdxCompiledMetadata = MdxCompiledMetadata,
+> = {
+  source: string;
+  content: ReactElement;
+  metadata: Metadata;
+};
+
+export type BlogFile = MdxFile<BlogMetadata>;
 
 export enum MdxContentType {
   BLOG = 'blog',
@@ -42,18 +48,16 @@ export async function getFileBySlug(
 ): Promise<MdxFile> {
   const source = getFile(type, `${slug}.mdx`);
 
-  const { content, frontmatter } = await compileMDX<MdxCompiledFrontMatter>({
+  const { content, frontmatter } = await compileMDX<MdxCompiledMetadata>({
     source,
     options: { parseFrontmatter: true },
   });
 
-  const readingStats = readingTime(source);
-
   return {
+    source,
     content,
-    frontmatter: {
+    metadata: {
       ...frontmatter,
-      readingTime: readingStats,
       slug,
     },
   };
@@ -65,12 +69,44 @@ export async function getAllFilesByType(
   const files = getFiles(type);
 
   return Promise.all(
-    files.slice(0, 1).map((fileName) => {
+    files.map((fileName) => {
       return getFileBySlug(type, fileName.replace('.mdx', ''));
     })
   );
 }
 
-export function getAllBlogPosts(): Promise<MdxFile[]> {
-  return getAllFilesByType(MdxContentType.BLOG);
+export async function getAllBlogPosts(): Promise<BlogFile[]> {
+  const files = await getAllFilesByType(MdxContentType.BLOG);
+  return Promise.all(
+    files.map((file) => {
+      const readingStats = readingTime(file.source);
+      return {
+        ...file,
+        metadata: {
+          ...file.metadata,
+          readingTime: readingStats,
+          viewCount: 0,
+        },
+      };
+    })
+  );
+}
+
+export enum OrderType {
+  DATE = 'date',
+  VIEW_COUNT = 'viewCount',
+}
+
+export async function getOrderedBlogPosts(
+  orderType: OrderType = OrderType.DATE
+): Promise<BlogFile[]> {
+  const posts = await getAllBlogPosts();
+  return posts.sort((a, b) => {
+    if (orderType === OrderType.VIEW_COUNT) {
+      return b.metadata.viewCount - a.metadata.viewCount;
+    }
+    return (
+      new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime()
+    );
+  });
 }
