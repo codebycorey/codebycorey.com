@@ -4,6 +4,7 @@ import path from 'path';
 import readingTime, { ReadTimeResults } from 'reading-time';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import { ReactElement } from 'react';
+import { fuzzySearch } from './search';
 
 const root = process.cwd();
 const contentPath = path.join(root, '_content');
@@ -97,16 +98,38 @@ export enum OrderType {
   VIEW_COUNT = 'viewCount',
 }
 
+const sortPostsBy = (orderType: OrderType) => {
+  return (a: BlogFile, b: BlogFile) => {
+    if (orderType === OrderType.DATE) {
+      return (
+        new Date(b.metadata.date).getTime() -
+        new Date(a.metadata.date).getTime()
+      );
+    }
+    return b.metadata.viewCount - a.metadata.viewCount;
+  };
+};
+
 export async function getOrderedBlogPosts(
   orderType: OrderType = OrderType.DATE
 ): Promise<BlogFile[]> {
   const posts = await getAllBlogPosts();
-  return posts.sort((a, b) => {
-    if (orderType === OrderType.VIEW_COUNT) {
-      return b.metadata.viewCount - a.metadata.viewCount;
-    }
-    return (
-      new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime()
-    );
-  });
+  return posts.sort(sortPostsBy(orderType));
+}
+
+export async function getOrderedAndFilteredBlogPosts({
+  orderType = OrderType.DATE,
+  query,
+}: {
+  orderType?: OrderType;
+  query?: string;
+}): Promise<BlogFile[]> {
+  let posts = await getAllBlogPosts();
+
+  if (query) {
+    posts = posts.filter((post) => {
+      return fuzzySearch(query, post.metadata.title);
+    });
+  }
+  return posts.sort(sortPostsBy(orderType));
 }
