@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Image from 'next/image';
-import { SidebarLink } from '@/components/SidebarLink';
-
+import WrappedLink from '@/components/WrappedLink';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -81,7 +80,9 @@ export default function RootLayout({
                   <ul className="space-y-2">
                     {sidebarLinks.map((link) => (
                       <li key={link.href}>
-                        <SidebarLink href={link.href} label={link.label} />
+                        <WrappedLink className="text-xl" href={link.href}>
+                          {link.label}
+                        </WrappedLink>
                       </li>
                     ))}
                   </ul>
