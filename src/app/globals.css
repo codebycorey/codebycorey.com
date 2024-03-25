@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --sh-class: #f9e2af;
+    --sh-identifier: #f38ba8;
+    --sh-sign: #74c7ec;
+    --sh-property: #89b4fa;
+    --sh-entity: #f9e2af;
+    --sh-jsxliterals: #89b4fa;
+    --sh-string: #a6e3a1;
+    --sh-keyword: #cba6f7;
+    --sh-comment: #6c7086;
+}
+
+.prose pre {
+    @apply dark:bg-zinc-800;
+}
+
+.prose p code,
+.prose li code {
+    --sh-class: var(--tw-prose-code);
+    --sh-identifier: var(--tw-prose-code);
+    --sh-sign: var(--tw-prose-code);
+    --sh-property: var(--tw-prose-code);
+    --sh-entity: var(--tw-prose-code);
+    --sh-jsxliterals: var(--tw-prose-code);
+    --sh-string: var(--tw-prose-code);
+    --sh-keyword: var(--tw-prose-code);
+    --sh-comment: var(--tw-prose-code);
+}
+
+pre::-webkit-scrollbar {
+    display: none;
+}
+
+pre {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}

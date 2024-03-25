@@ -1,19 +1,17 @@
 import Link from 'next/link';
-import { FC, PropsWithChildren } from 'react';
+import { AnchorHTMLAttributes, DetailedHTMLProps, FC } from 'react';
 
-type WrappedLinkProps = PropsWithChildren<{
-  className?: string;
-  href: string;
-}>;
-
-const WrappedLink: FC<WrappedLinkProps> = ({ className, href, children }) => {
-  const isInternalLink = href.startsWith('/');
+const WrappedLink: FC<
+  DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>
+> = ({ className, children, href, ...params }) => {
+  const isInternalLink = href?.startsWith('/');
   const sharedClasses =
-    'flex items-center gap-1 underline underline-offset-8 hover:text-zinc-600';
+    'no-underline	inline-flex items-center gap-0.5 border-b-2 border-zinc-900 hover:text-zinc-600 m-0';
+  const combinedClasses = `${sharedClasses}${className ? ` ${className}` : ''}`;
 
   if (isInternalLink) {
     return (
-      <Link className={`${sharedClasses} ${className}`} href={href}>
+      <Link className={combinedClasses} href={href || ''}>
         {children}
       </Link>
     );
@@ -21,10 +19,11 @@ const WrappedLink: FC<WrappedLinkProps> = ({ className, href, children }) => {
 
   return (
     <a
-      className={`${sharedClasses} ${className}`}
+      className={combinedClasses}
       href={href}
       target="_blank"
       rel="noopener noreferrer nofollow"
+      {...params}
     >
       {children}
       <svg
