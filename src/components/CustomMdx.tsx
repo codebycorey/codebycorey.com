@@ -5,12 +5,20 @@ import {
   HTMLAttributes,
   PropsWithChildren,
 } from 'react';
-import Image, { ImageProps } from 'next/image';
+import Image, { ImageProps } from "next/image";
 import WrappedLink from './WrappedLink';
 import { highlight } from 'sugar-high';
 
 const CustomImage: FC<ImageProps> = (props) => {
-  return <Image {...props} alt={props.alt} />;
+  return (
+    <Image
+      {...props}
+      alt={props.alt}
+      style={{
+        maxWidth: "100%",
+        height: "auto"
+      }} />
+  );
 };
 
 const slugify = (text: string) => {
