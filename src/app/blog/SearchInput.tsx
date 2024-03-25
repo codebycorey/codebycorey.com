@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
-import { FC, useEffect, useRef } from 'react';
+import { FC, Suspense, useEffect, useRef, useState } from 'react';
 
 // TODO: replace navigator.platform with non-deprecated method
 const SearchInput: FC = () => {
@@ -12,10 +12,20 @@ const SearchInput: FC = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const [actionKey, setActionKey] = useState<string>('');
+
   useEffect(() => {
+    if (typeof navigator !== 'undefined') {
+      if (/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+        setActionKey('⌘K');
+      } else {
+        setActionKey('CtrlK');
+      }
+    }
+
     const handleKeyPress = (event: KeyboardEvent) => {
       let hotkey = false;
-      if (navigator.platform.toLowerCase().startsWith('mac')) {
+      if (/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
         hotkey = event.metaKey && event.key === 'k';
       } else {
         hotkey = event.ctrlKey && event.key === 'k';
@@ -55,11 +65,15 @@ const SearchInput: FC = () => {
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get('q')?.toString()}
       />
-      <div className="absolute inset-y-0 right-0 flex py-3 pr-1.5">
-        <kbd className="inline-flex items-center rounded border border-zinc-300 px-1 font-sans text-xs text-zinc-400">
-          {navigator.platform.toLowerCase().startsWith('mac') ? '⌘K' : 'CtrlK'}
-        </kbd>
-      </div>
+      {actionKey && (
+        <div className="absolute inset-y-0 right-0 flex py-3 pr-1.5">
+          <kbd className="inline-flex items-center rounded border border-zinc-300 px-1 font-sans text-xs text-zinc-400">
+            {navigator.platform.toLowerCase().startsWith('mac')
+              ? '⌘K'
+              : 'CtrlK'}
+          </kbd>
+        </div>
+      )}
       <div
         className="absolute inset-x-0 bottom-0 border-t border-zinc-300 peer-focus:border-t-2 peer-focus:border-zinc-500"
         aria-hidden="true"
