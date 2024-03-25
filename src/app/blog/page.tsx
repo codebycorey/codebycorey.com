@@ -8,14 +8,18 @@ type BlogProps = {
   };
 };
 
+export const metadata: Metadata = {
+  title: 'Blog',
+};
+
 export default async function Blog({ searchParams }: BlogProps) {
   const blogPosts = await getOrderedAndFilteredBlogPosts({
     orderType: OrderType.DATE,
     query: searchParams?.q || '',
   });
   return (
-    <section className="mx-auto max-w-xl space-y-12 mt-12">
-      <h2 className="text-4xl font-bold">Blog Posts</h2>
+    <section className="mx-auto max-w-2xl space-y-12 mt-12 px-4">
+      <h2 className="text-4xl">Blog Posts</h2>
       <SearchInput />
       <ul className="space-y-16">
         {blogPosts.map(({ metadata }: BlogFile) => (
