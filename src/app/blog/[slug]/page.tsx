@@ -76,17 +76,21 @@ export default async function Page({ params }: PageProps) {
           }),
         }}
       />
-      <article className="mx-auto prose prose-neutral my-12 px-4 max-w-2xl">
+      <section className="mx-auto  my-12 px-4 max-w-2xl space-y-6">
         <h1 className="not-prose text-4xl">{post.metadata.title}</h1>
-        <div className="flex justify-between">
-          <p className="my-1">{post.metadata.formattedDate}</p>
-          <p className="my-1">{viewCount} views</p>
+        <div>
+          <div className="flex justify-between">
+            <time>{post.metadata.formattedDate}</time>
+            <p>{viewCount} views</p>
+          </div>
+          <p className="text-zinc-400 my-1">
+            Affiliate links may earn commissions.
+          </p>
         </div>
-        <p className="text-zinc-400 my-1">
-          Affiliate links may earn commissions.
-        </p>
-        <CustomMdx source={post.content} />
-      </article>
+        <div className="prose prose-neutral">
+          <CustomMdx source={post.content} />
+        </div>
+      </section>
     </>
   );
 }

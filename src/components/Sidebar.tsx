@@ -25,6 +25,9 @@ export const SIDEBAR_LINKS: { href: string; label: string }[] = [
   },
 ];
 
+const NAME = "Corey O'Donnell";
+const ROLE = 'Software Engineer';
+
 const Sidebar: FC = () => {
   return (
     <div className="space-y-5 flex flex-col items-center mt-12 sticky top-12">
@@ -33,11 +36,12 @@ const Sidebar: FC = () => {
         src="/static/images/profile.jpg"
         width="200"
         height="200"
+        priority
         className="rounded-full mb-4"
       />
       <div className="space-y-5">
-        <h1 className="text-4xl">{"Corey O'Donnell"}</h1>
-        <h2 className="text-2xl">Software Engineer</h2>
+        <p className="text-4xl">{NAME}</p>
+        <p className="text-2xl">{ROLE}</p>
         <nav>
           <ul className="space-y-2">
             {SIDEBAR_LINKS.map((link) => (
