@@ -1,4 +1,4 @@
-import { BlogMetadata } from '@/lib/mdx';
+import { BlogMetadata } from '@/types/mdx.types';
 import Link from 'next/link';
 import { FC } from 'react';
 

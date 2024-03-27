@@ -1,4 +1,5 @@
-import { BlogFile, getOrderedBlogPosts } from '@/lib/mdx';
+import { getOrderedBlogPosts } from '@/lib/mdx';
+import { BlogFile } from '@/types/mdx.types';
 import { MetadataRoute } from 'next';
 
 export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
