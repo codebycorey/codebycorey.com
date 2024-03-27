@@ -1,51 +1,32 @@
+'use server';
+
 import fs from 'fs';
 import path from 'path';
 import { format } from 'date-fns';
 
-import readingTime, { ReadTimeResults } from 'reading-time';
+import readingTime from 'reading-time';
 import { fuzzySearch } from './search';
+import {
+  BlogFile,
+  BlogMetadata,
+  MdxContentType,
+  MdxFile,
+  MdxFrontmatter,
+  OrderType,
+} from '@/types/mdx.types';
 
 const root = process.cwd();
 const contentPath = path.join(root, '_content');
 
-export type MdxFrontmatter = {
-  title: string;
-  date: string;
-  brief: string;
-};
-
-export type MdxCompiledMetadata = {
-  slug: string;
-} & MdxFrontmatter;
-
-export type BlogMetadata = MdxCompiledMetadata & {
-  readingTime: ReadTimeResults;
-  viewCount: number;
-  formattedDate: string;
-};
-
-export type MdxFile<
-  Metadata extends MdxCompiledMetadata = MdxCompiledMetadata,
-> = {
-  content: string;
-  metadata: Metadata;
-};
-
-export type BlogFile = MdxFile<BlogMetadata>;
-
-export enum MdxContentType {
-  BLOG = 'blog',
-}
-
-export function getFiles(type: MdxContentType): string[] {
+function getFiles(type: MdxContentType): string[] {
   return fs.readdirSync(path.join(contentPath, type));
 }
 
-export function getFile(type: string, fileName: string): string {
+function getFile(type: string, fileName: string): string {
   return fs.readFileSync(path.join(contentPath, type, fileName), 'utf8');
 }
 
-export function parseFrontmatter(source: string): {
+function parseFrontmatter(source: string): {
   content: string;
   frontmatter: MdxFrontmatter;
 } {
@@ -70,7 +51,7 @@ export function parseFrontmatter(source: string): {
   };
 }
 
-export function getFileBySlug(type: MdxContentType, slug: string): MdxFile {
+function getFileBySlug(type: MdxContentType, slug: string): MdxFile {
   const source = getFile(type, `${slug}.mdx`);
 
   const { content, frontmatter } = parseFrontmatter(source);
@@ -84,6 +65,14 @@ export function getFileBySlug(type: MdxContentType, slug: string): MdxFile {
   };
 }
 
+function getAllFilesByType(type: MdxContentType): MdxFile[] {
+  const files = getFiles(type);
+
+  return files.map((fileName) =>
+    getFileBySlug(type, fileName.replace('.mdx', ''))
+  );
+}
+
 export async function getBlogPostMetadata(
   file: MdxFile
 ): Promise<BlogMetadata> {
@@ -95,14 +84,6 @@ export async function getBlogPostMetadata(
     viewCount: 0,
     formattedDate: date,
   };
-}
-
-export function getAllFilesByType(type: MdxContentType): MdxFile[] {
-  const files = getFiles(type);
-
-  return files.map((fileName) =>
-    getFileBySlug(type, fileName.replace('.mdx', ''))
-  );
 }
 
 export async function getAllBlogPosts(): Promise<BlogFile[]> {
@@ -129,11 +110,6 @@ export async function getBlogPostBySlug(
       metadata,
     };
   }
-}
-
-export enum OrderType {
-  DATE = 'date',
-  VIEW_COUNT = 'viewCount',
 }
 
 const sortPostsBy = (orderType: OrderType) => {

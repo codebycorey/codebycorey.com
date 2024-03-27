@@ -1,7 +1,8 @@
-import { BlogFile, OrderType, getOrderedAndFilteredBlogPosts } from '@/lib/mdx';
+import { getOrderedAndFilteredBlogPosts } from '@/lib/mdx';
 import { HomepageBlogLink } from '@/components/HomepageBlogLink';
 import SearchInput from './SearchInput';
 import { Metadata } from 'next';
+import { BlogFile, OrderType } from '@/types/mdx.types';
 
 type BlogProps = {
   searchParams: {

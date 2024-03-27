@@ -1,6 +1,7 @@
 import WrappedLink from '@/components/WrappedLink';
-import { BlogFile, getOrderedBlogPosts } from '../lib/mdx';
+import { getOrderedBlogPosts } from '../lib/mdx';
 import { HomepageBlogLink } from '@/components/HomepageBlogLink';
+import { BlogFile } from '@/types/mdx.types';
 
 export default async function Home() {
   const blogPosts = await getOrderedBlogPosts();

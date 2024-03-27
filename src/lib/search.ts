@@ -1,3 +1,4 @@
+'use server';
 /**
  * Returns true if each character in query is found sequentially within text.
  */

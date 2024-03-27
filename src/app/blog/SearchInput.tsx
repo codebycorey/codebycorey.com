@@ -2,9 +2,8 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
-import { FC, Suspense, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
-// TODO: replace navigator.platform with non-deprecated method
 const SearchInput: FC = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -68,9 +67,7 @@ const SearchInput: FC = () => {
       {actionKey && (
         <div className="absolute inset-y-0 right-0 flex py-3 pr-1.5">
           <kbd className="inline-flex items-center rounded border border-zinc-300 px-1 font-sans text-xs text-zinc-400">
-            {navigator.platform.toLowerCase().startsWith('mac')
-              ? '⌘K'
-              : 'CtrlK'}
+            {actionKey}
           </kbd>
         </div>
       )}
