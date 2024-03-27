@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: 'Blog',
   description:
     'My blog posts of my thoughts and learns related to software engineering.',
+  alternates: {
+    canonical: `/blog`,
+  },
 };
 
 export default async function Blog({ searchParams }: BlogProps) {
