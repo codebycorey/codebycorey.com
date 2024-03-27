@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Sidebar from '@/components/Sidebar';
 import Footer from '@/components/Footer';
+import Fathom from '@/components/Fathom';
 const inter = Inter({ subsets: ['latin'] });
 
 const title = "CodeByCorey - Corey O'Donnell";
@@ -52,6 +53,7 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body className={inter.className}>
+        <Fathom />
         <main className="flex flex-wrap justify-center max-w-5xl mx-auto">
           <div className="grow-1 px-8">
             <Sidebar />
