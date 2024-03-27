@@ -1,9 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { format } from 'date-fns';
 
 import readingTime, { ReadTimeResults } from 'reading-time';
-import { compileMDX } from 'next-mdx-remote/rsc';
-import { ReactElement } from 'react';
 import { fuzzySearch } from './search';
 
 const root = process.cwd();
@@ -22,6 +21,7 @@ export type MdxCompiledMetadata = {
 export type BlogMetadata = MdxCompiledMetadata & {
   readingTime: ReadTimeResults;
   viewCount: number;
+  formattedDate: string;
 };
 
 export type MdxFile<
@@ -88,10 +88,12 @@ export async function getBlogPostMetadata(
   file: MdxFile
 ): Promise<BlogMetadata> {
   const readingStats = readingTime(file.content);
+  const date = format(file.metadata.date, 'MMMM dd, yyyy');
   return {
     ...file.metadata,
     readingTime: readingStats,
     viewCount: 0,
+    formattedDate: date,
   };
 }
 

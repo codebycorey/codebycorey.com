@@ -9,7 +9,14 @@ export default async function Home() {
       <div className="space-y-3">
         <h3 className="text-4xl">{`👋 Hi there, the names Corey`}</h3>
         <p className="text-lg">{`I'm a software engineer with a passion for frontend projects. I thrive on TypeScript, React.js, and Next.js, but I am not afraid to jump in to something new.`}</p>
-        <p className="text-lg">{`When I'm not coding, I'm probably jotting down what I've learned or honing my baking skills with sourdough. Oh, and I'm also a proud dad to two amazing kids.`}</p>
+        <p className="text-lg">
+          When I am not coding, I am probably jotting down what I have learned
+          or honing my baking skills with{' '}
+          <WrappedLink href="https://flourandflorabaking.com">
+            sourdough
+          </WrappedLink>
+          . Oh, and I am also a proud dad to two amazing kids.
+        </p>
         <p className="text-lg">{`Lets connect and create something awesome!`}</p>
       </div>
       <div className="space-y-3">

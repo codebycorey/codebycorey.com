@@ -2,7 +2,7 @@ import { FC } from 'react';
 import WrappedLink from './WrappedLink';
 import Image from 'next/image';
 
-const sidebarLinks: { href: string; label: string }[] = [
+export const SIDEBAR_LINKS: { href: string; label: string }[] = [
   {
     href: '/',
     label: 'Home',
@@ -40,7 +40,7 @@ const Sidebar: FC = () => {
         <h2 className="text-2xl">Software Engineer</h2>
         <nav>
           <ul className="space-y-2">
-            {sidebarLinks.map((link) => (
+            {SIDEBAR_LINKS.map((link) => (
               <li key={link.href}>
                 <WrappedLink className="text-xl" href={link.href}>
                   {link.label}

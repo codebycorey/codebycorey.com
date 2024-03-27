@@ -1,6 +1,7 @@
 import { BlogFile, OrderType, getOrderedAndFilteredBlogPosts } from '@/lib/mdx';
 import { HomepageBlogLink } from '@/components/HomepageBlogLink';
 import SearchInput from './SearchInput';
+import { Metadata } from 'next';
 
 type BlogProps = {
   searchParams: {
@@ -10,6 +11,8 @@ type BlogProps = {
 
 export const metadata: Metadata = {
   title: 'Blog',
+  description:
+    'My blog posts of my thoughts and learns related to software engineering.',
 };
 
 export default async function Blog({ searchParams }: BlogProps) {
@@ -21,7 +24,7 @@ export default async function Blog({ searchParams }: BlogProps) {
     <section className="mx-auto max-w-2xl space-y-12 mt-12 px-4">
       <h2 className="text-4xl">Blog Posts</h2>
       <SearchInput />
-      <ul className="space-y-16">
+      <ul className="space-y-12">
         {blogPosts.map(({ metadata }: BlogFile) => (
           <li key={metadata.slug}>
             <HomepageBlogLink {...metadata} />

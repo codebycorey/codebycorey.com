@@ -2,14 +2,18 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Sidebar from '@/components/Sidebar';
+import Footer from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
-const title = "CodeByCorey | Corey O'Donnell";
+const title = "CodeByCorey - Corey O'Donnell";
 const description = 'Software engineer, TypeScript enthusiast, and creator';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://codebycorey.com'),
-  title,
+  title: {
+    default: title,
+    template: `%s | ${title}`,
+  },
   description,
   alternates: {
     canonical: '/',
@@ -54,6 +58,7 @@ export default function RootLayout({
           </div>
           <div className="basis-0 grow-[999] min-w-[50%]">{children}</div>
         </main>
+        <Footer />
       </body>
     </html>
   );
