@@ -4,7 +4,7 @@ import { Database } from '@/types/database.types';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseServerKey = process.env.SUPABASE_SERVER_KEY || '';
+const supabaseServerKey = process.env.SUPABASE_SERVICE_KEY || '';
 
 const SupabaseAdmin = createClient<Database>(supabaseUrl, supabaseServerKey);
 
