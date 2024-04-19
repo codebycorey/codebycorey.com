@@ -29,7 +29,14 @@ export const fetchViewCount = async (slug: string): Promise<number | null> => {
   return null;
 };
 
-export const fetchAllViewCounts = async () => {
-  const { data } = await SupabaseAdmin.from('pages').select();
-  console.log('ALL DATA', data);
+export const fetchAllViewCounts = async (): Promise<Record<string, number>> => {
+  const { data } = await SupabaseAdmin.from('pages').select('*');
+  // efficient way to lookup slug to view_count later
+  const viewCounts: Record<string, number> = {};
+  if (data) {
+    data.forEach((page) => {
+      viewCounts[page.slug] = page.view_count;
+    });
+  }
+  return viewCounts;
 };

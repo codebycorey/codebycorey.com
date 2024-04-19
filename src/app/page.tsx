@@ -2,9 +2,12 @@ import WrappedLink from '@/components/WrappedLink';
 import { getOrderedBlogPosts } from '../lib/mdx';
 import { HomepageBlogLink } from '@/components/HomepageBlogLink';
 import { BlogFile } from '@/types/mdx.types';
+import { fetchAllViewCounts } from '@/lib/supabase';
 
 export default async function Home() {
   const blogPosts = await getOrderedBlogPosts();
+  const viewCounts = await fetchAllViewCounts();
+
   return (
     <section className="mx-auto max-w-2xl space-y-12 mt-12 px-4">
       <div className="space-y-6">
@@ -30,7 +33,10 @@ export default async function Home() {
         <ul className="space-y-8">
           {blogPosts.slice(0, 4).map(({ metadata }: BlogFile) => (
             <li key={metadata.slug}>
-              <HomepageBlogLink {...metadata} />
+              <HomepageBlogLink
+                metadata={metadata}
+                count={viewCounts[metadata.slug]}
+              />
             </li>
           ))}
         </ul>
