@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
           fontFamily: 'Inter',
           fontStyle: 'normal',
           color: 'black',
+          backgroundColor: 'white',
         }}
       >
         <div
