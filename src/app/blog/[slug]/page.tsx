@@ -1,4 +1,5 @@
 import CustomMdx from '@/components/CustomMdx';
+import WrappedLink from '@/components/WrappedLink';
 import { getBlogPostBySlug } from '@/lib/mdx';
 import { fetchAndIncrementViewCount } from '@/lib/supabase';
 import { Metadata } from 'next';
@@ -93,6 +94,11 @@ export default async function Page({ params }: PageProps) {
         <div className="prose prose-neutral">
           <CustomMdx source={post.content} />
         </div>
+        <WrappedLink
+          href={`https://github.com/codebycorey/codebycorey.com/blob/main/_content/blog/${params.slug}.mdx`}
+        >
+          Edit this page on GitHub
+        </WrappedLink>
       </section>
     </>
   );
