@@ -22,7 +22,7 @@ export async function generateMetadata({
   }
 
   const image = {
-    url: `https://codebycorey.com/static/images/${params.slug}/header.png`,
+    url: `https://codebycorey.com/og?title=${post.metadata.title}`,
     alt: post.metadata.title,
   };
 
