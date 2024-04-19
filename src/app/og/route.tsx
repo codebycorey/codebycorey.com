@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
       height: 1080,
       fonts: [
         {
-          name: 'Kaisei Tokumin',
+          name: 'Inter',
           data: fontData,
           style: 'normal',
         },

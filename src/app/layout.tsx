@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
 import './globals.css';
 import Sidebar from '@/components/Sidebar';
 import Footer from '@/components/Footer';
@@ -53,7 +55,6 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body className={inter.className}>
-        <Fathom />
         <main className="flex flex-wrap justify-center max-w-5xl mx-auto">
           <div className="grow-1 px-8">
             <Sidebar />
@@ -61,6 +62,9 @@ export default function RootLayout({
           <div className="basis-0 grow-[999] min-w-[50%]">{children}</div>
         </main>
         <Footer />
+
+        <Fathom />
+        <SpeedInsights />
       </body>
     </html>
   );
