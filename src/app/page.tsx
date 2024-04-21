@@ -24,7 +24,7 @@ export default async function Home() {
         <p className="text-lg">{`Lets connect and create something awesome!`}</p>
       </div>
       <div className="space-y-6">
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-wrap">
           <h2 className="text-4xl">Recent Blog Posts</h2>
           <WrappedLink href="/blog" className="text-lg">
             view all
