@@ -10,7 +10,7 @@ const Footer = () => {
           <p>
             &copy; {year} Corey {`O'Donnell`}
           </p>
-          <WrappedLink href="https://usefathom.com/ref/45XEAJ">
+          <WrappedLink href="https://link.codebycorey.com/fathom">
             Privacy-respecting analytics
           </WrappedLink>{' '}
           by Fathom

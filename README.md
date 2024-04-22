@@ -8,7 +8,7 @@ My portfolio website where I spend a lot of my time learning, experimenting, and
 - **CMS**: [MDX](https://github.com/mdx-js/mdx)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Database**: [Supabase](https://supabase.io/)
-- **Analytics**: [Fathom Analytics](https://usefathom.com/ref/45XEAJ)
+- **Analytics**: [Fathom Analytics](https://link.codebycorey.com/fathom)
 
 ## Running Locally
 
