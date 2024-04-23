@@ -71,7 +71,7 @@ export default async function Page({ params }: PageProps) {
             datePublished: post.metadata.date,
             dateModified: post.metadata.date,
             description: post.metadata.brief,
-            image: `https://codebycorey.com/static/images/${post.metadata.slug}/header.png`,
+            image: `https://codebycorey.com/og?title=${post.metadata.title}`,
             url: `https://codebycorey.com/blog/${post.metadata.slug}`,
             author: {
               '@type': 'Person',
