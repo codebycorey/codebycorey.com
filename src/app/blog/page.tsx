@@ -11,6 +11,9 @@ type BlogProps = {
   };
 };
 
+// revalidate page every hour for page view updates.
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Blog',
   description:

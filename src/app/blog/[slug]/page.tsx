@@ -11,8 +11,8 @@ type PageProps = {
   };
 };
 
-// revalidate page every 60 seconds. ideally for page view updates.
-export const revalidate = 60;
+// revalidate page every hour for page view updates.
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,

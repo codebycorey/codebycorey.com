@@ -4,6 +4,9 @@ import { HomepageBlogLink } from '@/components/HomepageBlogLink';
 import { BlogFile } from '@/types/mdx.types';
 import { fetchAllViewCounts } from '@/lib/supabase';
 
+// revalidate page every hour for page view updates.
+export const revalidate = 3600;
+
 export default async function Home() {
   const blogPosts = await getOrderedBlogPosts();
   const viewCounts = await fetchAllViewCounts();
