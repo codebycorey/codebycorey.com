@@ -54,9 +54,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head></head>
-      <body className={inter.className}>
-        <main className="flex flex-wrap justify-center max-w-5xl mx-auto">
-          <div className="grow-1 px-8">
+      <body className={`${inter.className} min-h-screen`}>
+        <main className="h-full flex grow flex-wrap justify-center max-w-5xl mx-auto">
+          <div className="grow px-8">
             <Sidebar />
           </div>
           <div className="basis-0 grow-[999] min-w-[50%]">{children}</div>
