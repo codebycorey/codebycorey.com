@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { clsx } from 'clsx';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import './globals.css';
@@ -54,15 +55,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head></head>
-      <body className={`${inter.className} min-h-screen`}>
-        <main className="h-full flex grow flex-wrap justify-center max-w-5xl mx-auto">
+      <body className={clsx(inter.className, 'min-h-screen flex flex-col')}>
+        <main className="h-full flex grow flex-wrap justify-center max-w-5xl mx-auto sm:flex-col md:flex-row">
           <div className="grow px-8">
             <Sidebar />
           </div>
           <div className="basis-0 grow-[999] min-w-[50%]">{children}</div>
         </main>
         <Footer />
-
         <Fathom />
         <SpeedInsights />
       </body>

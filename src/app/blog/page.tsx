@@ -31,7 +31,7 @@ export default async function Blog({ searchParams }: BlogProps) {
   const viewCounts = await fetchAllViewCounts();
 
   return (
-    <section className="mx-auto max-w-2xl space-y-12 mt-12 px-4">
+    <section className="mx-auto max-w-2xl space-y-6 px-8 mt-4 md:mt-12">
       <h2 className="text-4xl">Blog Posts</h2>
       <SearchInput />
       <ul className="space-y-12">
