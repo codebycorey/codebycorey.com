@@ -5,7 +5,7 @@ import path from 'path';
 import { format } from 'date-fns';
 
 import readingTime from 'reading-time';
-import { fuzzySearch } from './search';
+import { sequentialFuzzySearch } from './search';
 import {
   BlogFile,
   BlogMetadata,
@@ -142,7 +142,7 @@ export async function getOrderedAndFilteredBlogPosts({
 
   if (query) {
     posts = posts.filter((post) => {
-      return fuzzySearch(query, post.metadata.title);
+      return sequentialFuzzySearch(query, post.metadata.title);
     });
   }
   return posts.sort(sortPostsBy(orderType));
