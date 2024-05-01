@@ -19,7 +19,7 @@ export default async function Home() {
         <p className="text-lg">
           When I am not coding, I am probably jotting down what I have learned
           or honing my baking skills with{' '}
-          <WrappedLink href="https://flourandflorabaking.com">
+          <WrappedLink href="https://link.codebycorey.com/sourdough">
             sourdough
           </WrappedLink>
           . Oh, and I am also a proud dad to two amazing kids.
