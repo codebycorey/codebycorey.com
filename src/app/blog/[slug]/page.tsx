@@ -37,7 +37,7 @@ export async function generateMetadata({
       title: post.metadata.title,
       description: post.metadata.brief,
       type: 'article',
-      url: `https://coreycaesar.com/blog/${post.metadata.slug}`,
+      url: `https://codebycorey.com/blog/${post.metadata.slug}`,
       publishedTime: post.metadata.date,
       images: [image],
     },
