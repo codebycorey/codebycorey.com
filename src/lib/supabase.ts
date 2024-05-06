@@ -11,7 +11,7 @@ const SupabaseAdmin = createClient<Database>(supabaseUrl, supabaseServerKey);
 export const fetchAndIncrementViewCount = async (
   slug: string
 ): Promise<number | null> => {
-  SupabaseAdmin.rpc('increment_page_view', {
+  await SupabaseAdmin.rpc('increment_page_view', {
     page_slug: slug,
   });
   return fetchViewCount(slug);

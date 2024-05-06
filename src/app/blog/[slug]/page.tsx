@@ -1,9 +1,11 @@
 import CustomMdx from '@/components/CustomMdx';
+import ViewCount from '@/components/ViewCount';
 import WrappedLink from '@/components/WrappedLink';
 import { getBlogPostBySlug } from '@/lib/mdx';
 import { fetchAndIncrementViewCount } from '@/lib/supabase';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 type PageProps = {
   params: {
@@ -52,7 +54,6 @@ export async function generateMetadata({
 
 export default async function Page({ params }: PageProps) {
   const post = await getBlogPostBySlug(params.slug);
-  const viewCount = await fetchAndIncrementViewCount(params.slug);
 
   if (!post) {
     notFound();
@@ -85,7 +86,9 @@ export default async function Page({ params }: PageProps) {
         <div>
           <div className="flex justify-between">
             <time>{post.metadata.formattedDate}</time>
-            <p>{viewCount} views</p>
+            <Suspense fallback={null}>
+              <ViewCount slug={params.slug} />
+            </Suspense>
           </div>
           <p className="text-zinc-400 my-1">
             Affiliate links may earn commissions.
