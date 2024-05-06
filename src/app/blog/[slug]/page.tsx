@@ -1,8 +1,7 @@
 import CustomMdx from '@/components/CustomMdx';
 import ViewCount from '@/components/ViewCount';
 import WrappedLink from '@/components/WrappedLink';
-import { getBlogPostBySlug } from '@/lib/mdx';
-import { fetchAndIncrementViewCount } from '@/lib/supabase';
+import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/mdx';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
@@ -13,8 +12,13 @@ type PageProps = {
   };
 };
 
-// revalidate page every hour for page view updates.
-export const revalidate = 3600;
+export async function generateStaticParams() {
+  const posts = await getAllBlogPosts();
+
+  return posts.map(({ metadata }) => ({
+    slug: metadata.slug,
+  }));
+}
 
 export async function generateMetadata({
   params,

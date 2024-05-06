@@ -1,5 +1,7 @@
 'use server';
 
+import { unstable_noStore as noStore } from 'next/cache';
+
 import { Database } from '@/types/database.types';
 import { createClient } from '@supabase/supabase-js';
 
@@ -18,6 +20,7 @@ export const fetchAndIncrementViewCount = async (
 };
 
 export const fetchViewCount = async (slug: string): Promise<number | null> => {
+  noStore();
   const { data } = await SupabaseAdmin.from('pages')
     .select('view_count')
     .eq('slug', slug);
