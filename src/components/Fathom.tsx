@@ -2,7 +2,34 @@
 
 import { load, trackPageview } from 'fathom-client';
 import { useEffect, Suspense } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import {
+  ReadonlyURLSearchParams,
+  usePathname,
+  useSearchParams,
+} from 'next/navigation';
+
+function stripUTMParams(searchParams: ReadonlyURLSearchParams) {
+  const params = new URLSearchParams(searchParams);
+  const utmParams = [
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_term',
+    'utm_content',
+  ];
+
+  utmParams.forEach((param) => {
+    if (params.has(param)) {
+      params.delete(param);
+    }
+  });
+
+  if (params.has('ref')) {
+    params.delete('ref');
+  }
+
+  return params.toString();
+}
 
 function TrackPageView() {
   const pathname = usePathname();
@@ -21,7 +48,7 @@ function TrackPageView() {
     if (!pathname) return;
 
     trackPageview({
-      url: pathname + searchParams.toString(),
+      url: pathname + stripUTMParams(searchParams),
       referrer: document.referrer,
     });
   }, [pathname, searchParams]);
