@@ -1,15 +1,14 @@
 import { BlogMetadata } from '@/types/mdx.types';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, Suspense } from 'react';
+import { BlogListItemViewCount } from './ViewCount';
 
-type HomepageBlogLinkProps = {
+type BlogListItemProps = {
   metadata: BlogMetadata;
-  count?: number;
 };
 
-export const HomepageBlogLink: FC<HomepageBlogLinkProps> = ({
+export const BlogListItem: FC<BlogListItemProps> = ({
   metadata: { title, brief, formattedDate, slug },
-  count,
 }) => {
   return (
     <Link href={`/blog/${slug}`} className="space-y-3">
@@ -17,11 +16,9 @@ export const HomepageBlogLink: FC<HomepageBlogLinkProps> = ({
       <p>{brief}</p>
       <div className="flex justify-between">
         <span className="text-zinc-500">{formattedDate}</span>
-        {count && (
-          <span className="text-zinc-500">
-            {count} view{(count ?? 0) > 1 ? 's' : ''}
-          </span>
-        )}
+        <Suspense fallback={<p />}>
+          <BlogListItemViewCount slug={slug} />
+        </Suspense>
       </div>
     </Link>
   );

@@ -1,5 +1,5 @@
 import CustomMdx from '@/components/CustomMdx';
-import ViewCount from '@/components/ViewCount';
+import { BlogViewCount } from '@/components/ViewCount';
 import WrappedLink from '@/components/WrappedLink';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/mdx';
 import { Metadata } from 'next';
@@ -91,7 +91,7 @@ export default async function Page({ params }: PageProps) {
           <div className="flex justify-between">
             <time>{post.metadata.formattedDate}</time>
             <Suspense fallback={null}>
-              <ViewCount slug={params.slug} />
+              <BlogViewCount slug={params.slug} />
             </Suspense>
           </div>
           <p className="text-zinc-400 my-1">

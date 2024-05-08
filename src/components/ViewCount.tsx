@@ -1,13 +1,35 @@
-import { fetchAndIncrementViewCount } from '@/lib/supabase';
-import { FC } from 'react';
+import { fetchAllViewCounts, fetchAndIncrementViewCount } from '@/lib/supabase';
+import { FC, cache } from 'react';
 
-type Props = {
+type ViewCountProps = {
+  count: number;
+};
+const ViewCount: FC<ViewCountProps> = async ({ count }) => {
+  return (
+    <p>
+      {count} view{count === 1 ? '' : 's'}
+    </p>
+  );
+};
+
+type BlogViewCountProps = {
   slug: string;
 };
-
-const ViewCount: FC<Props> = async ({ slug }) => {
+export const BlogViewCount: FC<BlogViewCountProps> = async ({ slug }) => {
   const viewCount = await fetchAndIncrementViewCount(slug);
-  return <p>{viewCount} views</p>;
+  const count = viewCount ?? 0;
+  return <ViewCount count={count} />;
 };
 
-export default ViewCount;
+const cachedFetchAllViewCounts = cache(fetchAllViewCounts);
+
+type BlogListItemViewCountProps = {
+  slug: string;
+};
+export const BlogListItemViewCount: FC<BlogListItemViewCountProps> = async ({
+  slug,
+}) => {
+  const viewCounts = await cachedFetchAllViewCounts();
+  const count = viewCounts[slug] ?? 0;
+  return <ViewCount count={count} />;
+};
