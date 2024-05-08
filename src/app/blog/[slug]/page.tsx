@@ -13,7 +13,7 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  const posts = await getAllBlogPosts();
+  const posts = getAllBlogPosts();
 
   return posts.map(({ metadata }) => ({
     slug: metadata.slug,
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const post = await getBlogPostBySlug(params.slug);
+  const post = getBlogPostBySlug(params.slug);
   if (!post) {
     return {};
   }
@@ -57,7 +57,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: PageProps) {
-  const post = await getBlogPostBySlug(params.slug);
+  const post = getBlogPostBySlug(params.slug);
 
   if (!post) {
     notFound();

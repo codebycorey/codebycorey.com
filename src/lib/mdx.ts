@@ -73,9 +73,7 @@ function getAllFilesByType(type: MdxContentType): MdxFile[] {
   );
 }
 
-export async function getBlogPostMetadata(
-  file: MdxFile
-): Promise<BlogMetadata> {
+export function getBlogPostMetadata(file: MdxFile): BlogMetadata {
   const readingStats = readingTime(file.content);
   const date = format(file.metadata.date, 'MMMM dd, yyyy');
   return {
@@ -86,25 +84,21 @@ export async function getBlogPostMetadata(
   };
 }
 
-export async function getAllBlogPosts(): Promise<BlogFile[]> {
+export function getAllBlogPosts(): BlogFile[] {
   const files = getAllFilesByType(MdxContentType.BLOG);
-  return Promise.all(
-    files.map(async (file) => {
-      const metadata = await getBlogPostMetadata(file);
-      return {
-        ...file,
-        metadata,
-      };
-    })
-  );
+  return files.map((file) => {
+    const metadata = getBlogPostMetadata(file);
+    return {
+      ...file,
+      metadata,
+    };
+  });
 }
 
-export async function getBlogPostBySlug(
-  slug: string
-): Promise<BlogFile | undefined> {
+export function getBlogPostBySlug(slug: string): BlogFile | undefined {
   const file = getFileBySlug(MdxContentType.BLOG, slug);
   if (file) {
-    const metadata = await getBlogPostMetadata(file);
+    const metadata = getBlogPostMetadata(file);
     return {
       ...file,
       metadata,
@@ -124,21 +118,21 @@ const sortPostsBy = (orderType: OrderType) => {
   };
 };
 
-export async function getOrderedBlogPosts(
+export function getOrderedBlogPosts(
   orderType: OrderType = OrderType.DATE
-): Promise<BlogFile[]> {
-  const posts = await getAllBlogPosts();
+): BlogFile[] {
+  const posts = getAllBlogPosts();
   return posts.sort(sortPostsBy(orderType));
 }
 
-export async function getOrderedAndFilteredBlogPosts({
+export function getOrderedAndFilteredBlogPosts({
   orderType = OrderType.DATE,
   query,
 }: {
   orderType?: OrderType;
   query?: string;
-}): Promise<BlogFile[]> {
-  let posts = await getAllBlogPosts();
+}): BlogFile[] {
+  let posts = getAllBlogPosts();
 
   if (query) {
     posts = posts.filter((post) => {

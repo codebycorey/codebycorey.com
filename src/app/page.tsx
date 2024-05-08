@@ -4,7 +4,7 @@ import { BlogFile } from '@/types/mdx.types';
 import { BlogListItem } from '@/components/BlogLink';
 
 export default async function Home() {
-  const blogPosts = await getOrderedBlogPosts();
+  const blogPosts = getOrderedBlogPosts();
 
   return (
     <section className="mx-auto max-w-2xl space-y-12 mt-12 px-4">

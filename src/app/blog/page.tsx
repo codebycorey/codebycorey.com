@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Blog({ searchParams }: BlogProps) {
-  const blogPosts = await getOrderedAndFilteredBlogPosts({
+  const blogPosts = getOrderedAndFilteredBlogPosts({
     orderType: OrderType.DATE,
     query: searchParams?.q || '',
   });
