@@ -1,8 +1,9 @@
 const cspHeader = `
-    default-src 'self';
+    default-src 'self' cdn.usefathom.com;
     script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.usefathom.com;
     style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data:;
+    img-src 'self' blob: data: cdn.usefathom.com;
+    connect-src 'self' cdn.usefathom.com;
     font-src 'self';
     object-src 'none';
     base-uri 'self';

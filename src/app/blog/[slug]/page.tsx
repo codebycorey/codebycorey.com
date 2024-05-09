@@ -12,14 +12,6 @@ type PageProps = {
   };
 };
 
-export async function generateStaticParams() {
-  const posts = getAllBlogPosts();
-
-  return posts.map(({ metadata }) => ({
-    slug: metadata.slug,
-  }));
-}
-
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
