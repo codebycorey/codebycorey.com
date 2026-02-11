@@ -1,6 +1,7 @@
 ---
 import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
+import Fathom from '../components/Fathom.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -58,5 +59,6 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
       </div>
     </main>
     <Footer />
+    <Fathom />
   </body>
 </html>
