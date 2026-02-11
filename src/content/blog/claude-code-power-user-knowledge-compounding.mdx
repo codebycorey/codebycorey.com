@@ -1,0 +1,190 @@
+---
+title: 'Claude Code Power User: Making Each Session Smarter'
+brief: 'Claude Code sessions start from zero every time. I built a knowledge compounding loop — kickoff, retro, and handoff — so learnings from past sessions inform future ones.'
+date: '2026-02-17T18:00:00.000Z'
+---
+
+This is the third post in my Claude Code Power User series. In [part one](/blog/claude-code-power-user-specialist-agents) I built specialist agents. In [part two](/blog/claude-code-power-user-team-blueprints) I built team blueprints. Both made individual sessions better. But there was still a gap: every new session started from scratch.
+
+Claude Code has `--resume` to continue a previous session, and it compacts conversation history when the context window fills up. These help, but they are lossy. Compaction summarizes — details get lost. Resume works within a session but not across days or features. The structural knowledge about your project, the gotchas you discovered, the patterns that worked — all of that evaporates.
+
+So I built a knowledge compounding loop: three tools that capture, store, and reload what you learn.
+
+## The Loop
+
+```
+/kickoff → work → /retro → LEARNINGS.md → /kickoff → ...
+```
+
+Each session starts by loading learnings from past sessions. Each session ends by extracting new learnings. The file in between — `LEARNINGS.md` — is the persistent memory.
+
+It is simple. That is the point.
+
+## /kickoff — Surgical Context Loading
+
+Starting a Claude Code session usually goes one of two ways. Either you dump everything into context ("read the whole codebase") and burn tokens on irrelevant files, or you load nothing and spend the first ten minutes orienting.
+
+`/kickoff` takes a third approach: surgical context loading. You tell it what you are working on, and it loads only what is relevant.
+
+```
+/kickoff fix the notification delivery race condition
+```
+
+Here is what it does:
+
+1. Reads `CLAUDE.md` for project context
+2. Reads `LEARNINGS.md` and surfaces entries relevant to the task
+3. Runs `git status` and `git log --oneline -5` for recent activity
+4. Uses Grep and Glob to find the 3-5 most relevant files
+5. Presents a concise plan (under 15 lines) and asks for confirmation
+
+The key constraint: it does **not** start implementing. It only plans and loads context. This is a launchpad, not an autopilot. You review the plan, adjust if needed, then start working.
+
+The most valuable part is step 2. When you have been working on a project for weeks, `LEARNINGS.md` accumulates gotchas like "the notification service silently drops messages over 4KB" or "the test database resets between suites, not between tests." These are exactly the things a fresh session would stumble over. Surfacing them at the start saves you from relearning them.
+
+If you pass a GitHub issue number, it fetches the issue details too:
+
+```
+/kickoff #42
+```
+
+## /retro — Extracting Learnings
+
+After finishing work on a branch, `/retro` analyzes what happened and extracts learnings.
+
+```
+/retro
+```
+
+It reads the git log and diff for the current branch, then identifies:
+
+- **What worked well** — patterns that were effective, good decisions
+- **What was harder than expected** — surprises, wrong assumptions, yak shaves
+- **Gotchas discovered** — non-obvious behaviors, undocumented quirks
+- **Patterns established** — new conventions worth reusing
+
+Each finding gets categorized: Architecture, Gotchas, Performance, Testing, Deployment, Dependencies, or Process. The output looks like:
+
+```markdown
+## Summary
+Implemented notification batching. The hardest part was discovering the
+message broker's 4KB payload limit, which is not documented.
+
+## Suggested LEARNINGS.md Entries
+
+### Gotchas
+- **Message broker 4KB limit** — Payloads over 4KB are silently dropped
+  with no error. Batch notifications must be split before sending.
+
+### Performance
+- **Batch window of 500ms** — Testing showed 500ms gives the best
+  tradeoff between latency and batch efficiency for our notification volume.
+```
+
+You choose which learnings to keep, modify, or discard. Nothing gets written without approval. This is important — not every discovery is worth persisting. The bar should be "would this save a future session from wasting time?"
+
+## LEARNINGS.md — The Persistent Memory
+
+The file itself is simple. Markdown with categorized entries:
+
+```markdown
+## Gotchas
+
+- **Message broker 4KB limit** — Payloads over 4KB are silently dropped
+- **Test DB resets between suites** — Use beforeAll, not beforeEach for seeds
+
+## Architecture
+
+- **Notifications use fan-out pattern** — One event triggers multiple channels
+- **Auth middleware runs before rate limiter** — Order matters in the chain
+
+## Performance
+
+- **Batch window of 500ms** — Best tradeoff for our notification volume
+```
+
+One line per learning. Categories match the standard set. Each entry explains what and why in a single line. This is not documentation — it is institutional memory for AI sessions.
+
+The rules:
+- Only capture things that would save future time
+- Keep entries concise — one line when possible
+- Update existing entries rather than duplicating
+- Ask before writing — the user might disagree
+
+## Handoff — Surviving Session Boundaries
+
+`/kickoff` and `/retro` handle the knowledge loop, but there is another gap: session continuity. When you are mid-feature and need to stop (end of day, context window filling up, switching tasks), the current state lives in the conversation history. If you start a new session, that state is gone.
+
+The handoff skill generates a structured `.handoff.md` document:
+
+```markdown
+# Session Handoff
+**Date**: 2026-02-11
+**Branch**: feat/notification-batching
+
+## Goal
+Implement notification batching to reduce API calls
+
+## Completed
+- Batch aggregation logic in src/services/notifications.ts
+- Message splitting for payloads over 4KB
+
+## In Progress
+- Integration tests for batch window timing (partially written)
+
+## Approach
+Using a sliding window with 500ms timeout. Messages accumulate
+in a buffer and flush when the window expires or buffer hits 50 items.
+
+## Key Files
+- src/services/notifications.ts — batch logic
+- src/services/message-broker.ts — broker client with size checks
+- tests/services/notifications.test.ts — partially written
+
+## Resume Instructions
+1. Read the partial test file and complete the timing tests
+2. Add tests for the 4KB splitting edge case
+3. Run the full test suite before marking done
+```
+
+This is different from `--resume` in a critical way: it survives context compaction. The handoff document is an external file with structured intent and state. A future session reads it as a fresh document, not a compressed conversation history. Nothing is lost to summarization.
+
+The next session picks it up naturally:
+
+```
+/kickoff continue from .handoff.md
+```
+
+## The Full Workflow
+
+Here is how a typical feature looks with all three tools:
+
+1. `/kickoff implement notification batching` — loads context, surfaces relevant learnings, presents a plan
+2. Work on the feature — using specialist agents and team blueprints as needed
+3. End of day or context getting long → run the handoff skill → `.handoff.md` saved
+4. Next session: `/kickoff continue from .handoff.md` → picks up right where I left off
+5. Feature complete: `/retro` → extracts learnings → appends to `LEARNINGS.md`
+6. Next feature: `/kickoff fix the delivery retry logic` → learnings from notification batching are available
+
+Each cycle makes the next one better. The gotchas you discovered last week save you time this week. The patterns you established inform the next feature. The handoff documents mean you never lose state to a session boundary.
+
+## What I Learned Building This
+
+**Context is the bottleneck, not capability.** Claude Code is already good at writing code. The hard part is getting the right context loaded efficiently. `/kickoff`'s surgical loading matters more than any agent optimization.
+
+**Explicit knowledge beats implicit knowledge.** Conversation history is implicit — it gets compressed, summarized, lost. `LEARNINGS.md` is explicit — it persists unchanged, loads instantly, and survives any number of session boundaries.
+
+**The loop has to be low-friction or you will not use it.** I tried fancier approaches — structured databases, tagged knowledge graphs, multi-file systems. They all died because the overhead was too high. One command to start, one command to end, one file in between. That is the right level of ceremony.
+
+## Setting It Up
+
+Everything lives in my dotfiles and gets stowed to every machine:
+
+- `/kickoff` command → `~/.claude/commands/kickoff.md`
+- `/retro` command → `~/.claude/commands/retro.md`
+- Handoff skill → `~/.claude/skills/handoff/SKILL.md`
+- Agent workflow rule → `~/.claude/rules/agent-workflow.md` (references the loop)
+
+The `agent-workflow` rule includes a context management section that reminds Claude about these tools. When you finish work on a branch, Claude will suggest running `/retro`. When you start a new session, it will suggest `/kickoff`.
+
+Combined with the specialist agents from [part one](/blog/claude-code-power-user-specialist-agents) and the team blueprints from [part two](/blog/claude-code-power-user-team-blueprints), this creates a development workflow where Claude Code is not just a coding assistant — it is a team that gets smarter over time.

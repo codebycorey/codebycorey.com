@@ -1,10 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
 ---
 
 <Layout>
   <section class="mx-auto max-w-2xl space-y-12 mt-12 px-4">
-    <h1 class="text-4xl">Hello from Astro</h1>
-    <p>Scaffold successful.</p>
+    <h1 class="text-4xl">Astro scaffold - {sortedPosts.length} posts loaded</h1>
+    <ul>
+      {sortedPosts.slice(0, 4).map((post) => (
+        <li>{post.data.title} - {post.data.date.toLocaleDateString()}</li>
+      ))}
+    </ul>
   </section>
 </Layout>

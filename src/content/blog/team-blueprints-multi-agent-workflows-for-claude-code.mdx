@@ -1,0 +1,137 @@
+---
+title: 'Team Blueprints — Multi-Agent Workflows for Claude Code'
+brief: 'I built reusable team blueprints that turn common development workflows into coordinated multi-agent operations. Here is how to parallelize feature development, debugging, refactoring, and code review.'
+date: '2026-02-11T18:00:00.000Z'
+---
+
+In my [last post](/blog/building-a-specialist-agent-library-for-claude-code), I built six specialist agents for Claude Code. Each one does a single job well. But agents working alone miss the real opportunity: agents working together.
+
+Claude Code supports teams, where multiple agents coordinate on shared task lists. The problem is that setting up a team from scratch every time is tedious. You have to decide on roles, create tasks, set up dependencies, and manage coordination. So I built team blueprints, reusable patterns for common development workflows.
+
+## Four Blueprints
+
+Each blueprint defines roles, a task flow with dependencies, scaling rules, and coordination guidelines.
+
+### Feature Blueprint
+
+The most common pattern. Build a feature with implementation, testing, and review running in parallel after the plan is set.
+
+```
+1. Plan (Lead)
+   ├── 2. Implement (Implementer)
+   ├── 3. Write Tests (Test Writer) ← after implementation
+   └── 4. Review (Reviewer) ← after implementation
+5. Address Feedback (Lead) ← after tests and review
+```
+
+The test writer and reviewer work simultaneously on the implementation. This is the key parallelism win. Instead of a serial pipeline of implement-then-test-then-review, you get implement-then-test-and-review-together.
+
+### Bug Hunt Blueprint
+
+Debug a problem by investigating multiple hypotheses in parallel.
+
+```
+1. Reproduce & Hypothesize (Lead)
+   ├── 2a. Investigate Hypothesis A (Researcher)
+   └── 2b. Investigate Hypothesis B (Researcher)
+3. Synthesize Findings (Lead)
+4. Implement Fix (Implementer)
+```
+
+This one changed how I debug. Instead of going down one rabbit hole at a time, I generate two or three hypotheses and send a researcher agent down each one. They report back with evidence, and I synthesize. Negative results are just as useful as positive ones since they eliminate possibilities.
+
+### Refactor Blueprint
+
+Safe refactoring with architecture guidance and verification after every step.
+
+```
+1. Analyze (Architect)
+2. Design Target (Architect)
+3. Plan Steps (Lead)
+   ├── 4. Execute Step (Implementer)
+   └── 5. Verify Step (Reviewer) ← after each execution
+```
+
+The critical rule here is that every refactoring step must leave the codebase in a working state. The implementer commits after each step, the reviewer verifies tests pass, and only then does the next step start. No big-bang refactors.
+
+### Review Blueprint
+
+Multi-perspective code review for large or security-sensitive changes.
+
+```
+1. Prepare (Lead)
+   ├── 2a. Security Review (Reviewer)
+   ├── 2b. Quality Review (Reviewer)
+   └── 2c. Performance Review (Reviewer)
+3. Synthesize (Lead)
+```
+
+Three reviewer agents look at the same diff from different angles simultaneously. The security reviewer hunts for injection, auth bypasses, and data exposure. The quality reviewer checks logic, edge cases, and error handling. The perf reviewer looks at query efficiency, memory usage, and algorithmic complexity. The lead deduplicates and prioritizes.
+
+## The Most Important Part: Scaling Down
+
+Every blueprint has explicit guidance for when to skip it entirely. This is the part most people get wrong with multi-agent workflows. They reach for a team when a single agent would do.
+
+My rules:
+
+- **Under 50 lines changed?** Skip the team. Just do it.
+- **Single file?** Skip the team.
+- **Two to three files?** Maybe one teammate, probably not.
+- **Four to ten files?** Two agents (lead plus one specialist).
+- **Ten-plus files with genuinely independent work streams?** Full blueprint.
+
+The default should be no team. Teams add coordination overhead. They only pay off when there is real parallelism to exploit.
+
+## How Blueprints Work in Practice
+
+Blueprints are not rigid automation. They are suggestions that Claude adapts to the specific task. Here is what happens when I say "use the feature blueprint to add a settings page":
+
+1. Claude reads the feature blueprint from `~/.claude/skills/team-blueprints/blueprints/feature.md`
+2. It assesses the complexity. A settings page with a form, API endpoint, and tests? That is medium complexity, so it scales to lead plus implementer plus reviewer. No test writer needed since the implementer can handle tests for this scope.
+3. It creates a team, creates tasks with dependencies, spawns agents, and coordinates the work.
+4. Agents work their tasks, report back, and the lead addresses any feedback.
+
+The blueprint guided the process but Claude made the actual decisions about team size and task breakdown.
+
+## Blueprint File Structure
+
+Each blueprint is a markdown file with structured sections:
+
+```markdown
+# Feature Blueprint
+
+Build a new feature with planning, implementation, testing, and review.
+
+## Roles
+| Role | Agent | Model | Purpose |
+|------|-------|-------|---------|
+| Lead | (you) | — | Orchestration |
+| Implementer | `implementer` | sonnet | Code changes |
+
+## Task Flow
+(dependency diagram)
+
+## When to Scale Down
+(explicit guidance)
+
+## Coordination Rules
+(how agents communicate)
+```
+
+They live in `~/.claude/skills/team-blueprints/blueprints/` and are referenced by an orchestrator skill at `~/.claude/skills/team-blueprints/SKILL.md`.
+
+## Lessons From Using Teams
+
+**Start serial, go parallel when it hurts.** I used to jump straight to teams. Now I start with a single agent and only create a team when I feel the serial bottleneck. Most tasks do not need a team.
+
+**Two agents is the sweet spot.** A lead plus one specialist handles 80% of team-worthy tasks. Three agents works for feature builds. Four is rare.
+
+**Coordination costs are real.** Every agent you add needs context, instructions, and produces output you need to synthesize. Two high-quality agents beat four unfocused ones.
+
+**Blueprints save the most time on the second use.** The first time you use a blueprint, it is about the same as setting up a team manually. The tenth time, it is instant because you have internalized the pattern and Claude has the template.
+
+## What is Next
+
+Blueprints handle the parallel execution well, but they do not handle knowledge transfer between sessions. If a team discovers something important during a feature build, that knowledge dies with the session.
+
+In the next post, I will cover the knowledge compounding loop: how `/kickoff`, `/retro`, and handoff documents make each session smarter than the last.

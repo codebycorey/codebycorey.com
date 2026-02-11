@@ -1,0 +1,118 @@
+---
+title: 'My Dev Environment and Dotfiles Setup'
+brief: 'A walkthrough of my macOS development environment — terminal, editor, window management, and how I manage it all with a dotfiles repo and GNU Stow.'
+date: '2026-02-09T18:00:00.000Z'
+---
+
+I spend most of my day in a terminal. Over the years I have iterated on my setup quite a bit, going from Linux with i3 and bash to macOS with Aerospace and zsh. The tools have changed but the goal has stayed the same: keep it fast, keep it minimal, and make it reproducible. This post is a snapshot of where things stand today.
+
+## The Dotfiles Repo
+
+Everything lives in a [dotfiles repo](https://github.com/codebycorey/.dotfiles) managed with [GNU Stow](https://www.gnu.org/software/stow/). Stow is a symlink manager. It takes a directory tree and mirrors it into your home directory as symlinks. My repo has a `home/` directory that mirrors `$HOME`, so `home/.zshrc` becomes `~/.zshrc`, `home/.config/wezterm/wezterm.lua` becomes `~/.config/wezterm/wezterm.lua`, and so on.
+
+The core script is simple. It runs `stow --adopt` to handle any conflicts with existing files, then does a `git checkout` to restore the repo versions. This means the committed dotfiles always win. A fresh machine just needs:
+
+```bash
+./bootstrap.sh
+```
+
+That handles Xcode CLI tools, Homebrew, packages, Rust, and then runs the dotfiles setup.
+
+## Terminal: WezTerm + tmux
+
+[WezTerm](https://wezfurlong.org/wezterm/) is my terminal emulator. It is configured in Lua, GPU-accelerated, and has good true color and font support out of the box. I run it with Iosevka Term Nerd Font at 15pt, no tab bar, and no window decorations besides the resize handle. It stays out of the way. WezTerm launches directly into tmux on startup — it attaches to an existing session or creates a new `main` session automatically.
+
+Inside WezTerm I always run [tmux](https://github.com/tmux/tmux). My prefix is `C-Space` instead of the default `C-b`. Key bindings I rely on:
+
+- `prefix f` — fuzzy session picker (`tmux-sessionizer`). Uses fzf to list project directories with a rich preview showing git info, project type, and session status. Supports killing sessions (`ctrl-x`), renaming (`ctrl-r`), and applying per-project layouts.
+- `prefix v` / `prefix h` — vertical and horizontal splits that open in the current pane's directory
+- `prefix P` — command palette (`tmux-command-palette`). An fzf popup menu of common tmux actions.
+- `prefix C` — context capture (`tmux-capture-context`). Captures the current pane output and pipes it to Claude Code for analysis.
+- `prefix T` — thumbs. Quick copy of URLs, paths, and hashes visible in the pane.
+- `prefix Tab` — extrakto. Fuzzy search and insert text from tmux scrollback.
+- `prefix Space` — toggle to last window
+- `prefix S` — sync panes (send keystrokes to all panes in the window)
+- `prefix <` / `prefix >` — reorder windows left and right
+- `C-s` / `C-r` — save and restore tmux sessions with resurrect
+
+tmux uses the [Catppuccin Mocha](https://github.com/catppuccin/tmux) theme with the status bar at the top. The right side of the status bar shows git status via [gitmux](https://github.com/arl/gitmux) — branch name, ahead/behind counts, staged/modified/untracked file counts, all color-coded to match the Catppuccin palette. I use [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) so `Ctrl-h/j/k/l` moves between tmux panes and Neovim splits seamlessly.
+
+Plugins are managed with [TPM](https://github.com/tmux-plugins/tpm): catppuccin theme, vim-tmux-navigator, [resurrect](https://github.com/tmux-plugins/tmux-resurrect) for session persistence across restarts, [extrakto](https://github.com/laktak/extrakto) for fuzzy text extraction, and [thumbs](https://github.com/fcsonline/tmux-thumbs) for quick-copying visible text.
+
+## Project Workflow
+
+The sessionizer (`prefix f` / `Ctrl-f`) is the main way I navigate between projects. It handles session creation, switching, and layout application. A few scripts complement it:
+
+**`np <name>`** scaffolds a new project — creates the directory in `~/projects/personal/`, inits git, and prints next steps (use the sessionizer to switch to it, then `/project-init` and `/tmux-layout` in Claude Code to generate config files).
+
+**`archive-project <name>`** moves an inactive project from `~/projects/personal/` to `~/archives/` and kills any active tmux session for it. **`unarchive-project <name>`** moves it back. Both show a helpful listing when run without arguments (with tab completion).
+
+**`.tmux-layout.sh`** files define per-project tmux workspace layouts. When the sessionizer creates a new session for a directory that has one, it offers to apply it. The layouts use shared helper functions (`window`, `pane`, `run_command`) to declare windows and panes:
+
+```bash
+#!/usr/bin/env bash
+window "nvim" "nvim"
+window "claude" "claude"
+window "dev" "npm run dev"
+window "shell"
+```
+
+The `/tmux-layout` skill in Claude Code can auto-generate these by detecting the project's tech stack and available scripts.
+
+## Editor: Neovim
+
+I wrote a [separate post about why I use Neovim](/blog/why-neovim), so I will keep this brief. My config is in its own repo called [vinevim](https://github.com/codebycorey/vinevim). It gets cloned to `~/.config/nvim` during setup and is managed independently from the dotfiles.
+
+Neovim is set as `$EDITOR` and `$GIT_EDITOR` in my `.zshenv`, and I have `alias vim="nvim"` so muscle memory just works.
+
+## Shell: ZSH
+
+ZSH is my shell. The configuration is split across two files:
+
+- **`.zshenv`** sets PATH and default programs. The PATH includes `~/.local/bin` for custom scripts, `~/.cargo/bin` for Rust tooling, and `/opt/homebrew/bin` for Homebrew.
+- **`.zshrc`** sources a single aliases file, sets up zsh options, history, completions, and initializes starship, fnm, and plugins.
+
+Aliases and utility functions live in one file at `~/.config/shell/aliases`. I keep it lean — core command improvements (`cp -iv`, `mv -iv`, `mkdir -pv`, `ls --color`), a `cd` override that auto-lists directories, shortcuts for Claude Code (`cc`, `ccp`, `ccr`, `ccc`), and `np` for scaffolding new projects.
+
+For plugins I use [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) and [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting), both installed through Homebrew.
+
+## Prompt: Starship
+
+[Starship](https://starship.rs/) is a cross-shell prompt written in Rust. It is fast and configurable. My config shows username, directory, git branch, git status, command duration, and the active Node version. It uses the Catppuccin Mocha palette to match the rest of the terminal.
+
+## Window Management: Aerospace
+
+[Aerospace](https://github.com/nikitabobko/AeroSpace) is a tiling window manager for macOS. It handles automatic window tiling so I rarely need to manually resize or position windows. I also run [borders](https://github.com/FelixKratz/JankyBorders) to add visible borders around the focused window.
+
+## Node Management: fnm
+
+I use [fnm](https://github.com/Schniz/fnm) (Fast Node Manager) for managing Node.js versions. It is written in Rust and is significantly faster than nvm. My `.zshrc` initializes it with `--use-on-cd` so it automatically switches Node versions when I enter a directory with a `.node-version` or `.nvmrc` file.
+
+## Package Management
+
+[Homebrew](https://brew.sh/) manages system packages. I keep a declarative `Brewfile` in the repo and have a `brewdump` script that snapshots the current state. Some highlights from the Brewfile:
+
+- **CLI tools**: fd, fzf, ripgrep, jq, hyperfine, uv, pnpm
+- **Development**: neovim (HEAD), go, lua-language-server, supabase
+- **Fonts**: Iosevka, JetBrains Mono, Geist Mono (all Nerd Font variants)
+- **Apps**: 1Password, Alfred, Karabiner Elements, Postman, Zen browser
+
+For Rust I use [rustup](https://rustup.rs/) which is installed during bootstrap and adds `~/.cargo/bin` to PATH.
+
+## AI Tools
+
+[Claude Code](https://docs.anthropic.com/en/docs/claude-code) has become a core part of my workflow. I have it aliased to `cc` and typically run it in a dedicated tmux window (most of my `.tmux-layout.sh` files include a `claude` window). My dotfiles repo stows Claude Code configuration into `~/.claude/`:
+
+- **Custom slash commands** — `/commit`, `/pr`, `/review`, `/tidy`, `/dotfiles` for common development tasks
+- **Skills** — `project-init` detects a project's tech stack and generates `CLAUDE.md`, `LEARNINGS.md`, `.tmux-layout.sh`, and custom commands. `tmux-layout` generates per-project tmux workspace layouts.
+- **Rules** — global rules for coding style, git workflow, shell scripts, and agent workflow patterns (subagent usage, model selection, self-learning protocol) that apply across all projects automatically
+- **Hooks** — `format-on-edit.sh` auto-formats files after Claude edits them, respecting project-local formatter configs (`.prettierrc`, `.editorconfig`). `notify-macos.sh` sends macOS notifications when long-running tasks complete.
+- **Context capture** — `prefix C` in tmux captures the current pane output and pipes it to Claude Code for analysis, useful for debugging build errors or test failures.
+
+I wrote more about building plugins for Claude Code in my [delta-spec post](/blog/building-a-claude-code-plugin-for-spec-driven-development).
+
+## Wrapping Up
+
+This setup has been refined over years of daily use. The key principle is that everything is reproducible. A fresh Mac goes from zero to fully configured with a single bootstrap script. The dotfiles repo is the source of truth and stow keeps everything in sync.
+
+I will keep updating this post as the setup evolves. If you are interested in the details, the full repo is on [GitHub](https://github.com/codebycorey/.dotfiles).
