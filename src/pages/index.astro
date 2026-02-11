@@ -1,20 +1,50 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import WrappedLink from '../components/WrappedLink.astro';
+import BlogLink from '../components/BlogLink.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog');
-const sortedPosts = posts.sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
-);
+const recentPosts = posts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 4);
 ---
 
 <Layout>
   <section class="mx-auto max-w-2xl space-y-12 mt-12 px-4">
-    <h1 class="text-4xl">Astro scaffold - {sortedPosts.length} posts loaded</h1>
-    <ul>
-      {sortedPosts.slice(0, 4).map((post) => (
-        <li>{post.data.title} - {post.data.date.toLocaleDateString()}</li>
-      ))}
-    </ul>
+    <div class="space-y-6">
+      <h1 class="text-4xl">Hi there, the names Corey</h1>
+      <p class="text-lg">
+        I'm a software engineer with a passion for frontend projects. I thrive
+        on TypeScript, React.js, and Next.js, but I am not afraid to jump in to
+        something new.
+      </p>
+      <p class="text-lg">
+        When I am not coding, I am probably jotting down what I have learned or
+        honing my baking skills with{' '}
+        <WrappedLink href="https://link.codebycorey.com/sourdough">
+          sourdough
+        </WrappedLink>. Oh, and I am also a proud dad to two amazing kids.
+      </p>
+      <p class="text-lg">Lets connect and create something awesome!</p>
+    </div>
+    <div class="space-y-6">
+      <div class="flex justify-between flex-wrap">
+        <h2 class="text-4xl">Recent Blog Posts</h2>
+        <WrappedLink href="/blog" class="text-lg">view all</WrappedLink>
+      </div>
+      <ul class="space-y-8">
+        {recentPosts.map((post) => (
+          <li>
+            <BlogLink
+              title={post.data.title}
+              brief={post.data.brief}
+              date={post.data.date}
+              slug={post.id}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
   </section>
 </Layout>

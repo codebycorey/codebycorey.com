@@ -1,0 +1,22 @@
+---
+import { format } from 'date-fns';
+
+interface Props {
+  title: string;
+  brief: string;
+  date: Date;
+  slug: string;
+}
+
+const { title, brief, date, slug } = Astro.props;
+const formattedDate = format(date, 'MMMM dd, yyyy');
+---
+
+<a href={`/blog/${slug}`} class="space-y-3 block">
+  <h3 class="text-2xl">{title}</h3>
+  <p>{brief}</p>
+  <div class="flex justify-between">
+    <span class="text-zinc-500">{formattedDate}</span>
+    <slot />
+  </div>
+</a>

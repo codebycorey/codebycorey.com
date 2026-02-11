@@ -1,4 +1,8 @@
 ---
+import Sidebar from '../components/Sidebar.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
 interface Props {
   title?: string;
   description?: string;
@@ -12,6 +16,7 @@ const { title, description } = Astro.props;
 
 const pageTitle = title ? `${title} | ${defaultTitle}` : defaultTitle;
 const pageDescription = description || defaultDescription;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -21,6 +26,7 @@ const pageDescription = description || defaultDescription;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,20 +35,28 @@ const pageDescription = description || defaultDescription;
     />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={defaultTitle} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={defaultTitle} />
+    <meta name="robots" content="index, follow" />
+    <slot name="head" />
   </head>
   <body class="font-['Inter'] min-h-screen flex flex-col">
     <main
       class="h-full flex grow flex-wrap justify-center max-w-5xl mx-auto sm:flex-col md:flex-row"
     >
       <div class="grow px-8">
-        <p>Sidebar placeholder</p>
+        <Sidebar />
       </div>
       <div class="basis-0 grow-[999] min-w-[50%]">
         <slot />
       </div>
     </main>
-    <footer class="mt-12 px-8 py-12 bg-zinc-100 space-y-2">
-      <p>Footer placeholder</p>
-    </footer>
+    <Footer />
   </body>
 </html>
