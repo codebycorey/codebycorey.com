@@ -25,7 +25,11 @@ export function BlogViewCount({ slug }: BlogViewCountProps) {
   const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
-    fetchAndIncrementViewCount(slug).then(setCount);
+    fetchAndIncrementViewCount(slug)
+      .then(setCount)
+      .catch((err) => {
+        console.error('[ViewCount] Failed to fetch view count:', err);
+      });
   }, [slug]);
 
   return <ViewCountDisplay count={count} />;
@@ -53,9 +57,13 @@ export function BlogListItemViewCount({ slug }: BlogListItemViewCountProps) {
   const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
-    getCachedViewCounts().then((counts) => {
-      setCount(counts[slug] ?? 0);
-    });
+    getCachedViewCounts()
+      .then((counts) => {
+        setCount(counts[slug] ?? 0);
+      })
+      .catch((err) => {
+        console.error('[ViewCount] Failed to fetch all view counts:', err);
+      });
   }, [slug]);
 
   return <ViewCountDisplay count={count} />;

@@ -21,6 +21,6 @@ const { Content } = await render(post);
   date={post.data.date}
   slug={post.id}
 >
-  <BlogViewCount slot="view-count" client:visible slug={post.id} />
+  <BlogViewCount slot="view-count" client:load slug={post.id} />
   <Content />
 </BlogPost>
