@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogLink from '../../components/BlogLink.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const postsData = sortedPosts.map((post) => ({
+  id: post.id,
+  title: post.data.title,
+  brief: post.data.brief,
+  date: post.data.date.toISOString(),
+  slug: post.id,
+}));
+---
+
+<Layout title="Blog" description="My blog posts of my thoughts and learns related to software engineering.">
+  <section class="mx-auto max-w-2xl space-y-6 px-8 mt-4 md:mt-12">
+    <h2 class="text-4xl">Blog Posts</h2>
+    <div id="blog-search-mount" data-posts={JSON.stringify(postsData)}></div>
+    <ul class="space-y-12" id="blog-list-static">
+      {sortedPosts.map((post) => (
+        <li>
+          <BlogLink
+            title={post.data.title}
+            brief={post.data.brief}
+            date={post.data.date}
+            slug={post.id}
+          />
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
