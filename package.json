@@ -14,6 +14,7 @@
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/tailwind": "^6.0.2",
     "@astrojs/vercel": "^9.0.4",
+    "@resvg/resvg-js": "^2.6.2",
     "@supabase/supabase-js": "^2.40.0",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.10",
@@ -27,6 +28,7 @@
     "react": "^18",
     "react-dom": "^18",
     "reading-time": "^1.5.0",
+    "satori": "^0.19.2",
     "sharp": "^0.33.3",
     "sugar-high": "^0.6.0",
     "use-debounce": "^10.0.0"
