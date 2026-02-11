@@ -1,27 +1,26 @@
-'use server';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-import { unstable_noStore as noStore } from 'next/cache';
+let _supabase: SupabaseClient | null = null;
 
-import { Database } from '@/types/database.types';
-import { createClient } from '@supabase/supabase-js';
+function getSupabase(): SupabaseClient {
+  if (!_supabase) {
+    const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || '';
+    const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+    _supabase = createClient(supabaseUrl, supabaseAnonKey);
+  }
+  return _supabase;
+}
 
-const supabaseUrl = process.env.SUPABASE_URL || '';
-const supabaseServerKey = process.env.SUPABASE_SERVICE_KEY || '';
-
-const SupabaseAdmin = createClient<Database>(supabaseUrl, supabaseServerKey);
-
-export const fetchAndIncrementViewCount = async (
+export async function fetchAndIncrementViewCount(
   slug: string
-): Promise<number | null> => {
-  await SupabaseAdmin.rpc('increment_page_view', {
-    page_slug: slug,
-  });
+): Promise<number | null> {
+  await getSupabase().rpc('increment_page_view', { page_slug: slug });
   return fetchViewCount(slug);
-};
+}
 
-export const fetchViewCount = async (slug: string): Promise<number | null> => {
-  noStore();
-  const { data } = await SupabaseAdmin.from('pages')
+export async function fetchViewCount(slug: string): Promise<number | null> {
+  const { data } = await getSupabase()
+    .from('pages')
     .select('view_count')
     .eq('slug', slug);
 
@@ -30,16 +29,15 @@ export const fetchViewCount = async (slug: string): Promise<number | null> => {
   }
 
   return null;
-};
+}
 
-export const fetchAllViewCounts = async (): Promise<Record<string, number>> => {
-  const { data } = await SupabaseAdmin.from('pages').select('*');
-  // efficient way to lookup slug to view_count later
+export async function fetchAllViewCounts(): Promise<Record<string, number>> {
+  const { data } = await getSupabase().from('pages').select('*');
   const viewCounts: Record<string, number> = {};
   if (data) {
-    data.forEach((page) => {
+    data.forEach((page: { slug: string; view_count: number }) => {
       viewCounts[page.slug] = page.view_count;
     });
   }
   return viewCounts;
-};
+}

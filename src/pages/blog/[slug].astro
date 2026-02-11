@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import { BlogViewCount } from '../../components/ViewCount';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -20,5 +21,6 @@ const { Content } = await render(post);
   date={post.data.date}
   slug={post.id}
 >
+  <BlogViewCount slot="view-count" client:visible slug={post.id} />
   <Content />
 </BlogPost>
