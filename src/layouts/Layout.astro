@@ -1,0 +1,48 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const defaultTitle = "CodeByCorey - Corey O'Donnell";
+const defaultDescription =
+  'Software engineer, TypeScript enthusiast, and creator';
+
+const { title, description } = Astro.props;
+
+const pageTitle = title ? `${title} | ${defaultTitle}` : defaultTitle;
+const pageDescription = description || defaultDescription;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+  </head>
+  <body class="font-['Inter'] min-h-screen flex flex-col">
+    <main
+      class="h-full flex grow flex-wrap justify-center max-w-5xl mx-auto sm:flex-col md:flex-row"
+    >
+      <div class="grow px-8">
+        <p>Sidebar placeholder</p>
+      </div>
+      <div class="basis-0 grow-[999] min-w-[50%]">
+        <slot />
+      </div>
+    </main>
+    <footer class="mt-12 px-8 py-12 bg-zinc-100 space-y-2">
+      <p>Footer placeholder</p>
+    </footer>
+  </body>
+</html>
