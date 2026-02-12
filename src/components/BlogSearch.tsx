@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef, Component, type ReactNode } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { sequentialFuzzySearch } from '../lib/search';
 import ConvexClientProvider from './ConvexClientProvider';
-import { useQuery } from 'convex/react';
-import { api } from '../../convex/_generated/api';
+import { BlogListItemViewCount } from './ViewCount';
 
 interface PostData {
   id: string;
@@ -15,62 +14,6 @@ interface PostData {
 
 interface BlogSearchProps {
   posts: PostData[];
-}
-
-function ViewCounts({ slugs }: { slugs: string[] }) {
-  const allCounts = useQuery(api.pages.getAllViewCounts);
-  const countMap = allCounts
-    ? new Map(allCounts.map((p) => [p.slug, p.viewCount]))
-    : null;
-
-  if (!countMap) return null;
-
-  return (
-    <>
-      {slugs.map((slug) => {
-        const count = countMap.get(slug) ?? 0;
-        return (
-          <span key={slug} data-view-count={slug} style={{ display: 'none' }}>
-            {count} view{count === 1 ? '' : 's'}
-          </span>
-        );
-      })}
-    </>
-  );
-}
-
-class ConvexErrorBoundary extends Component<
-  { children: ReactNode },
-  { hasError: boolean }
-> {
-  constructor(props: { children: ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) return null;
-    return this.props.children;
-  }
-}
-
-function ViewCountDisplay({ slug }: { slug: string }) {
-  const allCounts = useQuery(api.pages.getAllViewCounts);
-  const countMap = allCounts
-    ? new Map(allCounts.map((p) => [p.slug, p.viewCount]))
-    : null;
-
-  if (!countMap) return null;
-  const count = countMap.get(slug) ?? 0;
-  return (
-    <p>
-      {count} view{count === 1 ? '' : 's'}
-    </p>
-  );
 }
 
 function BlogSearchInner({ posts }: BlogSearchProps) {
@@ -152,9 +95,7 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
                     day: '2-digit',
                   }).format(new Date(post.date))}
                 </time>
-                <ConvexErrorBoundary>
-                  <ViewCountDisplay slug={post.slug} />
-                </ConvexErrorBoundary>
+                <BlogListItemViewCount slug={post.slug} />
               </div>
             </a>
           </li>

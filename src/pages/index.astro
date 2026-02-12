@@ -43,7 +43,7 @@ const recentPosts = posts
               date={post.data.date}
               slug={post.id}
             >
-              <ConvexListViewCount client:only="react" slug={post.id} />
+              <ConvexListViewCount client:load slug={post.id} />
             </BlogLink>
           </li>
         ))}
