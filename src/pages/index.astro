@@ -40,7 +40,7 @@ const recentPostsData = recentPosts.map((post) => ({
         <h2 class="text-4xl">Recent Blog Posts</h2>
         <WrappedLink href="/blog" class="text-lg">view all</WrappedLink>
       </div>
-      <RecentPostsList client:load posts={recentPostsData} />
+      <RecentPostsList client:only="react" posts={recentPostsData} />
     </div>
   </section>
 </Layout>
