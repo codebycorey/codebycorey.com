@@ -46,23 +46,3 @@ export const incrementViewCount = mutation({
     return 1;
   },
 });
-
-// Temporary mutation for data migration — remove after migration is complete
-export const setViewCount = mutation({
-  args: { slug: v.string(), viewCount: v.number() },
-  handler: async (ctx, args) => {
-    const existing = await ctx.db
-      .query('pages')
-      .withIndex('by_slug', (q) => q.eq('slug', args.slug))
-      .first();
-
-    if (existing) {
-      await ctx.db.patch(existing._id, { viewCount: args.viewCount });
-    } else {
-      await ctx.db.insert('pages', {
-        slug: args.slug,
-        viewCount: args.viewCount,
-      });
-    }
-  },
-});
