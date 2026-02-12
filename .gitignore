@@ -32,3 +32,12 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# claude code
+.claude/
+
+# supabase (legacy)
+supabase/
+
+# migration guide (internal)
+REFACTOR-GUIDE.md
