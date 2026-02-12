@@ -1,5 +1,17 @@
 import { ConvexProvider, ConvexReactClient } from 'convex/react';
-import { useMemo, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react';
+
+const ConvexReadyContext = createContext(false);
+
+export function useConvexReady() {
+  return useContext(ConvexReadyContext);
+}
 
 interface ConvexClientProviderProps {
   children: ReactNode;
@@ -8,10 +20,27 @@ interface ConvexClientProviderProps {
 export default function ConvexClientProvider({
   children,
 }: ConvexClientProviderProps) {
-  const convex = useMemo(
-    () => new ConvexReactClient(import.meta.env.PUBLIC_CONVEX_URL as string),
-    []
-  );
+  const [convex, setConvex] = useState<ConvexReactClient | null>(null);
 
-  return <ConvexProvider client={convex}>{children}</ConvexProvider>;
+  useEffect(() => {
+    const client = new ConvexReactClient(
+      import.meta.env.PUBLIC_CONVEX_URL as string
+    );
+    setConvex(client);
+    return () => client.close();
+  }, []);
+
+  if (!convex) {
+    return (
+      <ConvexReadyContext.Provider value={false}>
+        {children}
+      </ConvexReadyContext.Provider>
+    );
+  }
+
+  return (
+    <ConvexReadyContext.Provider value={true}>
+      <ConvexProvider client={convex}>{children}</ConvexProvider>
+    </ConvexReadyContext.Provider>
+  );
 }
