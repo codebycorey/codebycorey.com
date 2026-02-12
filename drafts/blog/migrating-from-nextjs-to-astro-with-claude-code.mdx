@@ -1,0 +1,154 @@
+---
+title: 'I Migrated My Blog from Next.js to Astro with Claude Code'
+brief: 'My personal blog was running on Next.js 14 with Supabase. It was overkill. I used Claude Code and agent teams to migrate to Astro and Convex in a single session.'
+date: '2026-02-11T23:00:00.000Z'
+---
+
+My blog has been running on Next.js since I started it. When I first built it, Next.js was the obvious choice. React was what I knew, and Next.js gave me server-side rendering, API routes, and a great developer experience out of the box. Over the years I upgraded through the major versions, eventually landing on Next.js 14 with the App Router.
+
+But somewhere along the way, I started to feel like I was using a sledgehammer to hang a picture frame.
+
+## Why I Left Next.js
+
+This site is a blog. It serves static content. Every page could be pre-rendered at build time and served from a CDN. Instead, Next.js was dynamically server-rendering every single page on every request. That is expensive and unnecessary for a site that changes when I publish a new post.
+
+The App Router made things more complex too. Server components, client components, `'use server'` directives, server actions. The mental model kept growing for a site that fundamentally just renders markdown to HTML. I was spending more time thinking about the framework than the content.
+
+I was also locked into Vercel. Next.js technically runs anywhere, but in practice the deployment story outside of Vercel is rough. I wanted the option to move to a simpler host if I ever needed to.
+
+The final push was cost. Dynamic SSR on every request means compute on every request. For a blog that gets modest traffic, I was paying for server time I did not need. A static site served from a CDN costs nearly nothing.
+
+## Why Astro
+
+[Astro](https://astro.build/) is built for content sites. It ships zero JavaScript by default. Pages are pre-rendered at build time into plain HTML. When you need interactivity, you add it surgically with islands, small interactive components that hydrate independently while the rest of the page stays static.
+
+This is exactly what a blog needs. My sidebar, footer, blog cards, and post content are all static HTML. The only interactive pieces are search and view counts. With Astro, those two components ship JavaScript and everything else is zero-cost static HTML.
+
+The other things that sold me:
+
+- **Built-in MDX support** with content collections and Zod schemas for frontmatter validation
+- **Shiki syntax highlighting** at build time instead of shipping a client-side highlighter
+- **Framework agnostic** but lets me use React for the islands that need it
+- **Not locked to any host.** Static output deploys anywhere
+
+## Replacing Supabase with Convex
+
+I had been using [Supabase](https://supabase.io/) for my view counter since 2020 (I even [wrote a blog post about it](/blog/page-views-nextjs-supabase)). It worked, but over time the friction added up.
+
+Row-level security was a headache to configure correctly. When I moved to the App Router, I had to wrap everything in server actions to keep the service key hidden. The pricing model for projects also did not make sense for my use case. I was running a full Postgres database for a single table with two columns.
+
+[Convex](https://www.convex.dev/) replaced all of that with a better developer experience. The schema is TypeScript, queries and mutations are just functions, and real-time updates come for free. My view counter is reactive now. If someone views a post in another tab, the count updates live without polling or refetching.
+
+Here is the entire Convex schema for the view counter:
+
+```typescript
+import { defineSchema, defineTable } from 'convex/server';
+import { v } from 'convex/values';
+
+export default defineSchema({
+  pages: defineTable({
+    slug: v.string(),
+    viewCount: v.number(),
+  }).index('by_slug', ['slug']),
+});
+```
+
+And the query and mutation:
+
+```typescript
+export const getViewCount = query({
+  args: { slug: v.string() },
+  handler: async (ctx, args) => {
+    const page = await ctx.db
+      .query('pages')
+      .withIndex('by_slug', (q) => q.eq('slug', args.slug))
+      .first();
+    return page?.viewCount ?? 0;
+  },
+});
+
+export const incrementViewCount = mutation({
+  args: { slug: v.string() },
+  handler: async (ctx, args) => {
+    const page = await ctx.db
+      .query('pages')
+      .withIndex('by_slug', (q) => q.eq('slug', args.slug))
+      .first();
+    if (page) {
+      await ctx.db.patch(page._id, { viewCount: page.viewCount + 1 });
+      return page.viewCount + 1;
+    }
+    await ctx.db.insert('pages', { slug: args.slug, viewCount: 1 });
+    return 1;
+  },
+});
+```
+
+Compare that to the SQL stored procedures, RLS policies, and server actions I needed with Supabase. Convex is simpler in every way that matters for this use case.
+
+## How Claude Code Made This Possible
+
+I did this entire migration in a single evening using [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Not just the easy parts. The full migration: restructuring the project, converting every component, rewriting the view counter, migrating data, fixing CSP headers, and deploying to production.
+
+### Planning with an Architect Agent
+
+Before writing any code, I had Claude Code create a detailed migration plan. I spawned an architect agent to evaluate the codebase and design the target architecture. It mapped out every file that needed to change, identified the interactive components that would become React islands, and flagged potential issues like Supabase RLS policies and MDX rendering differences.
+
+Having a plan meant I could review the approach before a single line of code changed. The plan became the blueprint for the entire migration.
+
+### Agent Teams for Implementation
+
+Claude Code supports spawning agent teams where multiple specialized agents work in parallel on different parts of a task. For the Astro migration, I used a refactor blueprint team:
+
+- **Implementer** handled the actual code changes, converting React components to Astro, setting up content collections, and building the new page structure
+- **Reviewer** checked the work for bugs, security issues, and architectural consistency
+
+For the Convex migration, I used a feature blueprint team. The implementer set up the Convex schema and rewrote the view counter components while I wrote the data migration script to move the existing view counts from Supabase to Convex. Working in parallel meant the migration happened faster than doing everything sequentially.
+
+### The Gotchas Claude Code Caught
+
+The migration was not without surprises. Some things that came up:
+
+- **Astro islands are independent React roots.** You cannot share a React context provider across islands. Each island that needs Convex had to get its own `ConvexProvider` wrapper. This is a fundamental difference from Next.js where you wrap your entire app in a single provider.
+
+- **Environment variables work differently.** Astro uses `import.meta.env.PUBLIC_*` for client-side variables, and they are inlined at build time by Vite. An empty value in `.env` overrides a valid value in `.env.local`, which caused a confusing "url is null" error during the Convex setup.
+
+- **CSP headers needed careful updating.** Convex uses WebSocket connections, which require explicit `wss://` in `connect-src`. A wildcard like `*.convex.cloud` only covers HTTPS, not WebSocket. Small detail, big debugging headache.
+
+- **The Fathom analytics script needed adjustment.** The `data-spa="auto"` attribute was needed for Next.js client-side routing but is unnecessary for Astro's full page loads. We also had to set up domain filtering so preview deployments were not inflating analytics.
+
+## The Results
+
+The migration touched nearly every file in the project. Here is what changed:
+
+**Before (Next.js + Supabase):**
+- Dynamic SSR on every request
+- Full React runtime shipped to every page
+- Server actions for database calls
+- Vendor locked to Vercel for optimal performance
+- Sugar-high for client-side syntax highlighting
+
+**After (Astro + Convex):**
+- Static HTML generated at build time
+- Zero JavaScript on most pages
+- Only search and view counts ship JS as React islands
+- OG images pre-rendered with satori at build time
+- Shiki syntax highlighting at build time with zero client cost
+- Deployable anywhere that serves static files
+- Real-time view counts with no polling
+
+The codebase is simpler. The mental model is simpler. The hosting costs are lower. And the site is faster because there is less to load.
+
+## Would I Recommend This Stack
+
+For a content-heavy site like a blog or portfolio, absolutely. Astro is purpose-built for this. You get the performance of static HTML with the option to add interactivity exactly where you need it. The React islands pattern means you do not have to give up your existing React knowledge. You just use it more surgically.
+
+Convex is excellent if you need a small amount of backend functionality without the overhead of managing a database. The TypeScript-native DX is leagues ahead of writing SQL and configuring RLS policies. Real-time reactivity out of the box is a nice bonus.
+
+And Claude Code made the migration practical. Rewriting an entire site framework by hand is the kind of project that sits on a TODO list forever. With agent teams handling the mechanical work, I could focus on the decisions that actually mattered: what the architecture should look like, how the components should be structured, and what tradeoffs were acceptable.
+
+---
+
+- [Astro Documentation](https://docs.astro.build/)
+- [Convex Documentation](https://docs.convex.dev/)
+- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
