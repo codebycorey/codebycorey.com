@@ -1,0 +1,54 @@
+---
+title: 'Defeating Flash of Unstyled Text (FOUT)'
+brief: 'Sometimes it is undesirable for a website to display a system font before the font is fully loaded into the browser.'
+date: '2020-09-24T19:24:53.487Z'
+---
+
+I noticed when I loaded my personal site without cache, my text would first display without the correct font. It eventually restyle using the original font after everything loaded.
+
+<img
+  alt={`Font shifting as it loads`}
+  width={1865}
+  height={898}
+  src={`/static/images/defeating-flash-of-unstyled-text-fout/font-shift.gif`}
+/>
+
+I was originally using a NPM package called `typeface-roboto` to load my font. This was awesome because I wanted to host the fonts myself instead of pulling from a CDN. I realized the styles included in the package was the reason for my Flash of Unstyled Text (FOUT).
+
+I looked through the code inside the package and checked out the CSS files. Here is an example of how they were adding the font.
+
+```css
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: swap; /* Line Causing FOUT */
+  font-weight: 500;
+  src: local('Roboto Medium '), local('Roboto-Medium'), url('/fonts/roboto-latin-500.woff2') format('woff2'), url('/fonts/roboto-latin-500.woff')
+      format('woff');
+}
+```
+
+I noticed the `@font-face` styles were using `font-display: swap;`. When `swap` is set, the browser will give a very short time to load the font before it uses a fallback. Once the font is fully loaded, it will convert back to the expected font. This option is great from a performance standpoint but might affect user experience. If you set `font-display: block`, this will increase the amount of time the browser will have to fetch your fonts before it starts displaying anything on the page. `block` sacrifices performance for user experience.
+
+## My Solution
+
+I pulled all the font files into my project instead of using the NPM package. Then inside my CSS, I loaded the fonts using `font-display: block`;
+
+```css
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: block; /* No longer causing FOUT */
+  font-weight: 500;
+  src: local('Roboto Medium '), local('Roboto-Medium'), url('/fonts/roboto-latin-500.woff2') format('woff2'), url('/fonts/roboto-latin-500.woff')
+      format('woff');
+}
+```
+
+Since my websites design is heavily focused on typography. I was willing to sacrifice some performance to give my fonts a little more time to load before anything is displayed.
+
+<img alt={`Font loads without shift`} width={1865} height={898} src={`/static/images/defeating-flash-of-unstyled-text-fout/no-font-shift.gif`} />
+
+---
+
+- Follow me on [Twitter](https://twitter.com/CodeByCorey) for random posts about tech, programming, and working from home.

@@ -1,35 +1,70 @@
-import { fetchAllViewCounts, fetchAndIncrementViewCount } from '@/lib/supabase';
-import { FC, cache } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  fetchAndIncrementViewCount,
+  fetchAllViewCounts,
+} from '../lib/supabase';
 
-type ViewCountProps = {
-  count: number;
-};
-const ViewCount: FC<ViewCountProps> = async ({ count }) => {
+interface ViewCountDisplayProps {
+  count: number | null;
+}
+
+function ViewCountDisplay({ count }: ViewCountDisplayProps) {
+  if (count === null) return null;
   return (
     <p>
       {count} view{count === 1 ? '' : 's'}
     </p>
   );
-};
+}
 
-type BlogViewCountProps = {
+interface BlogViewCountProps {
   slug: string;
-};
-export const BlogViewCount: FC<BlogViewCountProps> = async ({ slug }) => {
-  const viewCount = await fetchAndIncrementViewCount(slug);
-  const count = viewCount ?? 0;
-  return <ViewCount count={count} />;
-};
+}
 
-const cachedFetchAllViewCounts = cache(fetchAllViewCounts);
+export function BlogViewCount({ slug }: BlogViewCountProps) {
+  const [count, setCount] = useState<number | null>(null);
 
-type BlogListItemViewCountProps = {
+  useEffect(() => {
+    fetchAndIncrementViewCount(slug)
+      .then(setCount)
+      .catch((err) => {
+        console.error('[ViewCount] Failed to fetch view count:', err);
+      });
+  }, [slug]);
+
+  return <ViewCountDisplay count={count} />;
+}
+
+let viewCountsCache: Record<string, number> | null = null;
+let viewCountsPromise: Promise<Record<string, number>> | null = null;
+
+function getCachedViewCounts(): Promise<Record<string, number>> {
+  if (viewCountsCache) return Promise.resolve(viewCountsCache);
+  if (!viewCountsPromise) {
+    viewCountsPromise = fetchAllViewCounts().then((counts) => {
+      viewCountsCache = counts;
+      return counts;
+    });
+  }
+  return viewCountsPromise;
+}
+
+interface BlogListItemViewCountProps {
   slug: string;
-};
-export const BlogListItemViewCount: FC<BlogListItemViewCountProps> = async ({
-  slug,
-}) => {
-  const viewCounts = await cachedFetchAllViewCounts();
-  const count = viewCounts[slug] ?? 0;
-  return <ViewCount count={count} />;
-};
+}
+
+export function BlogListItemViewCount({ slug }: BlogListItemViewCountProps) {
+  const [count, setCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    getCachedViewCounts()
+      .then((counts) => {
+        setCount(counts[slug] ?? 0);
+      })
+      .catch((err) => {
+        console.error('[ViewCount] Failed to fetch all view counts:', err);
+      });
+  }, [slug]);
+
+  return <ViewCountDisplay count={count} />;
+}

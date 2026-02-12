@@ -1,0 +1,129 @@
+---
+title: 'Claude Code Power User: Team Blueprints for Parallel Development'
+brief: 'I built reusable team patterns for coordinating multiple Claude Code agents. Four blueprints that scale to the task — from single-file fixes to full-feature pipelines.'
+date: '2026-02-14T18:00:00.000Z'
+---
+
+In the [last post](/blog/claude-code-power-user-specialist-agents), I built a library of six specialist agents. Each one has a single job, constrained tools, and the right model. That works great for individual tasks. But real development is not a sequence of independent tasks — it is a pipeline. Research informs implementation, implementation needs tests, tests need review.
+
+So I built team blueprints: reusable patterns for coordinating multiple agents on common workflows.
+
+## Why Teams?
+
+The basic pitch: parallelism. When you build a feature, the test writer and the reviewer can work at the same time after implementation finishes. When you debug, two investigators can explore different hypotheses simultaneously. When you refactor, a reviewer can verify behavior preservation after each step.
+
+But teams have a cost. Every agent consumes tokens. Coordination has overhead. Communication between agents is not free. The question is not "should I use a team?" but "is the parallelism worth the overhead?"
+
+My rule: **skip the team for changes under 50 lines or single-file edits.** Teams earn their keep on medium-to-large tasks with genuinely independent work streams.
+
+## The Four Blueprints
+
+Each blueprint lives as a markdown file in `~/.claude/skills/team-blueprints/blueprints/`. They define roles, task flow with dependencies, scaling guidance, and coordination rules. An orchestrator skill reads them and adapts to the specific task.
+
+### Feature Blueprint
+
+The most common pattern. Build a feature with planning, implementation, testing, and review.
+
+```
+1. Plan (Lead)
+   ├── 2. Implement (Implementer)
+   ├── 3. Write Tests (Test Writer) — after 2
+   └── 4. Review (Reviewer) — after 2
+5. Address Feedback (Lead) — after 3, 4
+```
+
+The key insight: steps 3 and 4 run in parallel. The test writer and reviewer both work from the completed implementation, independently. This is where teams save real time.
+
+**Scaling guidance:**
+- Single-file feature → skip the team entirely
+- Small feature (2-3 files) → lead + implementer, self-review
+- Medium feature (4-10 files) → lead + implementer + reviewer
+- Large feature (10+ files) → full blueprint with all four roles
+
+I use this blueprint maybe once or twice a week for features that touch multiple files. Most of the time, the "lead + implementer" variant is enough.
+
+### Bug Hunt Blueprint
+
+Debug a problem through parallel hypothesis investigation. This one changed how I approach debugging with AI.
+
+```
+1. Reproduce & Hypothesize (Lead)
+   ├── 2a. Investigate Hypothesis A (Researcher)
+   └── 2b. Investigate Hypothesis B (Researcher)
+3. Synthesize Findings (Lead)
+4. Implement Fix (Implementer)
+5. Verify Fix (Lead)
+```
+
+Instead of having one agent sequentially explore possibilities, you generate hypotheses up front and send researchers down different paths simultaneously. One investigator might trace the data flow while another checks the configuration. Even if a hypothesis is disproven, the negative result is valuable — it narrows the search space.
+
+**When to skip it:** If the stack trace points directly to the bug, just fix it. This blueprint is for the "it works on my machine" mysteries where the root cause is not obvious.
+
+### Refactor Blueprint
+
+Safe refactoring with architecture guidance and continuous behavior verification.
+
+```
+1. Analyze Current State (Architect)
+2. Design Target Structure (Architect)
+3. Plan Migration Steps (Lead)
+   ├── 4. Execute Step N (Implementer)
+   └── 5. Verify Step N (Reviewer)
+   (repeat 4-5 for each step)
+6. Final Verification (Lead)
+```
+
+This is the only blueprint that uses the architect agent. Refactoring benefits from opus-level reasoning because the structural decisions are hard to reverse. The critical rule: **every refactoring step must leave the codebase in a working state.** Tests pass after each step, not just at the end.
+
+The implementer commits after each step, and the reviewer verifies before the next step begins. This catches regressions early instead of at the end when everything has changed.
+
+### Review Blueprint
+
+Multi-perspective code review for large or critical changes.
+
+```
+1. Prepare (Lead)
+   ├── 2a. Security Review
+   ├── 2b. Quality Review
+   └── 2c. Performance Review
+3. Synthesize (Lead)
+```
+
+Three reviewers, each focused on one dimension, working in parallel. The security reviewer checks auth, injection, and data exposure. The quality reviewer checks logic errors, edge cases, and error handling. The performance reviewer checks query efficiency, memory usage, and algorithmic complexity.
+
+The lead synthesizes the findings, deduplicates, resolves conflicts (like when security and performance recommendations contradict), and produces a unified report.
+
+**When to use it:** Before merging anything that touches authentication, payment processing, or data access patterns. I use this sparingly — maybe once a month — but when I do, it catches things that a single-pass review misses.
+
+## The Orchestrator
+
+The blueprints themselves are just documents. The orchestrator is a skill that reads a blueprint and adapts it to the specific task. When I say "use the feature blueprint to build the notification system," the orchestrator:
+
+1. Reads the feature blueprint
+2. Assesses the task complexity
+3. Decides the actual team size (maybe we only need lead + implementer)
+4. Creates the team and tasks with proper dependencies
+5. Spawns the right agents with the right roles
+6. Coordinates the workflow
+
+The orchestrator is the key design decision. Blueprints are suggestions, not rigid templates. A small feature does not need four agents just because the blueprint defines four roles.
+
+## Scaling Rules
+
+After using these for a few weeks, I settled on firm rules:
+
+- **Max 3 teammates** for most tasks. Four only for genuinely independent work streams.
+- **Skip the team** for changes under 50 lines or single-file edits.
+- **Start small** and add agents if needed. You can always spin up another agent mid-task.
+- **One task per agent.** Clear scope, clear deliverable. If an agent's task is not a single sentence, it is too broad.
+- **Clean up when done.** Shutdown teammates, delete team resources. Do not leave zombie agents.
+
+The temptation is to throw agents at everything. Resist it. A well-placed single agent often beats a team of four with coordination overhead.
+
+## What I Learned
+
+The biggest lesson: **blueprints scale down more than they scale up.** I designed them as full team patterns, but 80% of the time I use the 2-agent variant. The blueprint gives me the pattern; I decide the team size based on the actual task.
+
+The second lesson: **parallel investigation is the highest-value use of teams.** The bug hunt pattern — sending researchers down different paths simultaneously — saves more time than any other blueprint because it attacks the part of debugging that is inherently serial: exploring hypotheses one at a time.
+
+Next up: the knowledge compounding loop that makes each Claude Code session smarter than the last.

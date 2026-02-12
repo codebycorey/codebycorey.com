@@ -1,0 +1,125 @@
+---
+title: 'Claude Code Power User: Building a Specialist Agent Library'
+brief: 'Instead of one agent that does everything, I built six specialist agents with constrained tools and the right model for each job. Here is why constraints make agents better.'
+date: '2026-02-12T18:00:00.000Z'
+---
+
+I have been going deep on Claude Code customization lately. After building a plugin, writing custom commands, and setting up hooks, I hit a wall. I was doing everything through the main conversation — research, implementation, code review, testing — all in one context window. It worked, but it was like having one person on your team doing every role. Things get messy.
+
+So I built a specialist agent library. Six agents, each with a single job, constrained tools, and the right model for the task.
+
+## The Problem with General-Purpose Agents
+
+When you use Claude Code's Task tool to spawn a subagent, you can give it any set of tools and any model. The temptation is to give it everything. Full write access, opus-level reasoning, all the tools. Why not?
+
+Because constraints make agents better.
+
+An agent with write access will try to fix things it finds during research. A research agent using opus burns tokens on reasoning when the bottleneck is I/O. A reviewer with edit access might "helpfully" apply its suggestions. Every unnecessary capability is a vector for the agent to drift from its job.
+
+## The Six Agents
+
+Here is the library I built. Each agent lives as a markdown file in `~/.claude/agents/` and gets stowed to every project through my dotfiles.
+
+### Researcher (haiku, read-only)
+
+```yaml
+model: haiku
+color: cyan
+tools: ["Read", "Grep", "Glob", "Bash", "WebFetch", "WebSearch"]
+```
+
+The researcher is fast and cheap. It explores codebases, reads documentation, and synthesizes findings. It cannot write or edit files — that is a feature, not a limitation. When you ask it to "investigate how auth works in this project," it traces the call chain, cites file paths with line numbers, and flags uncertainties. It never gets sidetracked trying to fix what it finds.
+
+I use haiku here because research is I/O-bound. The agent spends most of its time reading files and searching — it does not need opus-level reasoning for that. Haiku is fast, cheap, and accurate enough for gathering information.
+
+### Implementer (sonnet, full write)
+
+```yaml
+model: sonnet
+color: green
+tools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob"]
+```
+
+The implementer writes code. It gets full write access because that is literally its job. The system prompt emphasizes reading before writing, matching existing patterns, and verifying changes work. It runs the project's test and lint commands after making changes.
+
+Sonnet is the sweet spot here — fast enough for iteration, capable enough for non-trivial implementation. Opus would be overkill for most implementation work.
+
+### Reviewer (sonnet, read-only)
+
+```yaml
+model: sonnet
+color: yellow
+tools: ["Read", "Grep", "Glob", "Bash"]
+```
+
+The reviewer analyzes code for bugs, security issues, and performance problems. It cannot edit files. This is critical — a reviewer that can edit will apply its own suggestions, muddying the boundary between review and implementation. You want the reviewer to say "this has a SQL injection vulnerability on line 42" and the implementer to fix it.
+
+The review output is structured by severity: critical, warning, suggestion. Each finding includes a file path, line number, explanation, and suggested fix. It ends with a clear verdict: approve, request changes, or needs discussion.
+
+### Test Writer (sonnet, full write)
+
+```yaml
+model: sonnet
+color: magenta
+tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
+```
+
+The test writer generates tests based on existing implementation code. It reads the implementation, identifies the project's test framework and patterns, and writes tests that match. The key instruction: test behavior, not implementation. Tests should survive refactoring.
+
+### Docs Writer (sonnet, no Bash)
+
+```yaml
+model: sonnet
+color: blue
+tools: ["Read", "Write", "Edit", "Grep", "Glob"]
+```
+
+The docs writer generates documentation. It has no Bash access — it reads code and writes docs, nothing else. No chance of accidentally running commands while documenting. Its system prompt emphasizes accuracy over style and starting with code examples rather than paragraphs of explanation.
+
+### Architect (opus, read-only)
+
+```yaml
+model: opus
+color: red
+tools: ["Read", "Grep", "Glob", "Bash", "WebSearch"]
+```
+
+The architect is the only agent that gets opus. It handles system design, architecture evaluation, and technical planning. These tasks genuinely benefit from deeper reasoning — evaluating tradeoffs between approaches, designing migration paths, deciding whether to use WebSockets or SSE for real-time updates.
+
+It is read-only. The architect proposes, the implementer disposes. Every architecture recommendation includes 2-3 options with pros and cons, a clear recommendation with rationale, and a migration path from the current state.
+
+## Design Decisions
+
+### Why constrain tools?
+
+Every tool you give an agent is a degree of freedom. More freedom means more ways to drift from the task. A researcher with write access will "helpfully" fix typos. A reviewer with edit access will apply suggestions. Constraints keep agents focused.
+
+The rule is simple: if the agent does not need a tool to do its job, do not give it the tool.
+
+### Why different models?
+
+Not every task needs the same level of reasoning:
+
+- **Haiku** for research — fast I/O, cheap tokens, good enough for reading and summarizing
+- **Sonnet** for implementation and review — the sweet spot of speed and capability
+- **Opus** for architecture — complex tradeoff analysis justifies the cost
+
+Using opus for everything would be like hiring a senior architect to write unit tests. It works, but you are paying for capability you do not need.
+
+### Why descriptions with examples?
+
+Each agent has `<example>` blocks in its description that show Claude when to trigger it. This means Claude can automatically pick the right agent based on what you ask. "How does auth work?" triggers the researcher. "Add a POST endpoint" triggers the implementer. You do not have to remember which agent to use — the descriptions handle routing.
+
+## How I Use Them
+
+The agents live in my dotfiles at `home/.claude/agents/` and get stowed to `~/.claude/agents/` on every machine. They are global — available in every project. For project-specific agents, my `project-init` skill can generate additional agents based on the tech stack (like a `component-builder` for React projects).
+
+In practice, I rarely spawn agents manually. I describe what I want and Claude picks the right agent, or I use team blueprints to coordinate multiple agents on larger tasks. More on that in the next post.
+
+## What I Learned
+
+Building this library taught me that **the best agents are the most constrained ones**. It is counterintuitive. You would think giving an agent more tools makes it more capable. In practice, constraints make agents more reliable because they eliminate an entire category of drift.
+
+The other insight: **model selection matters more than you think**. Using haiku for research instead of sonnet cut my token costs for exploration tasks significantly, with no meaningful quality loss. The bottleneck for research is how many files you read, not how hard you think about them.
+
+Next up: how to coordinate these agents into teams using blueprints for common workflows like feature development, debugging, and refactoring.

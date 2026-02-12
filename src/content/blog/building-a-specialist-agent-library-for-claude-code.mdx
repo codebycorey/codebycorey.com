@@ -1,0 +1,105 @@
+---
+title: 'Building a Specialist Agent Library for Claude Code'
+brief: 'I created six specialist agents for Claude Code that each do one thing well. Here is why constrained agents with the right model beat a single general-purpose agent.'
+date: '2026-02-11T18:00:00.000Z'
+---
+
+After weeks of using Claude Code for everything from quick bug fixes to full feature builds, I noticed a pattern. I was giving the same instructions over and over. "Only read the code, don't change anything." "Match the project's test patterns." "Focus on security, not style." Every session, I was re-teaching the same roles.
+
+So I built a specialist agent library. Six agents, each with a single responsibility, constrained tools, and the right model for the job. They live in `~/.claude/agents/` and are available in every project.
+
+## The Six Agents
+
+Here is the lineup:
+
+| Agent | Model | What It Does |
+|-------|-------|-------------|
+| `researcher` | haiku | Codebase exploration, web research, context gathering |
+| `implementer` | sonnet | Code implementation following project patterns |
+| `reviewer` | sonnet | Code review for bugs, security, performance |
+| `test-writer` | sonnet | Test generation from implementation code |
+| `docs-writer` | sonnet | Documentation generation and maintenance |
+| `architect` | opus | System design, architecture evaluation, planning |
+
+Each one is a markdown file with YAML frontmatter that tells Claude Code when to use it, what model to run, and which tools are allowed.
+
+## Why Constrained Agents Beat General Purpose
+
+The most important design decision is tool constraints. Three of these agents, researcher, reviewer, and architect, cannot write or edit files. They physically cannot modify your code. This is not about trust, it is about focus.
+
+When an agent has write access, it is tempted to fix things it finds. A reviewer starts editing code instead of reporting issues. A researcher rewrites a function instead of explaining how it works. By removing write tools, the agent stays in its lane and produces better analysis.
+
+The `docs-writer` goes the other direction. It has no Bash access. It cannot run commands, only read code and write documentation. This prevents it from accidentally executing something while generating docs.
+
+## Model Selection Is About the Work, Not the Quality
+
+Not every task needs the most powerful model. Here is how I think about it:
+
+**Haiku for research.** The researcher agent uses haiku because research is I/O bound. It spends most of its time reading files, searching code, and fetching web pages. The bottleneck is finding the right information, not reasoning about it. Haiku handles this at a fraction of the cost and with lower latency.
+
+**Sonnet for implementation.** The implementer, reviewer, test-writer, and docs-writer all use sonnet. These tasks need solid reasoning, pattern matching, and code generation, but they do not need to make architectural decisions. Sonnet hits the sweet spot of quality and speed for code work.
+
+**Opus for architecture.** Only the architect gets opus. Architectural decisions involve evaluating tradeoffs across multiple dimensions, considering migration paths, and reasoning about long-term implications. This is where the extra reasoning capability pays for itself.
+
+## Agent File Anatomy
+
+Here is what a minimal agent file looks like:
+
+```markdown
+---
+name: reviewer
+description: Use this agent for code review...
+
+<example>
+Context: User wants feedback on changes
+user: "Review my changes on this branch"
+assistant: "I'll use the reviewer agent to analyze the changes."
+</example>
+
+model: sonnet
+color: yellow
+tools: ["Read", "Grep", "Glob", "Bash"]
+---
+
+You are a code review specialist...
+```
+
+The key fields:
+
+- **`name`** is the identifier you use when spawning the agent
+- **`description`** includes triggering examples so Claude knows when to use it automatically
+- **`model`** picks the right model for the work
+- **`tools`** is a whitelist. If a tool is not listed, the agent cannot use it
+- **`color`** gives visual distinction in the terminal
+
+The body after the frontmatter is the system prompt. This is where you define the agent's personality, process, and output format.
+
+## Practical Patterns
+
+After using these agents for a while, some patterns emerged.
+
+**Chain agents for complex tasks.** Ask the researcher to investigate, then hand findings to the architect for a design, then pass the design to the implementer. Each agent adds a layer of quality.
+
+**Use the reviewer after every significant change.** Even when working solo, spawning a reviewer after implementation catches things you missed. It is like having a second pair of eyes that never gets tired.
+
+**Let the researcher do your homework.** Before starting any task in an unfamiliar codebase, spawn the researcher to map the relevant code. The structured summary it produces makes the actual implementation much faster.
+
+**Architect before you implement.** For anything that touches more than a couple files, ask the architect first. The 30 seconds it takes saves 30 minutes of wrong-direction implementation.
+
+## Making Agents Global
+
+Since these agents live in my dotfiles at `home/.claude/agents/`, they get symlinked to `~/.claude/agents/` via stow. Every project automatically has access to all six agents without any per-project setup.
+
+For project-specific agents, I enhanced my `project-init` skill to detect the tech stack and generate additional agents. A React project gets a `component-builder` agent. An API project gets an `api-builder`. These are layered on top of the global library.
+
+## What I Would Change
+
+If I were starting over, I would start with just three agents: researcher, implementer, and reviewer. The test-writer and docs-writer are useful but less frequently needed. Adding agents one at a time lets you tune each one based on real usage rather than speculation.
+
+I am also experimenting with giving the researcher persistent memory so its findings compound across sessions. More on that in a future post.
+
+## Try It Yourself
+
+The full agent library is in my [dotfiles repo](https://github.com/codebycorey/dotfiles). Copy the `home/.claude/agents/` directory to your own `~/.claude/agents/` and they are immediately available.
+
+Start with the reviewer. Run it after your next feature implementation and see what it catches. That alone will change how you use Claude Code.

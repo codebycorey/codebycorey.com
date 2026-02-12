@@ -1,0 +1,68 @@
+---
+import Layout from './Layout.astro';
+import WrappedLink from '../components/WrappedLink.astro';
+import { format } from 'date-fns';
+
+interface Props {
+  title: string;
+  brief: string;
+  date: Date;
+  slug: string;
+}
+
+const { title, brief, date, slug } = Astro.props;
+const formattedDate = format(date, 'MMMM dd, yyyy');
+const postUrl = `https://codebycorey.com/blog/${slug}`;
+const ogImage = `https://codebycorey.com/og/${slug}.png`;
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  datePublished: date.toISOString(),
+  dateModified: date.toISOString(),
+  description: brief,
+  image: ogImage,
+  url: postUrl,
+  author: {
+    '@type': 'Person',
+    name: "Corey O'Donnell",
+  },
+});
+---
+
+<Layout title={title} description={brief}>
+  <Fragment slot="head">
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={postUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={brief} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={title} />
+    <meta property="article:published_time" content={date.toISOString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={brief} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={jsonLd} />
+  </Fragment>
+
+  <section class="mx-auto my-12 px-4 max-w-2xl space-y-6">
+    <h1 class="not-prose text-4xl">{title}</h1>
+    <div>
+      <div class="flex justify-between">
+        <time>{formattedDate}</time>
+        <slot name="view-count" />
+      </div>
+      <p class="text-zinc-400 my-1">Affiliate links may earn commissions.</p>
+    </div>
+    <div class="prose prose-neutral">
+      <slot />
+    </div>
+    <WrappedLink
+      href={`https://github.com/codebycorey/codebycorey.com/blob/main/src/content/blog/${slug}.mdx`}
+    >
+      Edit this page on GitHub
+    </WrappedLink>
+  </section>
+</Layout>

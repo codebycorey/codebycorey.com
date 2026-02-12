@@ -1,0 +1,108 @@
+---
+title: 'Building a VSCode Extension: Part Four'
+brief: 'One of the of most important things to make this extension function is to figure out the best way to have the React.js app communicate with the extension framework.'
+date: '2020-09-14T14:02:16.549Z'
+---
+
+One of the of most important things to make this extension function is to figure out the best way to have the React.js app communicate with the extension framework. After reading the docs and playing around, it was fairly simple using VS Codes message API.
+
+## Passing Messages with VS Code's API
+
+VS Code offers a special API Object inside their webview by calling `acquireVsCodeApi` inside your JavaScript. The API object has a `postMessage()` function that can be used to send messages back to the extension's backend. You can subscribe to messages in the backend using the `panel.webview.onDidReceiveMessage()` function.
+
+Example of sending a message when script is loaded in Webview App.tsx
+
+```typescript
+// Add typedef for acquireVsCodeApi
+declare const acquireVsCodeApi: Function;
+// Fetch the api object
+export const vscodeApi = acquireVsCodeApi();
+vscodeApi.postMessage('React App Loaded')
+```
+
+You can then verify your extension caught the message using:
+
+```typescript
+panel.webview.onDidReceiveMessage((message) => console.log('MESSAGE', message))
+```
+
+Now that we can send messages to the VS Code backend, we need to figure out how to send messages back to the webview and catch it. You can easily send a message using `panel.webview.postMessage()` function which is similar to how we sent the message from the webview. Instead of using the VSCodeAPI to catch the message in the webview, you actually add an event listener on the window object for `message`.
+
+Sending the message from the VS Code backend after react app loads:
+
+```typescript
+panel.webview.onDidReceiveMessage((message) => {
+    if (message === 'React App Loaded') {
+        panel.webview.postMessage('Extension Knows React is ready');
+    }
+})
+```
+
+Webview listening for a message from the VS Code backend in App.tsx:
+
+```typescript
+window.addEventListener('message', (message) => console.log('CAUGHT THE MESSAGE', message));
+```
+
+You should now see a `console.log()` with the caught message.
+
+## Cleaning up the React Code
+
+I decided to create a lib service that wraps the VS Code API. I can add more type checking to the API and simplify cleanup of `eventListeners`.
+
+```typescript
+declare const acquireVsCodeApi: Function;
+
+interface VSCodeApi {
+    getState: () => any;
+    setState: (newState: any) => any;
+    postMessage: (message: any) => void;
+}
+
+class VSCodeWrapper {
+    private readonly vscodeApi: VSCodeApi = acquireVsCodeApi();
+
+    /**
+     * Send message to the extension framework.
+     * @param message
+     */
+    public postMessage(message: any): void {
+        this.vscodeApi.postMessage(message);
+    }
+
+    /**
+     * Add listener for messages from extension framework.
+     * @param callback called when the extension sends a message
+     * @returns function to clean up the message eventListener.
+     */
+    public onMessage(callback: (message: any) => void): () => void {
+        window.addEventListener('message', callback);
+        return () => window.removeEventListener('message', callback);
+    }
+}
+
+// Singleton to prevent multiple fetches of VsCodeAPI.
+export const VSCodeAPI: VSCodeWrapper = new VSCodeWrapper();
+```
+
+I can now subscribe to messages using `useEffect` inside of my App.tsx:
+
+```typescript
+import React, { useEffect } from 'react';
+import './App.css';
+
+import { VSCodeAPI } from './lib/VSCodeAPI';
+
+export default function App() {
+    useEffect(() => {
+        return VSCodeAPI.onMessage((message) => console.log('app', message));
+    });
+    return (
+        <h1>Hello World</h1>
+    );
+}
+```
+
+## Next Steps
+
+Now that we can pass data between the view and the backend, we can start working on actual functionality. I need to look through the VS Code documentation on how to create a custom editor to generate and modify the `todo.md` file. I want to add Tailwind CSS to the front end for styles and create views for displaying and submitting todos.

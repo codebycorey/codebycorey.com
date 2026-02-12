@@ -1,0 +1,30 @@
+---
+import { ALL_LINKS } from '../lib/navigation';
+import WrappedLink from './WrappedLink.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-12 px-8 py-12 bg-zinc-100 space-y-2">
+  <div class="flex flex-wrap justify-between gap-2">
+    <p>&copy; {year} Corey O'Donnell</p>
+    <nav>
+      <ul class="flex space-x-4 flex-wrap">
+        {ALL_LINKS.map((link) => (
+          <li>
+            <WrappedLink href={link.href}>{link.label}</WrappedLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+  <div class="flex flex-wrap justify-between gap-2">
+    <p>
+      <WrappedLink href="https://link.codebycorey.com/fathom">
+        Privacy-respecting analytics
+      </WrappedLink>{' '}
+      by Fathom
+    </p>
+    <p class="text-zinc-500">Affiliate links may earn commissions.</p>
+  </div>
+</footer>
