@@ -28,11 +28,11 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
+      rel="alternate"
+      type="application/rss+xml"
+      title="CodeByCorey"
+      href="/rss.xml"
     />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
@@ -42,6 +42,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:site_name" content={defaultTitle} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://codebycorey.com/opengraph-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content={defaultTitle} />
     <meta name="robots" content="index, follow" />

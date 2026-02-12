@@ -1,7 +1,6 @@
 ---
 import Layout from './Layout.astro';
 import WrappedLink from '../components/WrappedLink.astro';
-import { format } from 'date-fns';
 
 interface Props {
   title: string;
@@ -11,7 +10,11 @@ interface Props {
 }
 
 const { title, brief, date, slug } = Astro.props;
-const formattedDate = format(date, 'MMMM dd, yyyy');
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: '2-digit',
+}).format(date);
 const postUrl = `https://codebycorey.com/blog/${slug}`;
 const ogImage = `https://codebycorey.com/og/${slug}.png`;
 
@@ -51,7 +54,7 @@ const jsonLd = JSON.stringify({
     <h1 class="not-prose text-4xl">{title}</h1>
     <div>
       <div class="flex justify-between">
-        <time>{formattedDate}</time>
+        <time datetime={date.toISOString()}>{formattedDate}</time>
         <slot name="view-count" />
       </div>
       <p class="text-zinc-400 my-1">Affiliate links may earn commissions.</p>

@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { sequentialFuzzySearch } from '../lib/search';
-import { format } from 'date-fns';
 import ConvexClientProvider from './ConvexClientProvider';
-import { BlogListItemViewCount } from './ViewCount';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 
 interface PostData {
   id: string;
@@ -21,6 +21,10 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
   const [query, setQuery] = useState('');
   const [actionKey, setActionKey] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const allCounts = useQuery(api.pages.getAllViewCounts);
+  const countMap = allCounts
+    ? new Map(allCounts.map((p) => [p.slug, p.viewCount]))
+    : null;
 
   useEffect(() => {
     if (typeof navigator === 'undefined') return;
@@ -48,7 +52,11 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
   }, 300);
 
   const filteredPosts = query
-    ? posts.filter((post) => sequentialFuzzySearch(query, post.title))
+    ? posts.filter(
+        (post) =>
+          sequentialFuzzySearch(query, post.title) ||
+          sequentialFuzzySearch(query, post.brief)
+      )
     : posts;
 
   return (
@@ -76,20 +84,34 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
         />
       </div>
       <ul className="space-y-12">
-        {filteredPosts.map((post) => (
-          <li key={post.id}>
-            <a href={`/blog/${post.slug}`} className="space-y-3 block">
-              <h3 className="text-2xl">{post.title}</h3>
-              <p>{post.brief}</p>
-              <div className="flex justify-between">
-                <span className="text-zinc-500">
-                  {format(new Date(post.date), 'MMMM dd, yyyy')}
-                </span>
-                <BlogListItemViewCount slug={post.slug} />
-              </div>
-            </a>
-          </li>
-        ))}
+        {filteredPosts.map((post) => {
+          const count = countMap?.get(post.slug) ?? 0;
+          return (
+            <li key={post.id}>
+              <a href={`/blog/${post.slug}`} className="space-y-3 block">
+                <h3 className="text-2xl">{post.title}</h3>
+                <p>{post.brief}</p>
+                <div className="flex justify-between">
+                  <time
+                    className="text-zinc-500"
+                    dateTime={new Date(post.date).toISOString()}
+                  >
+                    {new Intl.DateTimeFormat('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: '2-digit',
+                    }).format(new Date(post.date))}
+                  </time>
+                  {countMap && (
+                    <p>
+                      {count} view{count === 1 ? '' : 's'}
+                    </p>
+                  )}
+                </div>
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </>
   );
