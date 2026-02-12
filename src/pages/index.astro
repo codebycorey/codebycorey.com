@@ -1,20 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import WrappedLink from '../components/WrappedLink.astro';
-import RecentPostsList from '../components/RecentPostsList';
+import BlogLink from '../components/BlogLink.astro';
+import ConvexListViewCount from '../components/ConvexListViewCount';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog');
 const recentPosts = posts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 4);
-
-const recentPostsData = recentPosts.map((post) => ({
-  title: post.data.title,
-  brief: post.data.brief,
-  date: post.data.date.toISOString(),
-  slug: post.id,
-}));
 ---
 
 <Layout>
@@ -40,7 +34,20 @@ const recentPostsData = recentPosts.map((post) => ({
         <h2 class="text-4xl">Recent Blog Posts</h2>
         <WrappedLink href="/blog" class="text-lg">view all</WrappedLink>
       </div>
-      <RecentPostsList client:only="react" posts={recentPostsData} />
+      <ul class="space-y-8">
+        {recentPosts.map((post) => (
+          <li>
+            <BlogLink
+              title={post.data.title}
+              brief={post.data.brief}
+              date={post.data.date}
+              slug={post.id}
+            >
+              <ConvexListViewCount client:only="react" slug={post.id} />
+            </BlogLink>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 </Layout>

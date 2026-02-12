@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Component, type ReactNode } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { sequentialFuzzySearch } from '../lib/search';
 import ConvexClientProvider from './ConvexClientProvider';
@@ -17,14 +17,66 @@ interface BlogSearchProps {
   posts: PostData[];
 }
 
-function BlogSearchInner({ posts }: BlogSearchProps) {
-  const [query, setQuery] = useState('');
-  const [actionKey, setActionKey] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
+function ViewCounts({ slugs }: { slugs: string[] }) {
   const allCounts = useQuery(api.pages.getAllViewCounts);
   const countMap = allCounts
     ? new Map(allCounts.map((p) => [p.slug, p.viewCount]))
     : null;
+
+  if (!countMap) return null;
+
+  return (
+    <>
+      {slugs.map((slug) => {
+        const count = countMap.get(slug) ?? 0;
+        return (
+          <span key={slug} data-view-count={slug} style={{ display: 'none' }}>
+            {count} view{count === 1 ? '' : 's'}
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
+class ConvexErrorBoundary extends Component<
+  { children: ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
+
+function ViewCountDisplay({ slug }: { slug: string }) {
+  const allCounts = useQuery(api.pages.getAllViewCounts);
+  const countMap = allCounts
+    ? new Map(allCounts.map((p) => [p.slug, p.viewCount]))
+    : null;
+
+  if (!countMap) return null;
+  const count = countMap.get(slug) ?? 0;
+  return (
+    <p>
+      {count} view{count === 1 ? '' : 's'}
+    </p>
+  );
+}
+
+function BlogSearchInner({ posts }: BlogSearchProps) {
+  const [query, setQuery] = useState('');
+  const [actionKey, setActionKey] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (typeof navigator === 'undefined') return;
@@ -84,34 +136,29 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
         />
       </div>
       <ul className="space-y-12">
-        {filteredPosts.map((post) => {
-          const count = countMap?.get(post.slug) ?? 0;
-          return (
-            <li key={post.id}>
-              <a href={`/blog/${post.slug}`} className="space-y-3 block">
-                <h3 className="text-2xl">{post.title}</h3>
-                <p>{post.brief}</p>
-                <div className="flex justify-between">
-                  <time
-                    className="text-zinc-500"
-                    dateTime={new Date(post.date).toISOString()}
-                  >
-                    {new Intl.DateTimeFormat('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: '2-digit',
-                    }).format(new Date(post.date))}
-                  </time>
-                  {countMap && (
-                    <p>
-                      {count} view{count === 1 ? '' : 's'}
-                    </p>
-                  )}
-                </div>
-              </a>
-            </li>
-          );
-        })}
+        {filteredPosts.map((post) => (
+          <li key={post.id}>
+            <a href={`/blog/${post.slug}`} className="space-y-3 block">
+              <h3 className="text-2xl">{post.title}</h3>
+              <p>{post.brief}</p>
+              <div className="flex justify-between">
+                <time
+                  className="text-zinc-500"
+                  dateTime={new Date(post.date).toISOString()}
+                >
+                  {new Intl.DateTimeFormat('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: '2-digit',
+                  }).format(new Date(post.date))}
+                </time>
+                <ConvexErrorBoundary>
+                  <ViewCountDisplay slug={post.slug} />
+                </ConvexErrorBoundary>
+              </div>
+            </a>
+          </li>
+        ))}
       </ul>
     </>
   );

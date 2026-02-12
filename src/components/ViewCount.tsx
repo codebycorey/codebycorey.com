@@ -31,3 +31,12 @@ export function BlogViewCount({ slug }: BlogViewCountProps) {
 
   return <ViewCountDisplay count={count} />;
 }
+
+interface BlogListItemViewCountProps {
+  slug: string;
+}
+
+export function BlogListItemViewCount({ slug }: BlogListItemViewCountProps) {
+  const count = useQuery(api.pages.getViewCount, { slug });
+  return <ViewCountDisplay count={count} />;
+}

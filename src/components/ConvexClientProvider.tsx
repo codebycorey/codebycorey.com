@@ -8,10 +8,14 @@ interface ConvexClientProviderProps {
 export default function ConvexClientProvider({
   children,
 }: ConvexClientProviderProps) {
-  const convex = useMemo(
-    () => new ConvexReactClient(import.meta.env.PUBLIC_CONVEX_URL as string),
-    []
-  );
+  const url = import.meta.env.PUBLIC_CONVEX_URL;
+
+  const convex = useMemo(() => {
+    if (!url) return null;
+    return new ConvexReactClient(url);
+  }, []);
+
+  if (!convex) return <>{children}</>;
 
   return <ConvexProvider client={convex}>{children}</ConvexProvider>;
 }
