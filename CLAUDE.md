@@ -24,21 +24,26 @@ src/
     Layout.astro      # Base layout (head, sidebar, footer, fathom)
     BlogPost.astro    # Post layout (JSON-LD, OG meta, prose wrapper)
   components/
-    Sidebar.astro     # Navigation sidebar
-    Footer.astro      # Footer with links
-    BlogLink.astro    # Blog post card
-    WrappedLink.astro # Internal/external link wrapper
-    Fathom.astro      # Analytics script tag
-    BlogSearch.tsx    # React island (client:load) — search + filtering
-    ViewCount.tsx     # React island (client:visible) — Supabase view counts
+    Sidebar.astro           # Navigation sidebar
+    Footer.astro            # Footer with links
+    BlogLink.astro          # Blog post card
+    WrappedLink.astro       # Internal/external link wrapper
+    Fathom.astro            # Analytics script tag
+    BlogSearch.tsx          # React island (client:load) — search + filtering
+    ConvexClientProvider.tsx # Convex provider wrapper
+    ConvexViewCount.tsx     # React island (client:only) — Convex view counts wrapper
+    ViewCount.tsx           # View count display using Convex queries
   content/
     blog/             # MDX blog posts (frontmatter: title, brief, date)
   content.config.ts   # Zod schema for blog collection
   lib/
     navigation.ts     # Shared link data for sidebar/footer
     search.ts         # Sequential fuzzy search
-    supabase.ts       # Client-side Supabase (anon key, lazy init)
   styles/global.css   # Tailwind + custom styles
+convex/
+  schema.ts           # Convex schema (pages table)
+  pages.ts            # Convex queries and mutations for view counts
+  _generated/         # Generated Convex API types
 ```
 
 ## Conventions

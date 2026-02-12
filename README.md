@@ -4,10 +4,10 @@ My portfolio website where I spend a lot of my time learning, experimenting, and
 
 ## Built Using
 
-- **Framework**: [Next.js](https://nextjs.org/)
+- **Framework**: [Astro](https://astro.build/)
 - **CMS**: [MDX](https://github.com/mdx-js/mdx)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Database**: [Supabase](https://supabase.io/)
+- **Database**: [Convex](https://convex.dev/)
 - **Analytics**: [Fathom Analytics](https://link.codebycorey.com/fathom)
 
 ## Running Locally
@@ -17,9 +17,9 @@ This application written using Node.js v20+.
 ```bash
 git clone git@github.com:codebycorey/codebycorey.com.git
 cd codebycorey.com
-pnpn install
-cp .env.example .env.local
-pnpn dev
+pnpm install
+cp .env.example .env
+pnpm dev
 ```
 
-Fill in `.env.local` with your API keys
+Fill in `.env` with your API keys

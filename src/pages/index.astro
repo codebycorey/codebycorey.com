@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import WrappedLink from '../components/WrappedLink.astro';
 import BlogLink from '../components/BlogLink.astro';
+import ConvexListViewCount from '../components/ConvexListViewCount';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog');
@@ -41,7 +42,9 @@ const recentPosts = posts
               brief={post.data.brief}
               date={post.data.date}
               slug={post.id}
-            />
+            >
+              <ConvexListViewCount client:load slug={post.id} />
+            </BlogLink>
           </li>
         ))}
       </ul>

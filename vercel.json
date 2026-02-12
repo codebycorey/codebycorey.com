@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self' cdn.usefathom.com; script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.usefathom.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: cdn.usefathom.com; connect-src 'self' cdn.usefathom.com *.supabase.co; font-src 'self' fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
+          "value": "default-src 'self' cdn.usefathom.com; script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.usefathom.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: cdn.usefathom.com; connect-src 'self' cdn.usefathom.com *.convex.cloud; font-src 'self' fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
         },
         {
           "key": "Referrer-Policy",

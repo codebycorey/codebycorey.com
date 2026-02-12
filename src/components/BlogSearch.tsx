@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { sequentialFuzzySearch } from '../lib/search';
 import { format } from 'date-fns';
+import ConvexClientProvider from './ConvexClientProvider';
+import { BlogListItemViewCount } from './ViewCount';
 
 interface PostData {
   id: string;
@@ -15,7 +17,7 @@ interface BlogSearchProps {
   posts: PostData[];
 }
 
-export default function BlogSearch({ posts }: BlogSearchProps) {
+function BlogSearchInner({ posts }: BlogSearchProps) {
   const [query, setQuery] = useState('');
   const [actionKey, setActionKey] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -83,11 +85,20 @@ export default function BlogSearch({ posts }: BlogSearchProps) {
                 <span className="text-zinc-500">
                   {format(new Date(post.date), 'MMMM dd, yyyy')}
                 </span>
+                <BlogListItemViewCount slug={post.slug} />
               </div>
             </a>
           </li>
         ))}
       </ul>
     </>
+  );
+}
+
+export default function BlogSearch({ posts }: BlogSearchProps) {
+  return (
+    <ConvexClientProvider>
+      <BlogSearchInner posts={posts} />
+    </ConvexClientProvider>
   );
 }

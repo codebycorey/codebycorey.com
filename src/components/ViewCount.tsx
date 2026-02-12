@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
-import {
-  fetchAndIncrementViewCount,
-  fetchAllViewCounts,
-} from '../lib/supabase';
+import { useEffect } from 'react';
+import { useQuery, useMutation } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 
 interface ViewCountDisplayProps {
-  count: number | null;
+  count: number | null | undefined;
 }
 
 function ViewCountDisplay({ count }: ViewCountDisplayProps) {
-  if (count === null) return null;
+  if (count === null || count === undefined) return null;
   return (
     <p>
       {count} view{count === 1 ? '' : 's'}
@@ -22,31 +20,16 @@ interface BlogViewCountProps {
 }
 
 export function BlogViewCount({ slug }: BlogViewCountProps) {
-  const [count, setCount] = useState<number | null>(null);
+  const count = useQuery(api.pages.getViewCount, { slug });
+  const incrementViewCount = useMutation(api.pages.incrementViewCount);
 
   useEffect(() => {
-    fetchAndIncrementViewCount(slug)
-      .then(setCount)
-      .catch((err) => {
-        console.error('[ViewCount] Failed to fetch view count:', err);
-      });
-  }, [slug]);
+    incrementViewCount({ slug }).catch((err) => {
+      console.error('[ViewCount] Failed to increment view count:', err);
+    });
+  }, [slug, incrementViewCount]);
 
   return <ViewCountDisplay count={count} />;
-}
-
-let viewCountsCache: Record<string, number> | null = null;
-let viewCountsPromise: Promise<Record<string, number>> | null = null;
-
-function getCachedViewCounts(): Promise<Record<string, number>> {
-  if (viewCountsCache) return Promise.resolve(viewCountsCache);
-  if (!viewCountsPromise) {
-    viewCountsPromise = fetchAllViewCounts().then((counts) => {
-      viewCountsCache = counts;
-      return counts;
-    });
-  }
-  return viewCountsPromise;
 }
 
 interface BlogListItemViewCountProps {
@@ -54,17 +37,6 @@ interface BlogListItemViewCountProps {
 }
 
 export function BlogListItemViewCount({ slug }: BlogListItemViewCountProps) {
-  const [count, setCount] = useState<number | null>(null);
-
-  useEffect(() => {
-    getCachedViewCounts()
-      .then((counts) => {
-        setCount(counts[slug] ?? 0);
-      })
-      .catch((err) => {
-        console.error('[ViewCount] Failed to fetch all view counts:', err);
-      });
-  }, [slug]);
-
+  const count = useQuery(api.pages.getViewCount, { slug });
   return <ViewCountDisplay count={count} />;
 }
