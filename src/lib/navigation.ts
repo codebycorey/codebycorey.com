@@ -20,11 +20,6 @@ export const SOCIAL_LINKS: NavLink[] = [
     label: 'LinkedIn',
     icon: 'linkedin',
   },
-  {
-    href: 'https://twitter.com/horticoder',
-    label: 'Twitter',
-    icon: 'twitter',
-  },
 ];
 
 export const ALL_LINKS: NavLink[] = [...HEADER_LINKS, ...SOCIAL_LINKS];

@@ -25,6 +25,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
     <link rel="canonical" href={canonicalUrl} />
@@ -44,18 +45,24 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://codebycorey.com/opengraph-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content={defaultTitle} />
+    <meta name="twitter:site" content="@codebycorey" />
     <meta name="robots" content="index, follow" />
     <slot name="head" />
   </head>
   <body class="font-['Inter'] min-h-screen flex flex-col">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-black"
+    >
+      Skip to content
+    </a>
     <main
       class="h-full flex grow flex-wrap justify-center max-w-5xl mx-auto sm:flex-col md:flex-row"
     >
       <div class="grow px-8">
         <Sidebar />
       </div>
-      <div class="basis-0 grow-[999] min-w-[50%]">
+      <div id="main-content" class="basis-0 grow-[999] min-w-[50%]">
         <slot />
       </div>
     </main>
