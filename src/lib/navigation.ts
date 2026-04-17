@@ -21,5 +21,3 @@ export const SOCIAL_LINKS: NavLink[] = [
     icon: 'linkedin',
   },
 ];
-
-export const ALL_LINKS: NavLink[] = [...HEADER_LINKS, ...SOCIAL_LINKS];

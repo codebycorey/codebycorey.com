@@ -3,9 +3,12 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Page Not Found" description="The page you're looking for doesn't exist.">
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, follow" />
+  </Fragment>
   <section class="mx-auto max-w-2xl px-8 mt-24 text-center space-y-6">
     <h1 class="text-6xl font-bold">404</h1>
-    <p class="text-xl text-zinc-500">The page you're looking for doesn't exist.</p>
+    <p class="text-xl text-zinc-600">The page you're looking for doesn't exist.</p>
     <a href="/" class="inline-block text-lg underline underline-offset-4">
       Back to home
     </a>

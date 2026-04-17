@@ -16,10 +16,11 @@ export async function getStaticPaths() {
 export const GET: APIRoute = async ({ props }) => {
   const { title } = props;
 
-  const fontPath = path.join(process.cwd(), 'src', 'assets', 'fonts', 'Inter-Regular.ttf');
-  const fontData = fs.readFileSync(fontPath);
+  try {
+    const fontPath = path.join(process.cwd(), 'src', 'assets', 'fonts', 'Inter-Regular.ttf');
+    const fontData = fs.readFileSync(fontPath);
 
-  const svg = await satori(
+    const svg = await satori(
     {
       type: 'div',
       props: {
@@ -88,12 +89,16 @@ export const GET: APIRoute = async ({ props }) => {
     }
   );
 
-  const resvg = new Resvg(svg, {
-    fitTo: { mode: 'width', value: 1920 },
-  });
-  const png = resvg.render().asPng();
+    const resvg = new Resvg(svg, {
+      fitTo: { mode: 'width', value: 1920 },
+    });
+    const png = resvg.render().asPng();
 
-  return new Response(png, {
-    headers: { 'Content-Type': 'image/png' },
-  });
+    return new Response(png, {
+      headers: { 'Content-Type': 'image/png' },
+    });
+  } catch (error) {
+    console.error(`[og/${title}] Failed to generate OG image:`, error);
+    return new Response('OG image generation failed', { status: 500 });
+  }
 };

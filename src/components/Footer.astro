@@ -1,16 +1,17 @@
 ---
-import { ALL_LINKS } from '../lib/navigation';
+import { HEADER_LINKS, SOCIAL_LINKS } from '../lib/navigation';
 import WrappedLink from './WrappedLink.astro';
 
 const year = new Date().getFullYear();
+const links = [...HEADER_LINKS, ...SOCIAL_LINKS];
 ---
 
 <footer class="mt-12 px-8 py-12 bg-zinc-100 space-y-2">
   <div class="flex flex-wrap justify-between gap-2">
     <p>&copy; {year} Corey O'Donnell</p>
-    <nav>
+    <nav aria-label="Footer">
       <ul class="flex space-x-4 flex-wrap">
-        {ALL_LINKS.map((link) => (
+        {links.map((link) => (
           <li>
             <WrappedLink href={link.href}>{link.label}</WrappedLink>
           </li>
@@ -25,6 +26,6 @@ const year = new Date().getFullYear();
       </WrappedLink>{' '}
       by Fathom
     </p>
-    <p class="text-zinc-500">Affiliate links may earn commissions.</p>
+    <p class="text-zinc-600">Affiliate links may earn commissions.</p>
   </div>
 </footer>

@@ -13,7 +13,7 @@ export default defineConfig({
     mdx(),
     react(),
     tailwind(),
-    sitemap(),
+    sitemap({ filter: (page) => !page.includes('/og/') }),
   ],
   markdown: {
     shikiConfig: {

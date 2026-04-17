@@ -55,6 +55,9 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
   return (
     <>
       <div className="relative">
+        <label htmlFor="search" className="sr-only">
+          Search blog posts
+        </label>
         <input
           ref={inputRef}
           type="text"
@@ -66,7 +69,7 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
         />
         {actionKey && (
           <div className="absolute inset-y-0 right-0 flex py-3 pr-1.5">
-            <kbd className="inline-flex items-center rounded border border-zinc-300 px-1 font-sans text-xs text-zinc-400">
+            <kbd className="inline-flex items-center rounded border border-zinc-300 px-1 font-sans text-xs text-zinc-600">
               {actionKey}
             </kbd>
           </div>
@@ -76,8 +79,11 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
           aria-hidden="true"
         />
       </div>
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {query ? `${filteredPosts.length} posts found for "${query}"` : ''}
+      </div>
       {filteredPosts.length === 0 ? (
-        <p className="text-zinc-500 text-center py-12">
+        <p className="text-zinc-600 text-center py-12">
           No posts found for &ldquo;{query}&rdquo;
         </p>
       ) : (
@@ -89,7 +95,7 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
                 <p>{post.brief}</p>
                 <div className="flex justify-between">
                   <time
-                    className="text-zinc-500"
+                    className="text-zinc-600"
                     dateTime={new Date(post.date).toISOString()}
                   >
                     {new Intl.DateTimeFormat('en-US', {

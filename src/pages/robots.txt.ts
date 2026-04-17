@@ -3,9 +3,10 @@ import type { APIRoute } from 'astro';
 export const GET: APIRoute = () => {
   const body = `User-agent: *
 Allow: /
+Disallow: /og/
 
 Sitemap: https://codebycorey.com/sitemap-index.xml
-Host: https://codebycorey.com
+Host: codebycorey.com
 `;
 
   return new Response(body, {

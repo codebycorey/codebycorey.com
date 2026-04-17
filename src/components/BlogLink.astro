@@ -18,7 +18,7 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
   <h3 class="text-2xl">{title}</h3>
   <p>{brief}</p>
   <div class="flex justify-between">
-    <time class="text-zinc-500" datetime={date.toISOString()}>{formattedDate}</time>
+    <time class="text-zinc-600" datetime={date.toISOString()}>{formattedDate}</time>
     <slot />
   </div>
 </a>
