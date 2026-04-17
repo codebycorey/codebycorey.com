@@ -4,14 +4,12 @@ brief: 'Sometimes it is undesirable for a website to display a system font befor
 date: '2020-09-24T19:24:53.487Z'
 ---
 
+import fontShift from '../../assets/images/defeating-flash-of-unstyled-text-fout/font-shift.gif';
+import noFontShift from '../../assets/images/defeating-flash-of-unstyled-text-fout/no-font-shift.gif';
+
 I noticed when I loaded my personal site without cache, my text would first display without the correct font. It eventually restyle using the original font after everything loaded.
 
-<img
-  alt={`Font shifting as it loads`}
-  width={1865}
-  height={898}
-  src={`/static/images/defeating-flash-of-unstyled-text-fout/font-shift.gif`}
-/>
+<img src={fontShift.src} width={fontShift.width} height={fontShift.height} alt="Font shifting as it loads" loading="lazy" />
 
 I was originally using a NPM package called `typeface-roboto` to load my font. This was awesome because I wanted to host the fonts myself instead of pulling from a CDN. I realized the styles included in the package was the reason for my Flash of Unstyled Text (FOUT).
 
@@ -47,7 +45,7 @@ I pulled all the font files into my project instead of using the NPM package. Th
 
 Since my websites design is heavily focused on typography. I was willing to sacrifice some performance to give my fonts a little more time to load before anything is displayed.
 
-<img alt={`Font loads without shift`} width={1865} height={898} src={`/static/images/defeating-flash-of-unstyled-text-fout/no-font-shift.gif`} />
+<img src={noFontShift.src} width={noFontShift.width} height={noFontShift.height} alt="Font loads without shift" loading="lazy" />
 
 ---
 

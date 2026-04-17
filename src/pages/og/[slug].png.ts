@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 export const GET: APIRoute = async ({ props }) => {
   const { title } = props;
 
-  const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Inter-Regular.ttf');
+  const fontPath = path.join(process.cwd(), 'src', 'assets', 'fonts', 'Inter-Regular.ttf');
   const fontData = fs.readFileSync(fontPath);
 
   const svg = await satori(

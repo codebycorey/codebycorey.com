@@ -4,6 +4,13 @@ brief: "Let's Build our own real-time page view tracker using Next.js as the fro
 date: '2020-12-31'
 ---
 
+import { Image } from 'astro:assets';
+import newProjectImg from '../../assets/images/page-views-nextjs-supabase/new-project.png';
+import nameProjectImg from '../../assets/images/page-views-nextjs-supabase/name-project.png';
+import sqlEditorImg from '../../assets/images/page-views-nextjs-supabase/sql-editor.png';
+import apiKeysImg from '../../assets/images/page-views-nextjs-supabase/api-keys.png';
+import populatedTableImg from '../../assets/images/page-views-nextjs-supabase/populated-table.png';
+
 One of the best ways to understand how your blog posts are performing is by tracking page views. You can begin to understand what posts and information your readers care more about based on number of views. You can then focus your efforts on the more important content.
 
 Many people use tools like [Google](https://analytics.google.com/) or [Fathom](https://link.codebycorey.com/fathom) Analytics for tracking traffic. With the rise of Ad-Blockers, your traffic collected with these services are not necessarily accurate.
@@ -24,30 +31,15 @@ We will be using [Next.js](https://nextjs.org/) as our frontend framework. It gi
 
 Sign in or Sign up for Supabase. Then create a new project. You can either use an existing organization (if you have one) or create a new one.
 
-<img
-  alt={`Create a new project in Supabase screenshot`}
-  width={640}
-  height={307}
-  src={`/static/images/page-views-nextjs-supabase/new-project.png`}
-/>
+<Image src={newProjectImg} alt="Create a new project in Supabase screenshot" />
 
 Enter your project name, add a **strong** password for your database, and select which region you want your database.
 
-<img
-  alt={`Set the name and password for your database screenshot`}
-  width={640}
-  height={278}
-  src={`/static/images/page-views-nextjs-supabase/name-project.png`}
-/>
+<Image src={nameProjectImg} alt="Set the name and password for your database screenshot" />
 
 Once the database finishes setting up, we need to create a table to store our pages and the total view count. Navigate to the SQL editor and switch to the `Query-1` tab.
 
-<img
-  alt={`SQL Editor and Highlighted Query-1 tab screenshot`}
-  width={640}
-  height={337}
-  src={`/static/images/page-views-nextjs-supabase/sql-editor.png`}
-/>
+<Image src={sqlEditorImg} alt="SQL Editor and Highlighted Query-1 tab screenshot" />
 
 You can then paste the bellow SQL query and run it to create a new table called `pages` with columns `id`, `slug`, `view_count`, and `updated_at`.
 
@@ -94,12 +86,7 @@ Your database should be fully set up to track page views now!
 
 The final thing we need to do is get your API keys located in **API** under **settings**.
 
-<img
-  alt={`API Keys screenshot`}
-  width={640}
-  height={250}
- src={`/static/images/page-views-nextjs-supabase/api-keys.png`}
-/>
+<Image src={apiKeysImg} alt="API Keys screenshot" />
 
 Now add them to your next.js project's `.env` file.
 
@@ -223,12 +210,7 @@ export default BlogLayout;
 
 Whenever you load your page, it should make a `POST` request to increment your page views. If you wanted, you could check out the Supabase Table Editor view and see your table update as you increment page views on your website.
 
-<img
-  alt={`Verify your table is populated on Supabase screenshot`}
-  width={640}
-  height={223}
-  src={`/static/images/page-views-nextjs-supabase/populated-table.png`}
-/>
+<Image src={populatedTableImg} alt="Verify your table is populated on Supabase screenshot" />
 
 Bam! You now have a real-time page view tracker for your blog or whatever page you want.
 

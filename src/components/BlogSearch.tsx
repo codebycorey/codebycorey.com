@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { sequentialFuzzySearch } from '../lib/search';
+import { searchMatch } from '../lib/search';
 import ConvexClientProvider from './ConvexClientProvider';
 import { BlogListItemViewCount } from './ViewCount';
 
@@ -48,9 +48,7 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
 
   const filteredPosts = query
     ? posts.filter(
-        (post) =>
-          sequentialFuzzySearch(query, post.title) ||
-          sequentialFuzzySearch(query, post.brief)
+        (post) => searchMatch(query, post.title) || searchMatch(query, post.brief)
       )
     : posts;
 
@@ -78,29 +76,35 @@ function BlogSearchInner({ posts }: BlogSearchProps) {
           aria-hidden="true"
         />
       </div>
-      <ul className="space-y-12">
-        {filteredPosts.map((post) => (
-          <li key={post.id}>
-            <a href={`/blog/${post.slug}`} className="space-y-3 block">
-              <h3 className="text-2xl">{post.title}</h3>
-              <p>{post.brief}</p>
-              <div className="flex justify-between">
-                <time
-                  className="text-zinc-500"
-                  dateTime={new Date(post.date).toISOString()}
-                >
-                  {new Intl.DateTimeFormat('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: '2-digit',
-                  }).format(new Date(post.date))}
-                </time>
-                <BlogListItemViewCount slug={post.slug} />
-              </div>
-            </a>
-          </li>
-        ))}
-      </ul>
+      {filteredPosts.length === 0 ? (
+        <p className="text-zinc-500 text-center py-12">
+          No posts found for &ldquo;{query}&rdquo;
+        </p>
+      ) : (
+        <ul className="space-y-12">
+          {filteredPosts.map((post) => (
+            <li key={post.id}>
+              <a href={`/blog/${post.slug}`} className="space-y-3 block">
+                <h3 className="text-2xl">{post.title}</h3>
+                <p>{post.brief}</p>
+                <div className="flex justify-between">
+                  <time
+                    className="text-zinc-500"
+                    dateTime={new Date(post.date).toISOString()}
+                  >
+                    {new Intl.DateTimeFormat('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: '2-digit',
+                    }).format(new Date(post.date))}
+                  </time>
+                  <BlogListItemViewCount slug={post.slug} />
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 }

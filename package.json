@@ -23,6 +23,7 @@
     "react": "^18",
     "react-dom": "^18",
     "satori": "^0.19.2",
+    "sharp": "^0.34.5",
     "use-debounce": "^10.0.0"
   },
   "devDependencies": {

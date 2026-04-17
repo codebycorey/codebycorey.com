@@ -1,21 +1,8 @@
 /**
- * Returns true if each character in query is found sequentially within text.
+ * Returns true if every word in the query appears somewhere in the text (case-insensitive).
  */
-export const sequentialFuzzySearch = (query: string, text: string): boolean => {
-  if (query.length === 0 || text.length === 0) {
-    return false;
-  }
-  let queryIndex = 0;
-  let textIndex = 0;
-
-  while (queryIndex !== query.length && textIndex !== text.length) {
-    if (
-      query.charAt(queryIndex).toLowerCase() ===
-      text.charAt(textIndex).toLowerCase()
-    ) {
-      ++queryIndex;
-    }
-    ++textIndex;
-  }
-  return queryIndex === query.length;
+export const searchMatch = (query: string, text: string): boolean => {
+  const normalizedText = text.toLowerCase();
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  return words.length > 0 && words.every((word) => normalizedText.includes(word));
 };

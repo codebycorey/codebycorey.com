@@ -4,6 +4,8 @@ brief: 'Tailwind recently released a setting that enables dark mode styles. You 
 date: '2020-10-03T02:27:05.848Z'
 ---
 
+import toggleButton from '../../assets/images/dark-mode-toggle-using-tailwind-css/toggle-button.gif';
+
 Tailwind recently released an experimental setting that enables dark mode styles. It allows you to add a prefix to specific classes to only enable the styles when dark mode is enabled. It's currently labeled experimental and future versions might have breaking changes so use at your own risk.
 
 ```html
@@ -87,12 +89,7 @@ export default function App() {
 
 Now I have a button that will switch between a sun and a moon icon based on whether dark mode is true or not.
 
-<img
-  alt={`Dark mode toggle gif`}
-  width={254}
-  height={50}
-  src={`/static/images/dark-mode-toggle-using-tailwind-css/toggle-button.gif`}
-/>
+<img src={toggleButton.src} width={toggleButton.width} height={toggleButton.height} alt="Dark mode toggle gif" loading="lazy" />
 
 ---
 

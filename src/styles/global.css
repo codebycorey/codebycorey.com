@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'Inter';
-  src: url('/fonts/Inter-Regular.ttf') format('truetype');
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
   font-weight: 100 900;
   font-display: swap;
 }
@@ -24,4 +24,9 @@ pre::-webkit-scrollbar {
 pre {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
