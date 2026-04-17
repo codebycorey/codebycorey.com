@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api';
+import { getSessionId } from '../lib/session';
 
 interface ViewCountDisplayProps {
   count: number | null | undefined;
@@ -24,7 +25,7 @@ export function BlogViewCount({ slug }: BlogViewCountProps) {
   const incrementViewCount = useMutation(api.pages.incrementViewCount);
 
   useEffect(() => {
-    incrementViewCount({ slug }).catch((err) => {
+    incrementViewCount({ slug, sessionId: getSessionId() }).catch((err) => {
       console.error('[ViewCount] Failed to increment view count:', err);
     });
   }, [slug, incrementViewCount]);

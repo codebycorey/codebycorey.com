@@ -1,5 +1,11 @@
+import { RateLimiter, DAY } from '@convex-dev/rate-limiter';
+import { components } from './_generated/api';
 import { mutation, query } from './_generated/server';
 import { v } from 'convex/values';
+
+const rateLimiter = new RateLimiter(components.rateLimiter, {
+  viewCount: { kind: 'fixed window', period: DAY, rate: 1 },
+});
 
 export const getViewCount = query({
   args: { slug: v.string() },
@@ -25,8 +31,14 @@ export const getAllViewCounts = query({
 });
 
 export const incrementViewCount = mutation({
-  args: { slug: v.string() },
+  args: { slug: v.string(), sessionId: v.string() },
   handler: async (ctx, args) => {
+    const key = `${args.slug}:${args.sessionId}`;
+    const status = await rateLimiter.limit(ctx, 'viewCount', { key });
+    if (!status.ok) {
+      return null;
+    }
+
     const page = await ctx.db
       .query('pages')
       .withIndex('by_slug', (q) => q.eq('slug', args.slug))
@@ -39,7 +51,7 @@ export const incrementViewCount = mutation({
       return page.viewCount + 1;
     }
 
-    const id = await ctx.db.insert('pages', {
+    await ctx.db.insert('pages', {
       slug: args.slug,
       viewCount: 1,
     });
