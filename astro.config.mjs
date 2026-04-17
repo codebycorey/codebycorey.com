@@ -20,4 +20,25 @@ export default defineConfig({
       theme: 'catppuccin-mocha',
     },
   },
+  experimental: {
+    csp: {
+      algorithm: 'SHA-256',
+      scriptDirective: {
+        resources: ['https://cdn.usefathom.com'],
+      },
+      styleDirective: {
+        resources: ["'unsafe-inline'"],
+      },
+      directives: [
+        "default-src 'self' cdn.usefathom.com",
+        "img-src 'self' blob: data: cdn.usefathom.com",
+        "connect-src 'self' cdn.usefathom.com https://small-ostrich-582.convex.cloud wss://small-ostrich-582.convex.cloud",
+        "font-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        'upgrade-insecure-requests',
+      ],
+    },
+  },
 });
