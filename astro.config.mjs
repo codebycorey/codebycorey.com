@@ -24,10 +24,10 @@ export default defineConfig({
     csp: {
       algorithm: 'SHA-256',
       scriptDirective: {
-        resources: ['https://cdn.usefathom.com'],
+        resources: ["'self'", 'https://cdn.usefathom.com'],
       },
       styleDirective: {
-        resources: ["'unsafe-inline'"],
+        resources: ["'self'", "'unsafe-inline'"],
       },
       directives: [
         "default-src 'self' cdn.usefathom.com",
